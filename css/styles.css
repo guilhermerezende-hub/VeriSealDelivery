@@ -299,16 +299,28 @@ fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
   max-width: calc(var(--container) + var(--gutter) * 2); margin: 0 auto; padding: 0 var(--gutter);
   display: grid; grid-template-columns: minmax(0, 1fr) 372px; gap: 16px;
 }
-.promo { position: relative; height: 440px; border-radius: var(--r-xl); overflow: hidden; background: var(--navy-ink); isolation: isolate; }
-.promo-track { display: flex; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
-.promo-track::-webkit-scrollbar { display: none; }
-.slide { position: relative; flex: 0 0 100%; height: 100%; scroll-snap-align: start; overflow: hidden; color: #fff; display: flex; align-items: center; }
-.slide-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* os slides ficam empilhados na mesma célula do grid (a altura é a do maior) e deslizam por transform;
+   --o e --a vêm do JS: o slide anda o banner inteiro, a foto anda menos (parallax) e o texto some antes */
+.promo {
+  position: relative; height: 440px; border-radius: var(--r-xl); overflow: hidden; background: var(--navy-ink); isolation: isolate;
+  touch-action: pan-y pinch-zoom; user-select: none; -webkit-user-select: none; --pw: 800px;
+}
+.promo.is-dragging { cursor: grabbing; }
+.promo-track { display: grid; height: 100%; }
+.slide {
+  grid-area: 1 / 1; position: relative; min-width: 0; overflow: hidden; color: #fff; display: flex; align-items: center;
+  transform: translate3d(calc(var(--o, 0) * 100%), 0, 0); will-change: transform; backface-visibility: hidden;
+}
+.slide-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; -webkit-user-drag: none; }
+.slide-bg, .slide-bottles { translate: calc(var(--o, 0) * var(--pw) * -.42) 0; scale: calc(1 + var(--a, 0) * .07); will-change: transform; }
 .slide::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; }
-.slide-copy { position: relative; z-index: 2; max-width: 470px; padding: 0 48px 54px; }
+/* profundidade: o slide que sai escurece, o que entra clareia */
+.slide::before { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; background: #01050d; opacity: calc(var(--a, 0) * .5); will-change: opacity; }
+.slide-copy { position: relative; z-index: 2; max-width: min(470px, 54%); padding: 0 48px 54px; }
+.slide-copy, .slide-seal { translate: calc(var(--o, 0) * var(--pw) * .14) 0; opacity: calc(1 - var(--a, 0) * 1.6); will-change: transform, opacity; }
 .slide-eyebrow {
   display: inline-flex; align-items: center; padding: 5px 11px; border-radius: var(--r-pill); margin-bottom: 14px;
-  background: rgba(255, 255, 255, .16); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, .18);
   font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
 }
 .slide h2 { font-size: clamp(32px, 3.8vw, 50px); font-weight: 800; letter-spacing: -.04em; line-height: 1; text-wrap: balance; }
@@ -328,26 +340,35 @@ fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
 }
 .slide-seal svg { width: 22px; height: auto; aspect-ratio: 668 / 359; --lg-ink: #fff; --lg-accent: var(--cyan); }
 
-/* foto da Absolut: festa; a foto ocupa a direita e o texto fica no azul */
+/* foto da Absolut: festa; a foto ocupa a direita e o texto fica no azul (a sombra garante a leitura
+   quando o banner é estreito e o texto chega na foto) */
 .s-absolut { background: radial-gradient(ellipse 70% 90% at 15% 30%, #16336e 0%, #0a1b40 55%, #050d22 100%); }
 .s-absolut .slide-bg { left: auto; width: 64%; object-position: 50% 42%; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 30%); mask-image: linear-gradient(90deg, transparent 0, #000 30%); }
+.s-absolut::after { background: linear-gradient(90deg, rgba(5, 13, 34, .78) 0%, rgba(5, 13, 34, .45) 36%, transparent 58%); }
 /* Tanqueray: texto no verde, foto à direita */
 .s-gin { background: radial-gradient(ellipse 60% 90% at 20% 40%, #0f5a38 0%, #073522 60%, #04231a 100%); }
 .s-gin .slide-bg { left: auto; width: 60%; object-position: 34% 50%; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 26%); mask-image: linear-gradient(90deg, transparent 0, #000 26%); }
+.s-gin::after { background: linear-gradient(90deg, rgba(4, 35, 26, .78) 0%, rgba(4, 35, 26, .45) 36%, transparent 58%); }
 /* Jack Daniel's: as três garrafas recortadas, com reflexo âmbar */
 .s-jack { background: radial-gradient(ellipse 46% 70% at 74% 70%, #8a4512 0%, #44200a 42%, #170a03 100%); }
 .slide-bottles { position: absolute; z-index: 1; right: 6%; bottom: -4%; height: 92%; display: flex; align-items: flex-end; }
 .slide-bottles .shot { height: 88%; margin: 0 -1.6%; filter: drop-shadow(0 24px 30px rgba(0, 0, 0, .55)); }
 .slide-bottles .shot:nth-child(2) { height: 100%; z-index: 1; }
 .s-jack::after { background: linear-gradient(90deg, rgba(23, 10, 3, .85) 0%, rgba(23, 10, 3, .5) 38%, transparent 60%); }
-.s-jack .slide-copy { max-width: 430px; }
+.s-jack .slide-copy { max-width: min(430px, 52%); }
 
 .promo-ui { position: absolute; left: 48px; right: 16px; bottom: 16px; z-index: 3; display: flex; align-items: center; gap: 8px; pointer-events: none; }
 .promo-dots { display: flex; margin-right: auto; margin-left: -8px; pointer-events: auto; }
-.promo-dots button { width: 26px; height: 26px; border: 0; padding: 0; background: none; display: grid; place-items: center; }
-.promo-dots button::before { content: ""; width: 8px; height: 8px; border-radius: 99px; background: rgba(255, 255, 255, .45); transition: width .3s var(--ease), background-color .3s; }
-.promo-dots button[aria-current="true"]::before { width: 22px; background: #fff; }
-.promo-dots button[aria-current="true"] { width: 36px; }
+.promo-dots button { height: 30px; border: 0; padding: 0 8px; background: none; display: grid; place-items: center; }
+.promo-dots i { position: relative; display: block; width: 8px; height: 8px; border-radius: 99px; overflow: hidden; background: rgba(255, 255, 255, .45); transition: width .5s var(--ease), background-color .3s; }
+.promo-dots button:hover i { background: rgba(255, 255, 255, .7); }
+.promo-dots [aria-current="true"] i { width: 30px; background: rgba(255, 255, 255, .3); }
+/* a barrinha do ponto ativo enche no tempo do destaque; quando termina, o JS passa para o próximo */
+.promo-dots i::after { content: ""; position: absolute; inset: 0; background: #fff; transform: scaleX(0); transform-origin: left center; }
+.promo-dots [aria-current="true"] i::after { transform: none; }
+.promo.is-auto [aria-current="true"] i::after { animation: dotFill 6.5s linear both; }
+.promo.is-held [aria-current="true"] i::after { animation-play-state: paused; }
+@keyframes dotFill { from { transform: scaleX(0); } }
 .promo-arrow {
   pointer-events: auto; width: 40px; height: 40px; border-radius: 50%; border: 0; display: grid; place-items: center; color: #fff;
   background: rgba(255, 255, 255, .16); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: background-color .2s;

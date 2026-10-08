@@ -381,8 +381,9 @@
   ];
   function slideHTML(s, i, n) {
     const p = byId[s.id];
+    // sem loading="lazy": os slides ficam fora da tela até a troca, e a foto não pode chegar atrasada
     return `<article class="slide ${s.theme}" role="group" aria-roledescription="slide" aria-label="${i + 1} de ${n}">
-      ${s.photo ? `<img class="slide-bg" src="${s.photo}" alt="${esc(s.alt)}" ${i ? 'loading="lazy"' : 'fetchpriority="high"'} decoding="async">` : ''}
+      ${s.photo ? `<img class="slide-bg" src="${s.photo}" alt="${esc(s.alt)}" fetchpriority="${i ? 'low' : 'high'}" decoding="async" draggable="false">` : ''}
       ${s.bottles ? `<div class="slide-bottles" aria-hidden="true">${s.bottles.map((id) => shot(byId[id], { eager: true })).join('')}</div>` : ''}
       <div class="slide-copy">
         <p class="slide-eyebrow">${esc(s.eyebrow)}</p>
@@ -397,36 +398,144 @@
       <span class="slide-seal">${vsMark()}Lacre VeriSeal</span>
     </article>`;
   }
+  // curva cubic-bezier do CSS, para animar em JS com a mesma sensação das transições
+  function bezier(x1, y1, x2, y2) {
+    const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
+    const cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+    const fx = (t) => ((ax * t + bx) * t + cx) * t, dx = (t) => (3 * ax * t + 2 * bx) * t + cx;
+    return (x) => {
+      if (x <= 0 || x >= 1) return clamp(x, 0, 1);
+      let t = x;
+      for (let k = 0; k < 6; k++) { const e = fx(t) - x, d = dx(t); if (Math.abs(e) < 1e-5 || Math.abs(d) < 1e-6) break; t -= e / d; }
+      if (Math.abs(fx(t) - x) > 1e-4) {   // Newton não convergiu: bissecção
+        let lo = 0, hi = 1; t = x;
+        for (let k = 0; k < 24; k++) { if (fx(t) < x) lo = t; else hi = t; t = (lo + hi) / 2; }
+      }
+      return ((ay * t + by) * t + cy) * t;
+    };
+  }
+  /* Carrossel circular movido por transform (GPU), sem rolagem nativa: do último destaque segue para o
+     primeiro sem rebobinar. Cada slide recebe --o, a distância até a posição atual (-1 saindo pela
+     esquerda, 1 entrando pela direita), e --a = |o|; o CSS desliza o slide e faz o parallax da foto e do
+     texto. O dedo (ou o mouse) arrasta 1:1 e, ao soltar, a velocidade do gesto decide o destino. A barrinha
+     do ponto ativo mostra o tempo até o próximo destaque e para quando o mouse ou o foco está no banner. */
   safe('promo', () => {
     const promo = $('#promo'), track = $('#promoTrack'), dotsEl = $('#promoDots');
-    track.innerHTML = SLIDES.map((s, i) => slideHTML(s, i, SLIDES.length)).join('');
-    dotsEl.innerHTML = SLIDES.map((s, i) => `<button type="button" data-dot="${i}" aria-label="Ver destaque ${i + 1}"></button>`).join('');
+    const N = SLIDES.length;
+    track.innerHTML = SLIDES.map((s, i) => slideHTML(s, i, N)).join('');
+    dotsEl.innerHTML = SLIDES.map((s, i) => `<button type="button" data-dot="${i}" aria-label="Ver destaque ${i + 1}"><i></i></button>`).join('');
     const slides = $$('.slide', track), dots = $$('[data-dot]', dotsEl);
-    let cur = 0, timer = 0, hold = false, visible = true;
-    const goTo = (i, smooth = true) => {
-      cur = (i + slides.length) % slides.length;
-      track.scrollTo({ left: cur * track.clientWidth, behavior: smooth && !reduce ? 'smooth' : 'auto' });
+    $$('img', track).forEach((img) => img.decode?.().catch(() => { }));   // já decodificadas na primeira troca
+
+    const wrap = (d) => ((d % N) + N * 1.5) % N - N / 2;   // distância circular, em [-N/2, N/2)
+    const idx = (g) => ((g % N) + N) % N;
+    const easeAuto = bezier(.65, 0, .3, 1), easeTap = bezier(.25, .8, .25, 1), easeFling = bezier(.15, .6, .3, 1);
+    let pos = 0, goal = 0, cur = -1, raf = 0;
+
+    const paint = () => slides.forEach((s, i) => {
+      const o = wrap(i - pos);
+      s.style.setProperty('--o', o.toFixed(4));
+      s.style.setProperty('--a', Math.min(1, Math.abs(o)).toFixed(4));
+    });
+    function tween(dur, ease) {
+      cancelAnimationFrame(raf);
+      const from = pos, to = goal, t0 = performance.now();
+      const tick = (now) => {
+        const t = Math.min(1, (now - t0) / dur);
+        pos = from + (to - from) * ease(t);
+        if (t < 1) raf = requestAnimationFrame(tick);
+        else { raf = 0; pos = goal = idx(goal); }   // normaliza: a posição não cresce sem fim
+        paint();
+      };
+      raf = requestAnimationFrame(tick);
+    }
+    // how: 'auto' (tempo esgotado), 'tap' (setas, pontos, teclado) ou 'fling' (soltou o arraste, v em px/ms)
+    function go(g, how = 'tap', v = 0) {
+      goal = g;
+      setCurrent(idx(g), how);
+      if (reduce) { cancelAnimationFrame(raf); raf = 0; pos = goal = idx(goal); paint(); return; }
+      const dist = Math.abs(goal - pos);
+      if (how === 'auto') tween(1050, easeAuto);
+      else if (how === 'fling') tween(clamp(4 * dist * promo.clientWidth / Math.max(Math.abs(v), .001), 260, 650), easeFling);
+      else tween(clamp(560 + dist * 240, 560, 900), easeTap);
+    }
+    const step = (d, how) => go(goal + d, how);
+    const show = (i) => go(goal + wrap(i - idx(goal)));
+
+    /* ---- tempo de cada destaque: a animação da barrinha do ponto ativo (6,5 s) ---- */
+    const auto = !reduce;
+    const holds = new Set();
+    const hold = (why, on) => { holds[on ? 'add' : 'delete'](why); promo.classList.toggle('is-held', holds.size > 0); };
+    const restartClock = () => { if (!auto) return; promo.classList.remove('is-auto'); void promo.offsetWidth; promo.classList.add('is-auto'); };
+    dotsEl.addEventListener('animationend', (e) => { if (e.animationName === 'dotFill') step(1, 'auto'); });
+    function setCurrent(i, how) {
+      track.setAttribute('aria-live', how === 'auto' ? 'off' : 'polite');
+      if (i !== cur) {
+        cur = i;
+        dots.forEach((d, k) => d.setAttribute('aria-current', String(k === i)));
+        slides.forEach((s, k) => { s.inert = k !== i; });
+      }
+      restartClock();
+    }
+
+    /* ---- arrastar com o dedo ou o mouse ---- */
+    let drag = null, dragged = false;
+    promo.addEventListener('pointerdown', (e) => {
+      if ((e.pointerType === 'mouse' && e.button !== 0) || e.target.closest('.promo-ui')) return;
+      drag = { id: e.pointerId, x: e.clientX, y: e.clientY, on: false, p0: pos, w: promo.clientWidth, s: [] };
+    });
+    promo.addEventListener('pointermove', (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      if (!drag.on) {
+        const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+        if (Math.hypot(dx, dy) < 8) return;
+        if (Math.abs(dy) > Math.abs(dx)) { drag = null; return; }   // gesto vertical: é a página rolando
+        drag.on = true; drag.x = e.clientX; drag.p0 = pos;           // segue o dedo daqui em diante, sem salto
+        cancelAnimationFrame(raf); raf = 0;
+        try { promo.setPointerCapture(e.pointerId); } catch { /* ponteiro já liberado */ }
+        promo.classList.add('is-dragging'); hold('drag', true);
+      }
+      pos = drag.p0 - (e.clientX - drag.x) / drag.w;
+      paint();
+      drag.s.push([e.timeStamp, e.clientX]);
+      if (drag.s.length > 6) drag.s.shift();
+    });
+    const release = (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const d = drag; drag = null;
+      if (!d.on) return;
+      promo.classList.remove('is-dragging'); hold('drag', false);
+      dragged = true; setTimeout(() => { dragged = false; }, 60);   // o clique que vem junto com o soltar não vale
+      // velocidade dos últimos ~100 ms (se o dedo parou antes de soltar, é zero)
+      const s = d.s.filter(([t]) => e.timeStamp - t < 100);
+      const v = s.length > 1 ? (s[s.length - 1][1] - s[0][1]) / Math.max(1, s[s.length - 1][0] - s[0][0]) : 0;
+      const g = Math.abs(v) > .25 ? (v < 0 ? Math.floor(pos) + 1 : Math.ceil(pos) - 1) : Math.round(pos);
+      go(g, 'fling', v);
     };
-    const sync = () => {
-      cur = clamp(Math.round(track.scrollLeft / Math.max(1, track.clientWidth)), 0, slides.length - 1);
-      dots.forEach((d, k) => d.setAttribute('aria-current', String(k === cur)));
-      slides.forEach((s, k) => { s.inert = k !== cur; });
-    };
-    const restart = () => {
-      clearInterval(timer);
-      if (!reduce) timer = setInterval(() => { if (!hold && visible && !document.hidden) goTo(cur + 1); }, 6500);
-    };
-    let st = 0;
-    track.addEventListener('scroll', () => { clearTimeout(st); st = setTimeout(sync, 90); }, { passive: true });
-    dotsEl.addEventListener('click', (e) => { const d = e.target.closest('[data-dot]'); if (d) { goTo(+d.dataset.dot); restart(); } });
-    $$('[data-promo]').forEach((b) => b.addEventListener('click', () => { goTo(cur + +b.dataset.promo); restart(); }));
-    promo.addEventListener('pointerenter', () => { hold = true; });
-    promo.addEventListener('pointerleave', () => { hold = false; });
-    promo.addEventListener('focusin', () => { hold = true; });
-    promo.addEventListener('focusout', () => { hold = false; });
-    new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(promo);
-    addEventListener('resize', () => goTo(cur, false));
-    sync(); restart();
+    promo.addEventListener('pointerup', release);
+    promo.addEventListener('pointercancel', release);
+    promo.addEventListener('click', (e) => { if (dragged) { e.preventDefault(); e.stopPropagation(); } }, true);
+    promo.addEventListener('dragstart', (e) => e.preventDefault());
+
+    /* ---- setas, pontos e teclado ---- */
+    $$('[data-promo]', promo).forEach((b) => b.addEventListener('click', () => step(+b.dataset.promo)));
+    dotsEl.addEventListener('click', (e) => { const d = e.target.closest('[data-dot]'); if (d) show(+d.dataset.dot); });
+    promo.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault(); step(e.key === 'ArrowRight' ? 1 : -1);
+    });
+
+    /* ---- pausa: mouse em cima, foco do teclado, fora da tela ou aba escondida ---- */
+    promo.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') hold('hover', true); });
+    promo.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') hold('hover', false); });
+    promo.addEventListener('focusin', (e) => { if (e.target.matches(':focus-visible')) hold('focus', true); });
+    promo.addEventListener('focusout', (e) => { if (!promo.contains(e.relatedTarget)) hold('focus', false); });
+    new IntersectionObserver(([e]) => hold('view', !e.isIntersecting)).observe(promo);
+    document.addEventListener('visibilitychange', () => hold('tab', document.hidden));
+    // largura do banner em px, para o parallax andar na mesma escala em qualquer tela
+    new ResizeObserver(() => promo.style.setProperty('--pw', promo.clientWidth + 'px')).observe(promo);
+
+    paint(); setCurrent(0, 'auto');
   });
 
   // garrafas das animações de verificação: fotos com bordas limpas, que ficam bem no fundo escuro
