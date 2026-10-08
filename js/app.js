@@ -3,9 +3,9 @@
    Loja, sacola, checkout e verificação de lacres. As garrafas
    são as fotos reais de assets/products/ e o lacre VeriSeal é
    desenhado por cima do gargalo de cada uma (js/seal.js).
-   A demonstração "Como funciona" segue a da landing da
-   VeriSeal: o celular se aproxima do lacre, as ondas NFC saem
-   do gargalo, o app abre e mostra se a garrafa é original.
+   A verificação é web (não existe app da VeriSeal): ao encostar
+   o celular no lacre, o NFC abre o navegador direto na página
+   com o resultado — original ou violado —, sem etapa de leitura.
    ========================================================= */
 (() => {
   'use strict';
@@ -24,6 +24,15 @@
   const safe = (name, fn) => { try { return fn(); } catch (err) { console.error('[VeriSeal Delivery] ' + name, err); } };
   const icon = (name, cls = '') => `<svg class="i ${cls}" aria-hidden="true"><use href="#i-${name}"/></svg>`;
   const vsMark = (cls = '') => `<svg class="${cls}" viewBox="0 0 668 359" aria-hidden="true"><use href="#vs-mark"/></svg>`;
+  // selo animado do resultado (ok, warn ou bad): estoura com ondas, brilhos e um anel holográfico
+  const SCALLOP = 'M28 4.8Q35.82-1.17 39.6 7.91Q49.35 6.65 48.09 16.4Q57.17 20.18 51.2 28Q57.17 35.82 48.09 39.6Q49.35 49.35 39.6 48.09Q35.82 57.17 28 51.2Q20.18 57.17 16.4 48.09Q6.65 49.35 7.91 39.6Q-1.17 35.82 4.8 28Q-1.17 20.18 7.91 16.4Q6.65 6.65 16.4 7.91Q20.18-1.17 28 4.8Z';
+  const medal = (kind = 'ok') => `<span class="medal m-${kind}" aria-hidden="true">
+      <i class="m-glow"></i><i class="m-halo"></i><i class="m-shock"></i><i class="m-shock"></i>
+      <span class="m-sparks">${Array.from({ length: 8 }, (_, k) => `<i style="--a:${k * 45 + 22}deg"></i>`).join('')}</span>
+      <svg class="m-badge" viewBox="-2 -2 60 60"><path class="m-scallop" d="${SCALLOP}"/>${kind === 'ok'
+        ? '<path class="m-glyph" d="M18 28.5l7 7 13.5-14" pathLength="1"/>'
+        : '<path class="m-glyph" d="M28 15.5v14.5" pathLength="1"/><circle class="m-dot" cx="28" cy="38.8" r="2.9"/>'}</svg>
+    </span>`;
 
   const store = {
     get(k, d) { try { const v = localStorage.getItem('vsd:' + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
@@ -33,6 +42,7 @@
   /* ---------- regras da loja ---------- */
   const PIX_OFF = 0.05, FREE_SHIP = 199, SHIP_FEE = 9.9, MAX_QTY = 12, MAX_INST = 6, MIN_INST = 30;
   const OPEN_H = 8, CLOSE_H = 3;    // aberto das 8h às 3h da manhã
+  const SITE_HOST = 'veriseal.com.br';   // endereço mostrado no navegador das demonstrações
   const storeOpen = (d = new Date()) => d.getHours() >= OPEN_H || d.getHours() < CLOSE_H;
 
   /* ---------- catálogo ---------- */
@@ -345,14 +355,6 @@
       if (!searchPanel.hidden) { setSearch(false); searchInput.focus(); return; }
       if (stack.length) closeLayer(stack[stack.length - 1].el);
     });
-    // horário da loja
-    const chip = $('#openChip');
-    const tick = () => {
-      const open = storeOpen();
-      chip.classList.toggle('is-closed', !open);
-      chip.querySelector('span').textContent = open ? `Aberto agora · até ${CLOSE_H}h` : `Fechado · abrimos às ${OPEN_H}h`;
-    };
-    tick(); setInterval(tick, 60000);
   });
 
   /* ============================================================
@@ -427,12 +429,12 @@
     sync(); restart();
   });
 
-  // garrafa das animações de verificação: foto com bordas limpas, que fica bem no fundo escuro
-  const DEMO = 'jack-7';
+  // garrafas das animações de verificação: fotos com bordas limpas, que ficam bem no fundo escuro
+  const DEMO = 'jack-7', CARD = 'tanqueray';
 
-  /* ---------- cartão VeriSeal do topo: mini-verificação em loop ---------- */
+  /* ---------- cartão VeriSeal do topo: encostou o celular, o navegador já mostra o resultado ---------- */
   safe('vsCard', () => {
-    const p = byId[DEMO], g = sealGeo(p);
+    const p = byId[CARD], g = sealGeo(p);
     const stage = $('#vcStage');
     stage.innerHTML = `
       <div class="vc-glow"></div>
@@ -441,9 +443,8 @@
         <span class="vc-ok">${icon('check')}Original · lacre íntegro</span>
       </div>
       <div class="vc-phone"><div class="vc-screen">
-        <span class="vcs vcs-1">${icon('contactless')}<b>Aproxime do lacre</b></span>
-        <span class="vcs vcs-2"><i class="vcs-spin"></i><b>Lendo o lacre…</b></span>
-        <span class="vcs vcs-3"><svg class="vcs-badge" aria-hidden="true"><use href="#i-verified"/></svg><b>Autêntico</b><small>Nunca aberta</small></span>
+        <span class="vcs vcs-home"><b>${hhmm(new Date())}</b><span class="vcs-apps">${'<i></i>'.repeat(8)}</span></span>
+        <span class="vcs vcs-web"><span class="vcs-url">${icon('lock')}${esc(SITE_HOST)}</span>${medal('ok')}<b>Autêntico</b><small>Nunca aberta</small></span>
       </div></div>`;
     // a animação só roda com o cartão na tela
     new IntersectionObserver(([e]) => stage.classList.toggle('is-paused', !e.isIntersecting)).observe(stage);
@@ -1019,54 +1020,47 @@
     s = s.slice(0, 8);
     return 'VS-' + s.slice(0, 4) + (s.length > 4 ? '-' + s.slice(4) : '');
   }
-  let verifyTimers = [];
-  function runVerify(code, { nfc = false } = {}) {
-    verifyTimers.forEach(clearTimeout); verifyTimers = [];
+  function runVerify(code) {
     verifyError.hidden = true; verifyInput.classList.remove('invalid');
-    const ms = reduce ? 200 : nfc ? 2600 : 1400;
-    verifyResult.innerHTML = `<div class="vr-scan${nfc ? ' is-nfc' : ''}">
-        <div class="vr-seal">${window.Seal.printSVG(code)}<i class="vr-scanline"></i></div>
-        <p class="vr-scan-title">${nfc ? 'Lendo o lacre…' : 'Consultando a identidade digital…'}</p>
-        <p class="vr-scan-sub">${nfc ? 'Mantenha o celular próximo do lacre' : esc(code)}</p>
-        <ul class="vr-checks" style="--dur:${ms}ms">
-          <li>${icon('check')}Lacre detectado</li><li>${icon('check')}Identidade digital</li><li>${icon('check')}Integridade conferida</li>
-        </ul>
-      </div>`;
-    const host = $('.vr-seal', verifyResult);
-    if (nfc && !reduce) [0, 700, 1400].forEach((t) => verifyTimers.push(setTimeout(() => window.Seal.ping(host), t)));
-    verifyTimers.push(setTimeout(() => showResult(code), ms));
+    showResult(code);
   }
+  const vrUrl = (code) => `<p class="vr-url vr-in">${icon('lock')}<span>${esc(SITE_HOST)}/v/${esc(code.slice(3))}</span></p>`;
+  const vrHead = (kind, title, sub) => `<div class="vr-hero">${medal(kind)}<div class="vr-head vr-in" style="--d:.38s"><b>${title}</b><span>${sub}</span></div></div>`;
   function showResult(code) {
     const s = seals[code];
     const p = s && byId[s.product];
     if (!s || !p || s.status === 'unknown') {
-      verifyResult.innerHTML = `<div class="vr vr-bad">
-          <div class="vr-auth"><svg class="vr-badge" aria-hidden="true"><use href="#i-alert-badge"/></svg><div><b>Não reconhecido</b><span>Este código não existe na base VeriSeal.</span></div></div>
-          <dl class="vr-grid"><div><dt>Código</dt><dd class="mono">${esc(code)}</dd></div><div><dt>Situação</dt><dd class="bad">sem registro</dd></div></dl>
-          <p class="vr-note">Pode ser uma garrafa falsificada. Não consuma a bebida e avise a marca. Se a compra foi aqui, recuse a entrega e receba o valor integral.</p>
-          <button class="btn btn-light btn-sm" type="button" data-report>Avisar a marca</button>
+      verifyResult.dataset.state = 'bad';
+      verifyResult.innerHTML = `<div class="vr vr-bad">${vrUrl(code)}
+          ${vrHead('bad', 'Não reconhecido', 'Este código não existe na base VeriSeal.')}
+          <dl class="vr-grid vr-in" style="--d:.5s"><div><dt>Código</dt><dd class="mono">${esc(code)}</dd></div><div><dt>Situação</dt><dd class="bad">sem registro</dd></div></dl>
+          <p class="vr-note vr-in" style="--d:.6s">Pode ser uma garrafa falsificada. Não consuma a bebida e avise a marca. Se a compra foi aqui, recuse a entrega e receba o valor integral.</p>
+          <button class="btn btn-light btn-sm vr-in" style="--d:.7s" type="button" data-report>Avisar a marca</button>
         </div>`;
       return;
     }
     s.checks = (s.checks || 0) + 1;
     persistSeal(code);
-    const product = `<div class="vr-product"><span class="vr-thumb">${shot(p, { torn: s.status === 'opened' })}</span><div><strong>${esc(fullName(p))}</strong><span>${esc(p.volume)} · ${abv(p)} vol. · ${esc(p.origin)}</span></div></div>`;
-    if (s.status === 'opened') {
-      verifyResult.innerHTML = `<div class="vr vr-warn">
-          <div class="vr-auth"><svg class="vr-badge" aria-hidden="true"><use href="#i-alert-badge"/></svg><div><b>Já foi aberta</b><span>O circuito do lacre está rompido.</span></div></div>
+    const opened = s.status === 'opened';
+    const product = `<div class="vr-product vr-in" style="--d:.5s"><span class="vr-thumb">${shot(p, { torn: opened })}</span><div><strong>${esc(fullName(p))}</strong><span>${esc(p.volume)} · ${abv(p)} vol. · ${esc(p.origin)}</span></div></div>`;
+    if (opened) {
+      verifyResult.dataset.state = 'warn';
+      verifyResult.innerHTML = `<div class="vr vr-warn">${vrUrl(code)}
+          ${vrHead('warn', 'Já foi aberta', 'O circuito do lacre está rompido.')}
           ${product}
-          <dl class="vr-grid"><div><dt>Lacre</dt><dd class="mono">${esc(code)}</dd></div><div><dt>Lote</dt><dd>${esc(s.lot)}</dd></div>
+          <dl class="vr-grid vr-in" style="--d:.6s"><div><dt>Lacre</dt><dd class="mono">${esc(code)}</dd></div><div><dt>Lote</dt><dd>${esc(s.lot)}</dd></div>
             <div><dt>1ª abertura</dt><dd class="warn">${esc(s.openedAt)}</dd></div><div><dt>Verificações</dt><dd>${s.checks}</dd></div></dl>
-          <p class="vr-note">Comprou lacrada? Desconfie da procedência e fale com o vendedor. Nas compras feitas aqui, você pode recusar a entrega sem custo.</p>
+          <p class="vr-note vr-in" style="--d:.7s">Comprou lacrada? Desconfie da procedência e fale com o vendedor. Nas compras feitas aqui, você pode recusar a entrega sem custo.</p>
         </div>`;
       return;
     }
-    verifyResult.innerHTML = `<div class="vr vr-ok">
-        <div class="vr-auth"><svg class="vr-badge" aria-hidden="true"><use href="#i-verified"/></svg><div><b>Autêntico</b><span>Lacre íntegro · nunca aberto</span></div></div>
+    verifyResult.dataset.state = 'ok';
+    verifyResult.innerHTML = `<div class="vr vr-ok">${vrUrl(code)}
+        ${vrHead('ok', 'Autêntico', 'Original · lacre íntegro, nunca aberto')}
         ${product}
-        <dl class="vr-grid"><div><dt>Lacre</dt><dd class="mono">${esc(code)}</dd></div><div><dt>Lote</dt><dd>${esc(s.lot)}</dd></div>
+        <dl class="vr-grid vr-in" style="--d:.6s"><div><dt>Lacre</dt><dd class="mono">${esc(code)}</dd></div><div><dt>Lote</dt><dd>${esc(s.lot)}</dd></div>
           <div><dt>Produção</dt><dd>${esc(s.made)}</dd></div><div><dt>Verificações</dt><dd>${s.checks}</dd></div></dl>
-        <ol class="vr-journey">
+        <ol class="vr-journey vr-in" style="--d:.7s">
           <li><b>Produção</b><span>${esc(s.made)} · linha de envase</span></li>
           <li><b>Distribuidor autorizado</b><span>origem rastreada</span></li>
           <li><b>VeriSeal Delivery</b><span>lacre conferido no envio · ${esc(s.sentAgo != null ? 'hoje · ' + hhmm(new Date(Date.now() - s.sentAgo * 60000)) : s.sentAt || 'antes do envio')}</span></li>
@@ -1078,7 +1072,7 @@
     const mine = store.get('seals', {});
     if (mine[code]) { mine[code] = seals[code]; store.set('seals', mine); }
   }
-  function verifyCode(code, opts) {
+  function verifyCode(code) {
     code = fmtCode(code);
     verifyInput.value = code;
     if (!CODE_RE.test(code)) {
@@ -1086,7 +1080,7 @@
       verifyError.hidden = false; verifyInput.classList.add('invalid'); verifyInput.focus();
       return;
     }
-    runVerify(code, opts);
+    runVerify(code);
   }
   safe('verify', () => {
     verifyInput.addEventListener('input', () => { verifyInput.value = fmtCode(verifyInput.value); verifyInput.classList.remove('invalid'); verifyError.hidden = true; });
@@ -1096,15 +1090,14 @@
     $('#nfcBtn').addEventListener('click', () => {
       const last = store.get('lastSeal', null);
       const code = last && seals[last] ? last : 'VS-7K2M-9QXA';
-      verifyInput.value = '';
-      if (!reduce) window.Seal.scramble(verifyInput, code, 900); else verifyInput.value = code;
-      runVerify(code, { nfc: true });
+      verifyInput.value = code;
+      runVerify(code);
     });
     verifyResult.addEventListener('click', (e) => { if (e.target.closest('[data-report]')) toast('Aviso enviado à marca. Obrigado por ajudar a combater falsificações.'); });
   });
 
   /* ============================================================
-     COMO FUNCIONA — pedido → entrega → aproximação NFC → resultado
+     COMO FUNCIONA — pedido → entrega → encosta o celular → resultado na web
      A foto do Jack Daniel's vira duas camadas: tampa (com a metade de
      cima do lacre) e garrafa. No modo "violado" a tampa gira e sobe,
      rompendo o lacre na linha de ruptura.
@@ -1113,8 +1106,7 @@
     const scene = $('#howScene');
     const steps = $$('#howSteps li'), stepBtns = $$('#howSteps button');
     const seg = $('#howSeg'), segBtns = $$('button', seg), playBtn = $('#howPlay');
-    const scr = { read: $('.ap-read', scene), ok: $('.ap-ok', scene), bad: $('.ap-bad', scene) };
-    const checks = $$('.ap-checks li', scene);
+    const scr = { ok: $('.ap-ok', scene), bad: $('.ap-bad', scene) };
     const P = byId[DEMO], g = sealGeo(P);
     const hsBottle = $('#hsBottle');
     hsBottle.style.setProperty('--ar', `${P.size[0]} / ${P.size[1]}`);
@@ -1130,6 +1122,8 @@
       <div class="hs-layer hs-body" style="clip-path:${bodyClip}">${shot(P, { eager: true })}<span class="hs-break" style="left:${pc(g.x)};top:${pc(g.y)}"><i></i><i></i></span></div>
       <div class="hs-layer hs-cap" style="clip-path:${capClip};transform-origin:${pc(g.x + g.sw)} ${pc(g.y)}">${shot(P, { eager: true })}</div>`;
     $$('[data-thumb]', scene).forEach((el) => { el.innerHTML = shot(P, { torn: el.dataset.thumb === 'bad' }); });
+    $$('[data-medal]', scene).forEach((el) => { el.innerHTML = medal(el.dataset.medal); });
+    $$('.wb-url[data-url]', scene).forEach((el) => { el.textContent = `${SITE_HOST}/${el.dataset.url}`; });
     $$('.ap-prod > div', scene).forEach((el) => { el.querySelector('b').textContent = P.name; el.querySelector('span').textContent = `${P.brand} · ${P.volume} · ${abv(P)}`; });
     const order = [[DEMO, 1], ['tanqueray', 1]];
     $('#dpItems').innerHTML = order.map(([id, q]) => {
@@ -1147,21 +1141,19 @@
     };
     clock(); setInterval(clock, 30000);
 
-    const DUR = [3.6, 4.2, 7.8];
+    const DUR = [3.6, 4.2, 7.4];
+    const OPEN = 0.3;   // na etapa 3, o ponto em que o navegador abre (já no resultado)
     let step = 0, local = 0, playing = !reduce, inView = false, started = false, bad = false, raf = 0, last = 0;
     function render() {
       const L = local, s2 = started && step === 2;
       scene.classList.toggle('is-started', started);
       ['st-0', 'st-1', 'st-2'].forEach((c, i) => scene.classList.toggle(c, started && step === i));
       scene.classList.toggle('is-scanned', started && step === 1 && L > 0.42);
-      scene.classList.toggle('is-reading', s2 && L > 0.1 && L < 0.62);
-      scene.classList.toggle('ph-detect', s2 && L > 0.2 && L < 0.36);
-      scene.classList.toggle('ph-open', s2 && L >= 0.34);
-      scene.classList.toggle('ph-result', s2 && L >= 0.62);
-      scr.read.classList.toggle('is-on', s2 && L >= 0.34 && L < 0.62);
-      scr.ok.classList.toggle('is-on', s2 && L >= 0.62 && !bad);
-      scr.bad.classList.toggle('is-on', s2 && L >= 0.62 && bad);
-      checks.forEach((c) => c.classList.toggle('is-on', s2 && L >= +c.dataset.at));
+      scene.classList.toggle('is-reading', s2 && L > 0.08 && L < OPEN + 0.04);
+      scene.classList.toggle('ph-open', s2 && L >= OPEN);
+      scene.classList.toggle('ph-result', s2 && L >= OPEN + 0.14);
+      scr.ok.classList.toggle('is-on', s2 && L >= OPEN && !bad);
+      scr.bad.classList.toggle('is-on', s2 && L >= OPEN && bad);
       steps.forEach((li, i) => {
         li.classList.toggle('is-active', started && i === step);
         li.classList.toggle('is-done', started && i < step);
@@ -1183,9 +1175,11 @@
       seg.classList.toggle('is-bad', v);
       scene.classList.toggle('is-bad', v);
     }
-    stepBtns.forEach((b, i) => b.addEventListener('click', () => { started = true; go(i, i === 2 && !playing ? 0.62 : 0); }));
+    // reinicia a animação do resultado mesmo quando a mesma tela já está aberta
+    const replay = () => { scr.ok.classList.remove('is-on'); scr.bad.classList.remove('is-on'); void scene.offsetWidth; };
+    stepBtns.forEach((b, i) => b.addEventListener('click', () => { started = true; replay(); go(i, i === 2 && !playing ? OPEN : 0); }));
     playBtn.addEventListener('click', () => setPlaying(!playing));
-    segBtns.forEach((b) => b.addEventListener('click', () => { setBad(b.dataset.mode === 'bad'); started = true; go(2, 0.62); }));
+    segBtns.forEach((b) => b.addEventListener('click', () => { setBad(b.dataset.mode === 'bad'); started = true; replay(); go(2, OPEN); }));
     seg.addEventListener('keydown', (e) => {
       if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
       e.preventDefault();
@@ -1240,7 +1234,7 @@
       const code = el.dataset.verifyCode;
       if (stack.length) [...stack].reverse().forEach((s) => closeLayer(s.el, { restoreFocus: false }));
       $('#verificar').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
-      setTimeout(() => verifyCode(code, { nfc: true }), reduce ? 0 : 500);
+      setTimeout(() => verifyCode(code), reduce ? 0 : 500);
       return;
     }
     if ((el = t.closest('a[data-cat]'))) { setFilter({ cat: el.dataset.cat, q: '' }); closeMenus(); return; }
