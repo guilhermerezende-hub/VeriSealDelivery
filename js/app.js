@@ -30,8 +30,8 @@
       <i class="m-glow"></i><i class="m-halo"></i><i class="m-shock"></i><i class="m-shock"></i>
       <span class="m-sparks">${Array.from({ length: 8 }, (_, k) => `<i style="--a:${k * 45 + 22}deg"></i>`).join('')}</span>
       <svg class="m-badge" viewBox="-2 -2 60 60"><path class="m-scallop" d="${SCALLOP}"/>${kind === 'ok'
-        ? '<path class="m-glyph" d="M18 28.5l7 7 13.5-14" pathLength="1"/>'
-        : '<path class="m-glyph" d="M28 15.5v14.5" pathLength="1"/><circle class="m-dot" cx="28" cy="38.8" r="2.9"/>'}</svg>
+      ? '<path class="m-glyph" d="M18 28.5l7 7 13.5-14" pathLength="1"/>'
+      : '<path class="m-glyph" d="M28 15.5v14.5" pathLength="1"/><circle class="m-dot" cx="28" cy="38.8" r="2.9"/>'}</svg>
     </span>`;
 
   const store = {
@@ -96,7 +96,7 @@
   }
   const badgeHTML = (p) => (isKit(p) ? `<span class="pc-badge sale">-${pct(p)}% no kit</span>`
     : p.oldPrice ? `<span class="pc-badge sale">-${pct(p)}%</span>`
-    : p.badge ? `<span class="pc-badge">${esc(p.badge)}</span>` : '');
+      : p.badge ? `<span class="pc-badge">${esc(p.badge)}</span>` : '');
   const priceHTML = (p) => `<div class="prices">
       ${p.oldPrice ? `<s class="price-old">${money(p.oldPrice)}</s>` : ''}
       <span class="price-now">${money(p.price)}</span>
@@ -1052,8 +1052,8 @@
         <ol class="timeline" id="coTimeline">
           <li class="tl-item done"><span class="tl-dot">${icon('check')}</span><div><strong>Pedido recebido</strong><small>${o.time}</small></div></li>
           <li class="tl-item current"><span class="tl-dot">${icon('check')}</span><div>${o.scheduled
-            ? `<strong>Entrega agendada</strong><small>${esc(o.slot)} · os lacres são conferidos antes de sair</small>`
-            : `<strong>Separando e conferindo os lacres</strong><small>Cada garrafa é escaneada antes de sair</small>`}</div></li>
+        ? `<strong>Entrega agendada</strong><small>${esc(o.slot)} · os lacres são conferidos antes de sair</small>`
+        : `<strong>Separando e conferindo os lacres</strong><small>Cada garrafa é escaneada antes de sair</small>`}</div></li>
           <li class="tl-item"><span class="tl-dot">${icon('check')}</span><div><strong>Saiu para entrega</strong><small>Você recebe o aviso no WhatsApp</small></div></li>
           <li class="tl-item"><span class="tl-dot">${icon('check')}</span><div><strong>Entregue</strong><small>Aproxime o celular do lacre e confira</small></div></li>
         </ol>
