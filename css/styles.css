@@ -214,6 +214,7 @@ fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
 .loc-txt small { font-size: 11px; color: var(--text-2); }
 .loc-txt b { font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .loc-chev { width: 16px; height: 16px; color: var(--text-2); }
+.lt-short { display: none; }
 
 .search { position: relative; flex: 1; min-width: 0; }
 .search-field {
@@ -380,7 +381,7 @@ fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
 @keyframes vcRead { 0%, 25% { opacity: 0; } 28%, 48% { opacity: 1; } 52%, 100% { opacity: 0; } }
 @keyframes ring { 0% { transform: scale(.4); opacity: .9; } 100% { transform: scale(2.6); opacity: 0; } }
 .vc-ok {
-  position: absolute; left: 50%; translate: -50% 0; top: calc(var(--nfc) * 100% + 64px); z-index: 2; white-space: nowrap;
+  position: absolute; left: 40%; translate: -50% 0; top: calc(var(--nfc) * 100% + 44px); z-index: 2; white-space: nowrap;
   display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px 7px 8px; border-radius: var(--r-pill);
   background: #fff; color: var(--ok); font-size: 12px; font-weight: 700; box-shadow: 0 12px 28px rgba(0, 0, 0, .35);
   opacity: 0; animation: vcS3 7s var(--ease) infinite;
@@ -1517,7 +1518,8 @@ body.has-bagbar .toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); 
   .appbar-inner { height: auto; flex-wrap: wrap; gap: 8px 10px; padding-block: 10px; }
   .brand svg { height: 16px; }
   .loc-btn { order: 2; flex: 1; min-width: 0; max-width: none; height: 40px; border: 0; padding: 0 4px; background: none; }
-  .loc-txt small { display: none; }
+  .loc-txt small, .loc-chev, .lt-long, .lt-eta { display: none; }
+  .lt-short { display: inline; }
   .loc-txt b { font-size: 13px; }
   .verify-link { order: 3; height: 40px; padding: 0 10px; }
   .bag-btn { order: 4; height: 40px; padding: 0 12px 0 10px; }
@@ -1550,6 +1552,7 @@ body.has-bagbar .toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); 
   .vs-card { height: 420px; border-radius: 20px; }
   .vc-bottle { --bh: 520px; left: 16%; }
   .vc-phone { right: 14%; }
+  .vc-ok { display: none; }
 
   .deliv-cep { grid-template-areas: "ic field btn" "info info info"; gap: 4px 12px; }
   .dc-info { margin-top: 6px; }

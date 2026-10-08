@@ -245,7 +245,10 @@
   };
   function setAddr(a) { addr = a; store.set('addr', a); updateAddrUI(); }
   function updateAddrUI() {
-    $('#locText').textContent = addr ? `${placeLabel(addr)} · ${etaText(addr)}` : 'Informe seu CEP';
+    // no celular aparece só o bairro (ou "Seu CEP"); o prazo fica no bloco de entrega
+    $('#locText').innerHTML = addr
+      ? `<span>${esc(placeLabel(addr))}</span><span class="lt-eta"> · ${etaText(addr)}</span>`
+      : `<span class="lt-long">Informe seu CEP</span><span class="lt-short">Seu CEP</span>`;
     $('#locBtn').classList.toggle('has-cep', !!addr);
     $('#locBtn').setAttribute('aria-label', addr ? `Entrega em ${placeLabel(addr)}, ${etaText(addr)}. Alterar endereço` : 'Informar CEP de entrega');
     $('#helpEta').textContent = addr ? etaText(addr) : '30–60 min';
