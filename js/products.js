@@ -28,7 +28,7 @@ window.VSD_PRODUCTS = [
   {
     id: 'jw-black', brand: 'Johnnie Walker', name: 'Black Label 12 anos', category: 'whisky',
     volume: '750 ml', abv: 40, origin: 'Escócia', price: 169.90, oldPrice: 189.90, badge: 'Mais vendido', featured: true,
-    img: P + 'jw-black.webp', size: [251, 900], seal: { y: .18, w: .15 },
+    img: P + 'jw-black.webp', size: [304, 1100], seal: { y: .18, w: .15 },
     gallery: [{ src: P + 'jw-black-box.webp', size: [385, 711], label: 'Com estojo' }],
     desc: 'Blend de whiskies envelhecidos por no mínimo 12 anos. Encorpado e equilibrado, com fumaça suave, baunilha e frutas escuras.',
     notes: ['Defumado suave', 'Baunilha', 'Frutas escuras']
