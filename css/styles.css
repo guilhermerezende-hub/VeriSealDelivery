@@ -1497,7 +1497,7 @@ body.has-bagbar .toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); 
   .vs-card { height: 400px; }
   .vc-bottle { left: 24%; }
   .vc-phone { right: 22%; }
-  .how-grid, .verify-grid { grid-template-columns: 1fr; }
+  .how-grid, .verify-grid { grid-template-columns: minmax(0, 1fr); }
   .how-grid { gap: 36px; }
   .how-copy { max-width: 620px; }
   .how-scene { height: min(74svh, 640px); }
