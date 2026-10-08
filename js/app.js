@@ -427,9 +427,12 @@
     sync(); restart();
   });
 
+  // garrafa das animações de verificação: foto com bordas limpas, que fica bem no fundo escuro
+  const DEMO = 'jack-7';
+
   /* ---------- cartão VeriSeal do topo: mini-verificação em loop ---------- */
   safe('vsCard', () => {
-    const p = byId['jw-black'], g = sealGeo(p);
+    const p = byId[DEMO], g = sealGeo(p);
     const stage = $('#vcStage');
     stage.innerHTML = `
       <div class="vc-glow"></div>
@@ -1102,7 +1105,7 @@
 
   /* ============================================================
      COMO FUNCIONA — pedido → entrega → aproximação NFC → resultado
-     A foto do Black Label vira duas camadas: tampa (com a metade de
+     A foto do Jack Daniel's vira duas camadas: tampa (com a metade de
      cima do lacre) e garrafa. No modo "violado" a tampa gira e sobe,
      rompendo o lacre na linha de ruptura.
      ============================================================ */
@@ -1112,7 +1115,7 @@
     const seg = $('#howSeg'), segBtns = $$('button', seg), playBtn = $('#howPlay');
     const scr = { read: $('.ap-read', scene), ok: $('.ap-ok', scene), bad: $('.ap-bad', scene) };
     const checks = $$('.ap-checks li', scene);
-    const P = byId['jw-black'], g = sealGeo(P);
+    const P = byId[DEMO], g = sealGeo(P);
     const hsBottle = $('#hsBottle');
     hsBottle.style.setProperty('--ar', `${P.size[0]} / ${P.size[1]}`);
     hsBottle.style.setProperty('--seal', g.nfc.toFixed(4));      // ondas e etiquetas saem do símbolo NFC
@@ -1128,7 +1131,7 @@
       <div class="hs-layer hs-cap" style="clip-path:${capClip};transform-origin:${pc(g.x + g.sw)} ${pc(g.y)}">${shot(P, { eager: true })}</div>`;
     $$('[data-thumb]', scene).forEach((el) => { el.innerHTML = shot(P, { torn: el.dataset.thumb === 'bad' }); });
     $$('.ap-prod > div', scene).forEach((el) => { el.querySelector('b').textContent = P.name; el.querySelector('span').textContent = `${P.brand} · ${P.volume} · ${abv(P)}`; });
-    const order = [['jw-black', 1], ['tanqueray', 1]];
+    const order = [[DEMO, 1], ['tanqueray', 1]];
     $('#dpItems').innerHTML = order.map(([id, q]) => {
       const p = byId[id];
       return `<li><span class="dp-thumb">${shot(p)}</span><span class="dp-name"><b>${esc(p.name)}</b><span>${esc(p.brand)} · ${q}×</span></span><b class="dp-price">${money(p.price * q)}</b></li>`;

@@ -2,7 +2,7 @@
    VeriSeal Delivery — catálogo (dados estáticos do frontend)
    Só entram aqui garrafas com foto real em assets/products/.
    As fotos foram recortadas (fundo transparente) a partir das
-   imagens originais da pasta do projeto.
+   imagens originais guardadas em assets/originais/.
 
    img / size  → arquivo e tamanho em px da foto recortada
    seal        → onde o lacre VeriSeal cruza a garrafa:
@@ -36,7 +36,7 @@ window.VSD_PRODUCTS = [
   {
     id: 'jack-7', brand: "Jack Daniel's", name: 'Old No.7', category: 'whisky',
     volume: '1 L', abv: 40, origin: 'EUA (Tennessee)', price: 169.90, oldPrice: 199.90, featured: true,
-    img: P + 'jack-7.webp', size: [299, 900], seal: { y: .09, w: .13 },
+    img: P + 'jack-7.webp', size: [365, 1100], seal: { y: .09, w: .13 },
     gallery: [{ src: P + 'jack-7-box.webp', size: [514, 900], label: 'Com estojo' }],
     desc: 'O Tennessee whiskey mais famoso do mundo, filtrado gota a gota em carvão de bordo. Macio, com caramelo, baunilha e carvalho tostado.',
     notes: ['Caramelo', 'Baunilha', 'Carvalho tostado']
@@ -60,7 +60,7 @@ window.VSD_PRODUCTS = [
   {
     id: 'absolut-1l', brand: 'Absolut', name: 'Vodka', category: 'vodka',
     volume: '1 L', abv: 40, origin: 'Suécia', price: 89.90, oldPrice: 109.90, badge: 'Mais vendido', featured: true,
-    img: P + 'absolut-1l.webp', size: [193, 550], seal: { y: .075, w: .14 },
+    img: P + 'absolut-1l.webp', size: [201, 553], seal: { y: .078, w: .14 },
     desc: 'Vodka sueca feita com trigo de inverno e água de Åhus. Limpa e encorpada, base perfeita para qualquer drink.',
     notes: ['Limpa', 'Trigo', 'Final seco']
   },
@@ -77,6 +77,13 @@ window.VSD_PRODUCTS = [
     img: P + 'absolut-tabasco.webp', size: [165, 490], seal: { y: .21, w: .14 },
     desc: 'Vodka saborizada com a pimenta Tabasco: picância na medida, ótima para Bloody Mary e shots.',
     notes: ['Pimenta', 'Picante', 'Bloody Mary']
+  },
+  {
+    id: 'skyy', brand: 'Skyy', name: 'Vodka', category: 'vodka',
+    volume: '980 ml', abv: 40, origin: 'EUA', price: 49.90,
+    img: P + 'skyy.webp', size: [164, 593], seal: { y: .06, w: .15 },
+    desc: 'Vodka americana destilada quatro vezes e filtrada três vezes. Suave e limpa, na icônica garrafa azul.',
+    notes: ['Suave', 'Limpa', 'Garrafa azul']
   },
   {
     id: 'smirnoff', brand: 'Smirnoff', name: 'Nº 21', category: 'vodka',
@@ -176,9 +183,9 @@ window.VSD_PRODUCTS = [
 
 /* lacres de exemplo (os pedidos feitos no site geram lacres novos) */
 window.VSD_SEALS = {
-  'VS-7K2M-9QXA': { product: 'jw-black', status: 'ok', lot: 'L26-0914', made: '14/09/2026', checks: 1, sentAgo: 26 },
+  'VS-7K2M-9QXA': { product: 'jack-7', status: 'ok', lot: 'L26-0914', made: '14/09/2026', checks: 1, sentAgo: 26 },
   'VS-3PWD-8FJT': { product: 'tanqueray', status: 'ok', lot: 'L26-0822', made: '22/08/2026', checks: 2, sentAt: 'ontem · 19:30' },
-  'VS-4HZP-1LCE': { product: 'jack-7', status: 'opened', lot: 'L26-0730', made: '30/07/2026', checks: 6, openedAt: '02/10/2026 · 21:42' }
+  'VS-4HZP-1LCE': { product: 'jw-black', status: 'opened', lot: 'L26-0730', made: '30/07/2026', checks: 6, openedAt: '02/10/2026 · 21:42' }
 };
 
 window.VSD_SAMPLE_CODES = [
