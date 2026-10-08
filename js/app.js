@@ -1023,6 +1023,8 @@
   function runVerify(code) {
     verifyError.hidden = true; verifyInput.classList.remove('invalid');
     showResult(code);
+    // no celular o resultado fica abaixo do formulário: rola até ele
+    if (verifyResult.getBoundingClientRect().top > innerHeight - 120) verifyResult.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
   }
   const vrUrl = (code) => `<p class="vr-url vr-in">${icon('lock')}<span>${esc(SITE_HOST)}/v/${esc(code.slice(3))}</span></p>`;
   const vrHead = (kind, title, sub) => `<div class="vr-hero">${medal(kind)}<div class="vr-head vr-in" style="--d:.38s"><b>${title}</b><span>${sub}</span></div></div>`;
