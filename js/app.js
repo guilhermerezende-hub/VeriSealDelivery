@@ -192,7 +192,7 @@
       </div>
       <div class="flex flex-1 flex-col px-1.5 pt-3 max-sm:px-1 max-sm:pt-2.5">
         <p class="text-[12px] font-semibold tracking-[.04em] text-fg-2 uppercase">${esc(kit ? `Kit · ${p.bottles.length} garrafas` : p.brand)}</p>
-        <h3 class="mt-0.5 text-[16px] leading-[1.22] font-bold tracking-[-.02em] max-sm:text-[15px]"><button type="button" class="text-left hover:text-accent" data-open="${p.id}">${esc(p.name)}</button></h3>
+        <h3 class="mt-0.5 text-[16px] leading-[1.22] font-bold tracking-[-.02em] max-sm:text-[15px]"><button type="button" class="text-left tracking-[inherit] hover:text-accent" data-open="${p.id}">${esc(p.name)}</button></h3>
         <p class="mt-[3px] text-[13px] text-fg-2">${esc(kit ? kitGroups(p).map(([b, n]) => (n > 1 ? n + '× ' : '') + b.brand).join(' · ') : `${p.volume} · ${abv(p)}`)}</p>
         <div class="mt-auto flex items-end justify-between gap-2 pt-2.5">${priceHTML(p)}${cta(p.id)}</div>
       </div>
@@ -704,7 +704,7 @@
         <div class="relative h-[250px] overflow-hidden rounded-[14px] bg-[radial-gradient(ellipse_60%_9%_at_50%_93%,rgba(4,37,85,.2),transparent_72%),linear-gradient(180deg,#f6f8fb,#e9eef5)] px-2 pt-[34px] pb-3 max-sm:h-[220px]">${badgeHTML(p)}<span class="${SEAL_PILL}">${vsMark(SEAL_PILL_MARK)}${p.bottles.length} lacres</span><div class="flex h-full items-end justify-center transition-transform duration-[450ms] ease-smooth group-hover/card:-translate-y-1 group-hover/card:scale-[1.03]">${visual(p)}</div></div>
         <div class="flex min-w-0 flex-col pt-3 pr-2.5 pb-2 pl-3">
           <p class="text-[12px] font-bold text-badge">${esc(p.badge || 'Kit')}</p>
-          <h3 class="mt-0.5 text-[20px] leading-[1.15] font-extrabold tracking-[-.025em] max-sm:text-[18px]"><button type="button" class="text-left hover:text-accent" data-open="${p.id}">${esc(p.name)}</button></h3>
+          <h3 class="mt-0.5 text-[20px] leading-[1.15] font-extrabold tracking-[-.025em] max-sm:text-[18px]"><button type="button" class="text-left tracking-[inherit] hover:text-accent" data-open="${p.id}">${esc(p.name)}</button></h3>
           <ul class="mt-2.5 grid gap-1">${kitGroups(p).map(([b, n]) => `<li class="flex justify-between gap-2.5 border-b border-surface-2 pb-1 text-[13px]"><span>${n > 1 ? n + '× ' : ''}${esc(b.brand)} ${esc(b.name)}</span><small class="text-[length:smaller] whitespace-nowrap text-fg-2">${esc(b.volume)}</small></li>`).join('')}</ul>
           <div class="mt-auto flex items-end justify-between gap-2 pt-2.5">${priceHTML(p)}${cta(p.id)}</div>
         </div>
@@ -805,7 +805,7 @@
     body.classList.toggle('has-bagbar', show);
   }
   function bagItemHTML(p, q) {
-    const btn = 'grid h-full w-8 place-items-center rounded-full text-[17px] text-accent disabled:text-line';
+    const btn = 'grid h-full w-8 place-items-center rounded-[50%] text-[17px] text-accent disabled:text-line';
     return `<li class="flex gap-3.5 border-b border-surface-2 py-4">
       <div class="flex h-[92px] w-[66px] shrink-0 items-end justify-center rounded-xl bg-[linear-gradient(180deg,#f6f8fb,#e9eef5)] px-1 pt-[7px] pb-[5px]">${visual(p)}</div>
       <div class="min-w-0 flex-1">
@@ -906,7 +906,7 @@
         $$('[data-view-btn]', media).forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
       }));
     }
-    const stepBtn = 'grid h-full w-[42px] place-items-center rounded-full text-[20px] text-accent disabled:text-line';
+    const stepBtn = 'grid h-full w-[42px] place-items-center rounded-[50%] text-[20px] text-accent disabled:text-line';
     $('#ppInfo').innerHTML = `
       <p class="min-h-[18px] text-[12px] font-bold text-badge">${p.oldPrice ? `<span class="inline-block rounded-md bg-sale px-2 py-[3px] font-bold text-white">-${pct(p)}%${kit ? ' no kit' : ' esta semana'}</span>` : esc(p.badge || '')}</p>
       <p class="mt-1.5 text-[13px] font-semibold tracking-[.04em] text-fg-2 uppercase">${esc(kit ? `Kit · ${p.bottles.length} garrafas` : p.brand)}</p>
