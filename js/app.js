@@ -843,7 +843,7 @@
     bf.innerHTML = `
       ${addr
         ? `<p class="mb-2 flex items-center gap-2 text-[13px] text-fg-2">${icon('pin', 'size-4 text-ok')}<span class="min-w-0 flex-1">Entregar em <b class="text-fg">${esc(placeLabel(addr))}</b> · ${etaText(addr)}</span><button class="${LINK_BTN}" type="button" data-open-address>Alterar</button></p>`
-        : `<form class="mb-1 flex gap-2" id="bagCepForm" novalidate><input class="h-10 min-w-0 flex-1 rounded-xl border border-line px-3.5 text-[15px] outline-none focus:border-accent focus:shadow-focus [&.invalid]:border-bad" id="bagCep" inputmode="numeric" placeholder="CEP para calcular o frete" maxlength="9" aria-label="CEP de entrega" autocomplete="postal-code"><button class="btn btn-dark btn-sm" type="submit">OK</button></form><p class="${CEP_INFO}" id="bagCepInfo" aria-live="polite"></p>`}
+        : `<form class="mb-1 flex gap-2" id="bagCepForm" novalidate><input class="h-10 min-w-0 flex-1 rounded-xl border border-line bg-white px-3.5 text-[15px] outline-none focus:border-accent focus:shadow-focus [&.invalid]:border-bad" id="bagCep" inputmode="numeric" placeholder="CEP para calcular o frete" maxlength="9" aria-label="CEP de entrega" autocomplete="postal-code"><button class="btn btn-dark btn-sm" type="submit">OK</button></form><p class="${CEP_INFO}" id="bagCepInfo" aria-live="polite"></p>`}
       <div class="mt-1 mb-3.5">
         <div class="${ROW}"><span>Subtotal</span><span>${money(sub)}</span></div>
         <div class="${ROW}"><span>Entrega</span><span class="${ship ? '' : FREE}">${ship ? money(ship) : 'Grátis'}</span></div>
@@ -1009,7 +1009,7 @@
           <div class="flex flex-wrap gap-3"><div class="min-w-0 flex-[0_1_150px]">${field('coCep', 'CEP', d.cep, 'inputmode="numeric" maxlength="9" autocomplete="postal-code" required', false, 'h-full flex-1')}</div><div class="min-w-0 flex-[1_1_220px]">${field('coStreet', 'Rua', d.street, 'autocomplete="address-line1" required', false, 'h-full flex-1')}</div></div>
           <div class="flex flex-wrap gap-3"><div class="min-w-0 flex-[0_1_120px]">${field('coNumber', 'Número', d.number, 'inputmode="numeric" required', false, 'h-full flex-1')}</div><div class="min-w-0 flex-[1_1_220px]">${field('coComp', 'Complemento', d.comp, 'autocomplete="address-line2"', true, 'h-full flex-1')}</div></div>
           <div class="flex flex-wrap gap-3">${field('coBairro', 'Bairro', d.bairro, 'required')}${field('coCity', 'Cidade/UF', d.city, 'required')}</div>
-          <fieldset class="grid gap-2.5">
+          <fieldset class="grid min-w-0 gap-2.5">
             <legend class="mb-2 px-0.5 text-[13px] font-semibold text-fg-2">Quando entregar?</legend>
             <label class="${PAY_OPT}"><input class="${PAY_RADIO}" type="radio" name="when" value="now"${d.when === 'now' ? ' checked' : ''}${storeOpen() ? '' : ' disabled'}>
               <span class="${PAY_IC}">${icon('moto', 'size-5')}</span><span><strong class="block text-[16px]">Agora</strong><small class="text-[13px] text-fg-2">${storeOpen() ? `Chega em ${addr ? etaText(addr) : '30–60 min'}` : `Abrimos às ${OPEN_H}h — agende a entrega`}</small></span></label>
@@ -1074,7 +1074,7 @@
       const i = inst(t.sub + t.ship);
       el.innerHTML = `${coTitle('Pagamento')}${stepsBar(1)}
         <form class="flex flex-col gap-3.5" id="coForm" novalidate>
-          <fieldset class="grid gap-2.5"><legend class="sr-only">Forma de pagamento</legend>
+          <fieldset class="grid min-w-0 gap-2.5"><legend class="sr-only">Forma de pagamento</legend>
             <label class="${PAY_OPT}"><input class="${PAY_RADIO}" type="radio" name="pay" value="pix"${d.pay === 'pix' ? ' checked' : ''}>
               <span class="${PAY_IC}">${icon('pix', 'size-5')}</span><span><strong class="block text-[16px]">Pix · 5% off</strong><small class="text-[13px] text-fg-2">Você economiza ${money(t.sub * PIX_OFF)} · aprovação na hora</small></span></label>
             <label class="${PAY_OPT}"><input class="${PAY_RADIO}" type="radio" name="pay" value="card"${d.pay === 'card' ? ' checked' : ''}>
