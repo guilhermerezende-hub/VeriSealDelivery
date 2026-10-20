@@ -139,7 +139,7 @@ window.Seal = (() => {
   // a face do lacre
   function printSVG(serial = 'A7F3K9B21') {
     const id = 'sl' + (++uid);
-    return `<svg class="seal-print" viewBox="0 0 ${SW} ${SH}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    return `<svg class="absolute inset-0 size-full overflow-visible" viewBox="0 0 ${SW} ${SH}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
       <defs>
         <clipPath id="${id}-clip"><path d="${OUTLINE}"/></clipPath>
         <linearGradient id="${id}-navy" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d3a80"/><stop offset=".45" stop-color="#062a63"/><stop offset="1" stop-color="#021a42"/></linearGradient>
@@ -188,7 +188,7 @@ window.Seal = (() => {
     for (let x = 20; x < SW; x += 20) grid += `M${x} 0V${SH}`;
     for (let y = 20; y < SH; y += 20) grid += `M0 ${y}H${SW}`;
     const label = (x, y, t, rot) => `<text ${rot ? `transform="translate(${x} ${y}) rotate(-90)" text-anchor="middle"` : `x="${x}" y="${y}"`} font-family="${MONO}" font-size="11" font-weight="600" letter-spacing="1.6" fill="#9fe6ff">${t}</text>`;
-    return `<svg viewBox="0 0 ${SW} ${SH}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    return `<svg class="absolute top-0 left-0 origin-top-left overflow-visible" viewBox="0 0 ${SW} ${SH}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
       <defs><clipPath id="${id}-clip"><path d="${OUTLINE}"/></clipPath></defs>
       <path d="${OUTLINE}" fill="#020c1d"/>
       <g clip-path="url(#${id}-clip)"><path d="${grid}" stroke="#03adf9" stroke-opacity=".08" stroke-width="1"/></g>
@@ -216,7 +216,7 @@ window.Seal = (() => {
   // onda de aproximação saindo do símbolo do celular
   function ping(host) {
     const p = document.createElement('i');
-    p.className = 'nfc-ping';
+    p.className = 'pointer-events-none absolute aspect-square w-[12%] rounded-full border-2 border-[rgba(95,208,255,.75)] opacity-0 [transform:translate(-50%,-50%)_scale(.2)]';
     p.style.left = (NFC_U * 100) + '%';
     p.style.top = (NFC_V * 100) + '%';
     host.appendChild(p);
@@ -231,15 +231,15 @@ window.Seal = (() => {
   function mount(host, opts = {}) {
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
-    host.classList.add('seal-stage');
+    host.classList.add('perspective-[1600px]');
     host.innerHTML = `
-      <div class="seal-tilt">
-        <div class="seal-face">${printSVG(opts.serial)}<div class="seal-glare"></div></div>
+      <div class="absolute inset-0 will-change-transform [transform-style:preserve-3d] [transform:rotateX(14deg)_rotateZ(-4deg)]" data-tilt>
+        <div class="absolute inset-0 drop-shadow-[0_26px_30px_rgba(0,0,0,.5)] after:pointer-events-none after:absolute after:-top-[8%] after:-bottom-[8%] after:left-0 after:w-0.5 after:bg-[linear-gradient(transparent,#bdf0ff_20%,#fff_50%,#bdf0ff_80%,transparent)] after:opacity-0 after:shadow-[0_0_18px_4px_rgba(3,173,249,.75),0_0_60px_14px_rgba(3,173,249,.35)] [.is-intro_&]:after:animate-[scanX_1.3s_var(--ease-io)_.2s_both]" data-face>${printSVG(opts.serial)}<div class="pointer-events-none absolute inset-0 rounded-[2.4%/8.6%] bg-[radial-gradient(circle_at_var(--gx,30%)_var(--gy,10%),rgba(255,255,255,.22),rgba(255,255,255,0)_38%)] mix-blend-screen" data-glare></div></div>
       </div>
-      <div class="loupe"><div class="loupe-view">${xraySVG()}</div><span class="loupe-tag">Raio-X</span></div>`;
-    const tiltEl = host.querySelector('.seal-tilt'), face = host.querySelector('.seal-face');
-    const glare = host.querySelector('.seal-glare'), loupe = host.querySelector('.loupe');
-    const xsvg = host.querySelector('.loupe-view svg');
+      <div class="pointer-events-none absolute top-0 left-0 z-[5] size-[var(--ld,160px)] rounded-full will-change-transform [transform:translate3d(var(--lx,0),var(--ly,0),0)_translate(-50%,-50%)]" data-loupe><div class="absolute inset-0 overflow-hidden rounded-full bg-[rgba(2,8,20,.78)] shadow-[inset_0_0_0_2px_rgba(255,255,255,.85),inset_0_0_26px_rgba(3,173,249,.45),0_0_0_6px_rgba(255,255,255,.06),0_18px_50px_rgba(0,0,0,.55),0_0_40px_rgba(3,173,249,.35)] after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:bg-[radial-gradient(circle_at_32%_26%,rgba(255,255,255,.22),transparent_34%),repeating-linear-gradient(0deg,rgba(95,208,255,.05)_0_1px,transparent_1px_3px)]" data-view>${xraySVG()}</div><span class="absolute -bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-cyan px-2.5 py-1 font-mono text-[11px] leading-none font-semibold tracking-[.14em] whitespace-nowrap text-[#021638] uppercase">Raio-X</span></div>`;
+    const tiltEl = host.querySelector('[data-tilt]'), face = host.querySelector('[data-face]');
+    const glare = host.querySelector('[data-glare]'), loupe = host.querySelector('[data-loupe]');
+    const xsvg = host.querySelector('[data-view] svg');
     const holoGrad = host.querySelector('.holo-grad'), holoShine = host.querySelector('.holo-shine');
     const pointerHost = opts.pointerHost || host;
 
@@ -316,7 +316,7 @@ window.Seal = (() => {
 
   // registra a tira do gargalo no sprite do index.html (#vs-neck e #vs-neck-torn)
   (function defineNeck() {
-    const sprite = document.querySelector('svg.sprite');
+    const sprite = document.getElementById('sprite');
     if (!sprite || document.getElementById('vs-neck')) return;
     sprite.insertAdjacentHTML('beforeend', `<defs>${neckDefs()}</defs>${neckSymbol('vs-neck', false)}${neckSymbol('vs-neck-torn', true)}`);
   })();
