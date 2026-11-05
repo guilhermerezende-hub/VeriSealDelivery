@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR" class="scroll-smooth scroll-pt-[128px] max-sm:scroll-pt-[124px]">
+<html lang="pt-BR" class="scroll-smooth scroll-pt-[128px] max-celular:scroll-pt-[124px]">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -17,57 +17,59 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="preload" as="image" href="assets/photos/absolut-party.webp" />
+    <link rel="preload" as="image" href="assets/fotos/absolut-party.webp" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11"></script>
     <style type="text/tailwindcss">
       @theme {
         --breakpoint-*: initial;
-        --breakpoint-xs: 400px;
-        --breakpoint-sm: 760px;
-        --breakpoint-md: 1000px;
-        --breakpoint-lg: 1180px;
+        --breakpoint-mini: 400px;
+        --breakpoint-celular: 760px;
+        --breakpoint-tablet: 1000px;
+        --breakpoint-notebook: 1180px;
       }
 
       @theme static {
-        --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        --font-sans:
+          'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
-        --color-navy: #042555;
-        --color-navy-2: #0a3a7a;
-        --color-navy-deep: #031a3d;
-        --color-navy-ink: #020c1d;
-        --color-cyan: #03adf9;
-        --color-ink: #0f1a2e;
-        --color-fg: #111827;
-        --color-fg-2: #5b6474;
-        --color-fg-3: #8a93a3;
-        --color-surface: #f3f5f9;
-        --color-surface-2: #e6eaf0;
-        --color-tile: #f2f5f9;
-        --color-line: #dde2ea;
-        --color-accent: #006aa8;
-        --color-accent-hover: #005688;
+        --color-marinho: #042555;
+        --color-marinho-2: #0a3a7a;
+        --color-marinho-fundo: #031a3d;
+        --color-noite: #020c1d;
+        --color-ciano: #03adf9;
+        --color-grafite: #0f1a2e;
+        --color-tinta: #111827;
+        --color-tinta-2: #5b6474;
+        --color-tinta-3: #8a93a3;
+        --color-fundo: #f3f5f9;
+        --color-fundo-2: #e6eaf0;
+        --color-bloco: #f2f5f9;
+        --color-linha: #dde2ea;
+        --color-destaque: #006aa8;
+        --color-destaque-escuro: #005688;
         --color-ok: #12823b;
-        --color-ok-fill: #14a64a;
-        --color-bad: #c62a1f;
-        --color-badge: #b64400;
-        --color-sale: #e0282e;
+        --color-ok-forte: #14a64a;
+        --color-erro: #c62a1f;
+        --color-selo: #b64400;
+        --color-oferta: #e0282e;
 
-        --shadow-card: 0 1px 2px rgb(16 24 40 / 0.05), 0 1px 3px rgb(16 24 40 / 0.07);
-        --shadow-lift: 0 14px 30px -10px rgb(16 24 40 / 0.22);
-        --shadow-focus: 0 0 0 4px rgb(0 106 168 / 0.28);
+        --shadow-cartao: 0 1px 2px rgb(16 24 40 / 0.05), 0 1px 3px rgb(16 24 40 / 0.07);
+        --shadow-elevado: 0 14px 30px -10px rgb(16 24 40 / 0.22);
+        --shadow-foco: 0 0 0 4px rgb(0 106 168 / 0.28);
+        --shadow-celular: 0 0.5cqi 2cqi rgb(15 26 46 / 0.08), 0 0 0 0.3cqi rgb(15 26 46 / 0.05);
 
-        --ease-smooth: cubic-bezier(0.2, 0.7, 0.2, 1);
-        --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
-        --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+        --ease-suave: cubic-bezier(0.2, 0.7, 0.2, 1);
+        --ease-vaivem: cubic-bezier(0.65, 0, 0.35, 1);
+        --ease-mola: cubic-bezier(0.34, 1.4, 0.64, 1);
 
-        --aspect-mark: 668 / 359;
-        --aspect-wordmark: 977 / 161;
+        --aspect-simbolo: 668 / 359;
+        --aspect-logotipo: 977 / 161;
       }
 
-      @custom-variant touch (@media (hover: none), (pointer: coarse));
+      @custom-variant toque (@media (hover: none), (pointer: coarse));
 
-      @utility scrollbar-none {
+      @utility sem-barra {
         scrollbar-width: none;
 
         &::-webkit-scrollbar {
@@ -77,12 +79,12 @@
 
       @layer base {
         :root {
-          --icon-plus: url(assets/icons/faq-plus.svg);
-          --icon-chevron: url(assets/icons/select-chevron.svg);
+          --icone-mais: url(assets/icones/faq-mais.svg);
+          --icone-seta: url(assets/icones/seta-select.svg);
         }
 
         a {
-          color: var(--color-accent);
+          color: var(--color-destaque);
         }
 
         a:hover {
@@ -102,13 +104,13 @@
 
         :focus-visible {
           outline: none;
-          box-shadow: var(--shadow-focus);
+          box-shadow: var(--shadow-foco);
           border-radius: 8px;
         }
 
-        .is-paused *,
-        .is-paused *::before,
-        .is-paused *::after {
+        .pausado *,
+        .pausado *::before,
+        .pausado *::after {
           animation-play-state: paused !important;
         }
 
@@ -125,46 +127,188 @@
       }
 
       @layer components {
-        /* ícones: arquivos em assets/icons/, pintados com a cor do texto.
-           uso: <i class="icon size-5 text-accent" style="--i: url(assets/icons/pin.svg)"></i> */
-        .icon {
+        .icone {
           @apply block size-[1em] shrink-0 bg-current;
-          -webkit-mask: var(--i) center / contain no-repeat;
-          mask: var(--i) center / contain no-repeat;
+          -webkit-mask: var(--icone) center / contain no-repeat;
+          mask: var(--icone) center / contain no-repeat;
         }
 
-        .btn {
-          @apply inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full border border-transparent px-[22px] py-[11px] text-[16px] leading-[1.2] font-semibold tracking-[-.01em] whitespace-nowrap no-underline transition-[background-color,color,border-color,transform,opacity,box-shadow] duration-200 active:[transform:scale(.98)] disabled:pointer-events-none disabled:opacity-40 [&_.icon]:size-[18px];
+        .botao {
+          @apply inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full border border-transparent px-[22px] py-[11px] text-[16px] leading-[1.2] font-semibold tracking-[-.01em] whitespace-nowrap no-underline transition-[background-color,color,border-color,transform,opacity,box-shadow] duration-200 active:[transform:scale(.98)] disabled:pointer-events-none disabled:opacity-40 [&_.icone]:size-[18px];
         }
 
-        .btn-primary {
-          @apply bg-accent text-white hover:bg-accent-hover;
+        .botao-primario {
+          @apply bg-destaque text-white hover:bg-destaque-escuro;
         }
 
-        .btn-dark {
-          @apply bg-fg text-white hover:bg-black;
+        .botao-escuro {
+          @apply bg-tinta text-white hover:bg-black;
         }
 
-        .btn-light {
-          @apply bg-white text-navy hover:bg-[#e8f2ff];
+        .botao-claro {
+          @apply bg-white text-marinho hover:bg-[#e8f2ff];
         }
 
-        .btn-ghost {
-          @apply border-accent bg-transparent text-accent hover:bg-accent/10;
+        .botao-contorno {
+          @apply border-destaque bg-transparent text-destaque hover:bg-destaque/10;
         }
 
-        .btn-sm {
+        .botao-pequeno {
           @apply min-h-9 px-4 py-[7px] text-[14px];
         }
 
-        .js .reveal {
+        .faq-pergunta {
+          @apply flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-[clamp(16px,1.8vw,19px)] font-bold tracking-[-.015em] after:size-[22px] after:shrink-0 after:bg-(image:--icone-mais) after:bg-contain after:bg-center after:bg-no-repeat after:[transition:transform_.3s_var(--ease-suave)] group-open:after:[transform:rotate(45deg)] [&::-webkit-details-marker]:hidden;
+        }
+
+        .faq-resposta {
+          @apply animate-[aparecer_.4s_ease] pr-10 pb-[22px] text-[16px] text-tinta-2;
+        }
+
+        .link-menu {
+          @apply inline-flex h-[34px] shrink-0 items-center gap-1.5 rounded-full px-3 text-[14px] font-semibold no-underline transition-colors duration-200 hover:bg-fundo;
+        }
+
+        .trilho-botao {
+          @apply grid size-[38px] place-items-center rounded-full border border-linha bg-white text-tinta transition-[background-color,color,opacity,border-color] duration-200 hover:border-tinta-3 disabled:opacity-35;
+        }
+
+        .trilho {
+          @apply sem-barra -mx-0.5 -mt-1 grid snap-x snap-mandatory auto-cols-[calc((100%_-_4*16px)/5)] grid-flow-col gap-4 overflow-x-auto px-0.5 pt-1 pb-[18px] *:snap-start max-notebook:auto-cols-[calc((100%_-_3*16px)/4)] max-tablet:auto-cols-[calc((100%_-_2*16px)/3)] max-celular:-mx-4 max-celular:scroll-px-4 max-celular:auto-cols-[46%] max-celular:gap-3 max-celular:px-4;
+        }
+
+        .vantagem {
+          @apply flex items-center gap-2.5 rounded-2xl bg-fundo py-2.5 pr-4 pl-3 max-notebook:flex-[1_0_auto] max-celular:flex-[0_0_auto] max-celular:py-2 max-celular:pr-3.5 max-celular:pl-2.5;
+        }
+
+        .vantagem-icone {
+          @apply grid size-9 shrink-0 place-items-center rounded-[10px] text-marinho shadow-cartao;
+        }
+
+        .vantagem-titulo {
+          @apply block text-[14px] leading-[1.2] font-bold whitespace-nowrap;
+        }
+
+        .vantagem-texto {
+          @apply block text-[12px] whitespace-nowrap text-tinta-2;
+        }
+
+        .contagem-caixa {
+          @apply flex min-w-[46px] flex-col items-center rounded-[10px] bg-tinta px-[7px] pt-1.5 pb-[5px] leading-none text-white max-celular:min-w-[42px];
+        }
+
+        .contagem-numero {
+          @apply text-[19px] font-extrabold tracking-[-.02em] tabular-nums max-celular:text-[17px];
+        }
+
+        .contagem-rotulo {
+          @apply mt-[3px] text-[9px] tracking-[.06em] text-[#a1a1a6] uppercase;
+        }
+
+        .janela {
+          @apply fixed inset-0 z-[900] grid place-items-center p-6 max-celular:items-end max-celular:p-0;
+        }
+
+        .janela-fundo {
+          @apply absolute inset-0 animate-[aparecer_.3s_ease] bg-noite/42 backdrop-blur-[4px] [.fechando_&]:animate-[sumir_.22s_ease_forwards];
+        }
+
+        .janela-painel {
+          @apply relative max-h-[calc(100vh_-_48px)] w-full animate-[surgir_.4s_var(--ease-suave)] overflow-y-auto overscroll-contain rounded-3xl bg-white shadow-[0_40px_100px_rgba(0,0,0,.3)] [.fechando_&]:animate-[encolher_.22s_ease_forwards] max-celular:max-h-[94vh] max-celular:animate-[janela-subir_.45s_var(--ease-suave)] max-celular:rounded-t-[22px] max-celular:rounded-b-none max-celular:[.fechando_&]:animate-[janela-descer_.22s_ease_forwards];
+        }
+
+        .botao-fechar {
+          @apply z-[3] grid size-9 place-items-center rounded-full bg-fundo-2 text-tinta-2 hover:bg-[#dcdfe6] hover:text-tinta;
+        }
+
+        .destaque-seta {
+          @apply pointer-events-auto grid size-10 place-items-center rounded-full bg-white/16 text-white backdrop-blur-[8px] transition-colors duration-200 hover:bg-white/28 max-celular:hidden;
+        }
+
+        .passo {
+          @apply relative flex w-full gap-4 px-1 py-[18px] text-left opacity-50 transition-opacity duration-[350ms] hover:opacity-85 [.ativo_&]:opacity-100 [.feito_&]:opacity-72;
+        }
+
+        .passo-numero {
+          @apply grid size-[34px] flex-none place-items-center rounded-full border-[1.5px] border-white/30 font-mono text-[14px] leading-none font-semibold text-[#a1a1a6] transition-[background-color,border-color,color] duration-300 [.ativo_&]:border-ciano [.ativo_&]:bg-ciano [.ativo_&]:text-noite [.feito_&]:border-ciano/60 [.feito_&]:bg-ciano/16 [.feito_&]:text-ciano;
+        }
+
+        .passo-titulo {
+          @apply block text-[19px] tracking-[-.02em] text-white max-celular:text-[17px];
+        }
+
+        .passo-texto {
+          @apply mt-[3px] block text-[15px] leading-[1.45] text-[#a1aec4] max-celular:text-[14px];
+        }
+
+        .passo-trilha {
+          @apply absolute inset-x-0 -top-px h-0.5 overflow-hidden;
+        }
+
+        .passo-progresso {
+          @apply absolute inset-0 origin-left scale-x-[var(--progresso,0)] bg-ciano;
+        }
+
+        .recurso {
+          @apply flex flex-col gap-1.5 rounded-2xl bg-white/6 p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,.09)] max-celular:p-4;
+        }
+
+        .recurso-icone {
+          @apply mb-1.5 grid size-10 place-items-center rounded-xl bg-ciano/16 text-[14px] leading-[1.45] text-[#a1aec4] max-celular:text-[13px];
+        }
+
+        .recurso-titulo {
+          @apply text-[16px] tracking-[-.01em] text-white;
+        }
+
+        .recurso-texto {
+          @apply text-[14px] leading-[1.45] text-[#a1aec4] max-celular:text-[13px];
+        }
+
+        .lacre-numero {
+          @apply mr-2 inline-grid size-5 place-items-center rounded-full border border-ciano/60 bg-ciano/12 font-mono text-[11px] leading-none font-semibold text-ciano;
+        }
+
+        .celular-endereco {
+          @apply absolute inset-x-[5cqi] top-[14cqi] flex h-[8.4cqi] items-center justify-center gap-[1.3cqi] overflow-hidden rounded-[3cqi] bg-[#e6ebf2] text-[3.4cqi] font-semibold tracking-normal text-[#3a4250];
+        }
+
+        .tela-resultado {
+          @apply pointer-events-none absolute inset-x-[6cqi] top-[39cqi] bottom-[6cqi] flex flex-col items-center text-center opacity-0 [--subida:4cqi] [&.ligado]:opacity-100;
+        }
+
+        .celular-miniatura {
+          @apply mt-[.6cqi] block h-[21cqi] w-[13cqi] flex-none rounded-[3.4cqi] bg-[linear-gradient(#f4f8fd,#e3eaf4)] pt-[1.4cqi] pb-[.8cqi] text-[3.5cqi] text-[#5a6377];
+        }
+
+        .subir-ligado {
+          @apply opacity-0 [.ligado_&]:animate-[subir_.5s_var(--ease-suave)_var(--atraso,0s)_both];
+        }
+
+        .secao-titulo {
+          @apply text-[clamp(22px,2.4vw,28px)] leading-[1.15] font-extrabold tracking-[-.03em];
+        }
+
+        .secao-topo {
+          @apply mb-[18px] flex flex-wrap items-end gap-x-7 gap-y-4 max-celular:gap-3;
+        }
+
+        .secao {
+          @apply py-[clamp(30px,4vw,44px)] max-celular:py-[26px];
+        }
+
+        .limite {
+          @apply mx-auto w-full max-w-[1248px] px-6 max-celular:px-4;
+        }
+
+        .js .revelar {
           opacity: 0;
           transform: translateY(24px);
           transition:
-            opacity 0.9s var(--ease-smooth) var(--rd, 0s),
-            transform 0.9s var(--ease-smooth) var(--rd, 0s);
+            opacity 0.9s var(--ease-suave) var(--atraso-revelar, 0s),
+            transform 0.9s var(--ease-suave) var(--atraso-revelar, 0s);
 
-          &.in {
+          &.revelado {
             opacity: 1;
             transform: none;
           }
@@ -176,101 +320,101 @@
         }
       }
 
-      @keyframes bump {
+      @keyframes pular {
         40% {
           transform: scale(1.35);
         }
       }
 
-      @keyframes drop {
+      @keyframes descer {
         from {
           opacity: 0;
           transform: translateY(-6px);
         }
       }
 
-      @keyframes fade {
+      @keyframes aparecer {
         from {
           opacity: 0;
         }
       }
 
-      @keyframes fadeOut {
+      @keyframes sumir {
         to {
           opacity: 0;
         }
       }
 
-      @keyframes pop {
+      @keyframes surgir {
         from {
           opacity: 0;
           transform: scale(0.94);
         }
       }
 
-      @keyframes popOut {
+      @keyframes encolher {
         to {
           opacity: 0;
           transform: scale(0.96);
         }
       }
 
-      @keyframes sheetUp {
+      @keyframes janela-subir {
         from {
           transform: translateY(100%);
         }
       }
 
-      @keyframes sheetDown {
+      @keyframes janela-descer {
         to {
           transform: translateY(100%);
         }
       }
 
-      @keyframes slideIn {
+      @keyframes gaveta-entrar {
         from {
           transform: translateX(100%);
         }
       }
 
-      @keyframes slideOut {
+      @keyframes gaveta-sair {
         to {
           transform: translateX(100%);
         }
       }
 
-      @keyframes toastIn {
+      @keyframes aviso-entrar {
         from {
           opacity: 0;
           transform: translate(-50%, 16px);
         }
       }
 
-      @keyframes toastOut {
+      @keyframes aviso-sair {
         to {
           opacity: 0;
           transform: translate(-50%, 10px);
         }
       }
 
-      @keyframes cardIn {
+      @keyframes cartao-entrar {
         from {
           opacity: 0;
           transform: translateY(12px);
         }
       }
 
-      @keyframes qtyIn {
+      @keyframes quantidade-entrar {
         from {
           transform: scale(0.7);
           opacity: 0.4;
         }
       }
 
-      @keyframes riseIn {
+      @keyframes subir {
         from {
           opacity: 0;
-          transform: translateY(var(--rise, 12px));
+          transform: translateY(var(--subida, 12px));
         }
         to {
           opacity: 1;
@@ -278,7 +422,7 @@
         }
       }
 
-      @keyframes draw {
+      @keyframes desenhar {
         from {
           clip-path: inset(0 100% 0 0);
         }
@@ -287,13 +431,13 @@
         }
       }
 
-      @keyframes dotFill {
+      @keyframes ponto-encher {
         from {
           transform: scaleX(0);
         }
       }
 
-      @keyframes ring {
+      @keyframes anel {
         0% {
           transform: scale(0.4);
           opacity: 0.9;
@@ -304,7 +448,7 @@
         }
       }
 
-      @keyframes scanX {
+      @keyframes varrer {
         0% {
           left: 0;
           opacity: 0;
@@ -319,7 +463,7 @@
         }
       }
 
-      @keyframes wave {
+      @keyframes onda {
         0% {
           transform: scale(0.3);
           opacity: 0.9;
@@ -330,10 +474,10 @@
         }
       }
 
-      @keyframes sealScan {
+      @keyframes lacre-varrer {
         0% {
           opacity: 0;
-          top: calc(var(--seal-top, 0.12) * 100%);
+          top: calc(var(--lacre-topo, 0.12) * 100%);
         }
         15%,
         85% {
@@ -341,11 +485,11 @@
         }
         100% {
           opacity: 0;
-          top: calc((var(--seal, 0.2) + 0.05) * 100%);
+          top: calc((var(--lacre, 0.2) + 0.05) * 100%);
         }
       }
 
-      @keyframes wbLoad {
+      @keyframes endereco-carregar {
         0% {
           opacity: 1;
           transform: scaleX(0.1);
@@ -360,31 +504,31 @@
         }
       }
 
-      @keyframes routeGo {
+      @keyframes rota {
         to {
           stroke-dashoffset: 0.32;
         }
       }
 
-      @keyframes homePin {
+      @keyframes pino-casa {
         50% {
           transform: scale(1.25);
         }
       }
 
-      @keyframes lineGrow {
+      @keyframes linha-crescer {
         from {
           transform: scaleX(0);
         }
       }
 
-      @keyframes dotPop {
+      @keyframes ponto-surgir {
         from {
           transform: scale(0);
         }
       }
 
-      @keyframes mePulse {
+      @keyframes voce-pulsar {
         0% {
           box-shadow: 0 0 0 0 rgb(20 166 74 / 0.5);
         }
@@ -393,7 +537,7 @@
         }
       }
 
-      @keyframes mPop {
+      @keyframes medalha-surgir {
         0% {
           transform: scale(0.2) rotate(-40deg);
           opacity: 0;
@@ -411,7 +555,7 @@
         }
       }
 
-      @keyframes mShake {
+      @keyframes medalha-tremer {
         20%,
         60% {
           transform: translateX(-6%);
@@ -422,13 +566,13 @@
         }
       }
 
-      @keyframes mFade {
+      @keyframes medalha-aparecer {
         to {
           opacity: 1;
         }
       }
 
-      @keyframes mShock {
+      @keyframes medalha-onda {
         0% {
           transform: scale(0.75);
           opacity: 0.85;
@@ -439,7 +583,7 @@
         }
       }
 
-      @keyframes mHalo {
+      @keyframes medalha-halo {
         from {
           opacity: 0;
           scale: 0.7;
@@ -450,13 +594,13 @@
         }
       }
 
-      @keyframes mSpin {
+      @keyframes medalha-girar {
         to {
           rotate: 1turn;
         }
       }
 
-      @keyframes mGlow {
+      @keyframes medalha-brilho {
         0%,
         100% {
           opacity: 0.5;
@@ -466,21 +610,21 @@
         }
       }
 
-      @keyframes mSpark {
+      @keyframes medalha-faisca {
         0% {
           opacity: 0;
-          transform: rotate(var(--a)) translateY(0) scale(0.4);
+          transform: rotate(var(--angulo)) translateY(0) scale(0.4);
         }
         25% {
           opacity: 1;
         }
         100% {
           opacity: 0;
-          transform: rotate(var(--a)) translateY(calc(var(--ms, 96px) * -0.95)) scale(1);
+          transform: rotate(var(--angulo)) translateY(calc(var(--tamanho-medalha, 96px) * -0.95)) scale(1);
         }
       }
 
-      @keyframes vcGlow {
+      @keyframes topo-brilho {
         0%,
         23% {
           filter: drop-shadow(0 0.6px 1px rgb(0 0 0 / 0.45));
@@ -495,7 +639,7 @@
         }
       }
 
-      @keyframes vcRead {
+      @keyframes topo-leitura {
         0%,
         23% {
           opacity: 0;
@@ -510,7 +654,7 @@
         }
       }
 
-      @keyframes vcOk {
+      @keyframes topo-ok {
         0%,
         41% {
           opacity: 0;
@@ -527,7 +671,7 @@
         }
       }
 
-      @keyframes vcPhone {
+      @keyframes topo-celular {
         0%,
         12% {
           transform: translate(18px, 14px) rotate(9deg);
@@ -542,7 +686,7 @@
         }
       }
 
-      @keyframes vcHome {
+      @keyframes topo-inicio {
         0%,
         34% {
           opacity: 1;
@@ -557,7 +701,7 @@
         }
       }
 
-      @keyframes vcWeb {
+      @keyframes topo-web {
         0%,
         34% {
           opacity: 0;
@@ -575,7 +719,7 @@
         }
       }
 
-      @keyframes vcPop {
+      @keyframes topo-surgir {
         0%,
         36% {
           transform: scale(0.2) rotate(-40deg);
@@ -592,7 +736,7 @@
         }
       }
 
-      @keyframes vcDraw {
+      @keyframes topo-desenhar {
         0%,
         40% {
           stroke-dashoffset: 1;
@@ -603,7 +747,7 @@
         }
       }
 
-      @keyframes vcShock {
+      @keyframes topo-onda {
         0%,
         37% {
           transform: scale(0.75);
@@ -620,7 +764,7 @@
         }
       }
 
-      @keyframes vcShock2 {
+      @keyframes topo-onda-2 {
         0%,
         40% {
           transform: scale(0.75);
@@ -637,7 +781,7 @@
         }
       }
 
-      @keyframes vcHalo {
+      @keyframes topo-halo {
         0%,
         40% {
           opacity: 0;
@@ -657,11 +801,11 @@
         }
       }
 
-      @keyframes vcSpark {
+      @keyframes topo-faisca {
         0%,
         37% {
           opacity: 0;
-          transform: rotate(var(--a)) translateY(0) scale(0.4);
+          transform: rotate(var(--angulo)) translateY(0) scale(0.4);
         }
         40% {
           opacity: 1;
@@ -669,252 +813,213 @@
         50%,
         100% {
           opacity: 0;
-          transform: rotate(var(--a)) translateY(calc(var(--ms) * -0.95)) scale(1);
+          transform: rotate(var(--angulo)) translateY(calc(var(--tamanho-medalha) * -0.95)) scale(1);
         }
       }
     </style>
     <script>
-      document.documentElement.classList.add("js");
+      document.documentElement.classList.add('js');
     </script>
   </head>
 
   <body
-    class="overflow-x-hidden bg-white text-[16px] leading-normal tracking-[-.006em] text-fg antialiased [&.locked]:overflow-hidden"
+    class="overflow-x-hidden bg-white text-[16px] leading-normal tracking-[-.006em] text-tinta antialiased [&.travado]:overflow-hidden"
   >
-
     <a
-      class="absolute -top-[60px] left-4 z-[2000] rounded-full bg-fg px-4 py-2.5 text-white focus:top-3"
+      class="absolute -top-[60px] left-4 z-[2000] rounded-full bg-tinta px-4 py-2.5 text-white focus:top-3"
       href="#conteudo"
     >
       Pular para o conteúdo
     </a>
 
-    <div class="bg-navy text-[13px] text-[#dbe6f6] max-sm:text-[12px]">
+    <div class="bg-marinho text-[13px] text-[#dbe6f6] max-celular:text-[12px]">
       <p
-        class="mx-auto flex max-w-[1248px] flex-wrap items-center justify-center gap-2.5 px-6 py-2 text-center max-sm:gap-x-2 max-sm:gap-y-1.5 max-sm:px-4 max-sm:py-[7px]"
+        class="mx-auto flex max-w-[1248px] flex-wrap items-center justify-center gap-2.5 px-6 py-2 text-center max-celular:gap-x-2 max-celular:gap-y-1.5 max-celular:px-4 max-celular:py-[7px]"
       >
-        <img class="aspect-mark h-auto w-[26px]" src="assets/brand/vs-mark-white.svg" alt="" />
+        <img class="aspect-simbolo h-auto w-[26px]" src="assets/marca/vs-simbolo-branco.svg" alt="" />
         <span>
           <b class="text-white">100% lacrado:</b>
           só vendemos garrafas com lacre VeriSeal.
         </span>
-        <a class="font-semibold whitespace-nowrap text-cyan max-sm:hidden" href="#como-funciona">
+        <a class="font-semibold whitespace-nowrap text-ciano max-celular:hidden" href="#como-funciona">
           Veja como verificar
           <span aria-hidden="true">›</span>
         </a>
       </p>
     </div>
 
-    <header
-      class="sticky top-0 z-[500] border-b border-surface-2 bg-white/92 backdrop-blur-[18px] backdrop-saturate-180"
-      id="appbar"
-    >
+    <header class="sticky top-0 z-[500] border-b border-fundo-2 bg-white/92 backdrop-blur-[18px] backdrop-saturate-180">
       <div
-        class="mx-auto flex h-[68px] max-w-[1248px] items-center gap-3.5 px-6 max-sm:h-auto max-sm:flex-wrap max-sm:gap-x-2.5 max-sm:gap-y-2 max-sm:px-4 max-sm:py-2.5"
+        class="mx-auto flex h-[68px] max-w-[1248px] items-center gap-3.5 px-6 max-celular:h-auto max-celular:flex-wrap max-celular:gap-x-2.5 max-celular:gap-y-2 max-celular:px-4 max-celular:py-2.5"
       >
         <a class="flex shrink-0 items-center gap-2 no-underline" href="#inicio" aria-label="VeriSeal Delivery — início">
-          <img class="aspect-wordmark h-[19px] w-auto max-sm:h-4" src="assets/brand/vs-wordmark.svg" alt="" />
+          <img class="aspect-logotipo h-[19px] w-auto max-celular:h-4" src="assets/marca/vs-logotipo.svg" alt="" />
           <span
-            class="rounded-md bg-navy px-[7px] py-[3px] text-[11px] leading-[1.2] font-bold tracking-[.04em] text-white uppercase"
+            class="rounded-md bg-marinho px-[7px] py-[3px] text-[11px] leading-[1.2] font-bold tracking-[.04em] text-white uppercase"
           >
             Delivery
           </span>
         </a>
 
         <button
-          class="flex h-[46px] max-w-[250px] shrink-0 items-center gap-2 rounded-xl border border-line bg-white pr-3 pl-2.5 text-left transition-[border-color,background-color] duration-200 hover:border-fg-3 max-sm:order-2 max-sm:h-10 max-sm:max-w-none max-sm:min-w-0 max-sm:flex-1 max-sm:border-0 max-sm:bg-transparent max-sm:px-1"
-          id="locBtn"
+          class="flex h-[46px] max-w-[250px] shrink-0 items-center gap-2 rounded-xl border border-linha bg-white pr-3 pl-2.5 text-left transition-[border-color,background-color] duration-200 hover:border-tinta-3 max-celular:order-2 max-celular:h-10 max-celular:max-w-none max-celular:min-w-0 max-celular:flex-1 max-celular:border-0 max-celular:bg-transparent max-celular:px-1"
+          id="botao-local"
           type="button"
-          data-open-address
+          data-abrir-endereco
           aria-label="Informar CEP de entrega"
         >
           <i
-            class="icon size-5 text-accent [.has-cep_&]:text-ok"
-            style="--i: url(assets/icons/pin.svg)"
+            class="icone size-5 text-destaque [.com-cep_&]:text-ok"
+            style="--icone: url(assets/icones/local.svg)"
             aria-hidden="true"
           ></i>
           <span class="flex min-w-0 flex-col leading-[1.15]">
-            <small class="text-[11px] text-fg-2 max-sm:hidden">Entregar em</small>
-            <b class="truncate text-[14px] font-bold max-sm:text-[13px]" id="locText">Informe seu CEP</b>
+            <small class="text-[11px] text-tinta-2 max-celular:hidden">Entregar em</small>
+            <b class="truncate text-[14px] font-bold max-celular:text-[13px]" id="local-texto">Informe seu CEP</b>
           </span>
           <i
-            class="icon size-4 text-fg-2 max-sm:hidden"
-            style="--i: url(assets/icons/chev-d.svg)"
+            class="icone size-4 text-tinta-2 max-celular:hidden"
+            style="--icone: url(assets/icones/seta-baixo.svg)"
             aria-hidden="true"
           ></i>
         </button>
 
-        <div class="relative min-w-0 flex-1 max-sm:order-5 max-sm:basis-full" id="search">
+        <div class="relative min-w-0 flex-1 max-celular:order-5 max-celular:basis-full" id="busca">
           <label
-            class="flex h-[46px] items-center gap-2.5 rounded-xl border border-transparent bg-surface px-4 transition-[border-color,background-color,box-shadow] duration-200 focus-within:border-accent focus-within:bg-white focus-within:shadow-focus max-sm:h-11"
+            class="flex h-[46px] items-center gap-2.5 rounded-xl border border-transparent bg-fundo px-4 transition-[border-color,background-color,box-shadow] duration-200 focus-within:border-destaque focus-within:bg-white focus-within:shadow-foco max-celular:h-11"
           >
-            <i class="icon size-[19px] text-fg-2" style="--i: url(assets/icons/search.svg)" aria-hidden="true"></i>
+            <i
+              class="icone size-[19px] text-tinta-2"
+              style="--icone: url(assets/icones/busca.svg)"
+              aria-hidden="true"
+            ></i>
             <span class="sr-only">Buscar bebidas e marcas</span>
             <input
-              class="min-w-0 flex-1 bg-transparent px-0.5 py-px text-[15px] outline-none placeholder:text-fg-3"
+              class="min-w-0 flex-1 bg-transparent px-0.5 py-px text-[15px] outline-none placeholder:text-tinta-3"
               type="search"
-              id="searchInput"
+              id="busca-campo"
               placeholder="Buscar whisky, gin, vodka…"
               autocomplete="off"
               enterkeyhint="search"
-              aria-controls="searchPanel"
+              aria-controls="busca-painel"
             />
           </label>
           <div
-            class="absolute inset-x-0 top-[calc(100%_+_8px)] z-10 max-h-[min(70vh,520px)] animate-[drop_.22s_var(--ease-smooth)] overflow-y-auto rounded-2xl bg-white px-2.5 pt-3.5 pb-2.5 shadow-[0_24px_60px_rgba(16,24,40,.2),0_0_0_1px_rgba(16,24,40,.06)] max-sm:fixed max-sm:inset-x-2.5 max-sm:top-auto max-sm:mt-2 max-sm:max-h-[64vh]"
-            id="searchPanel"
+            class="absolute inset-x-0 top-[calc(100%_+_8px)] z-10 max-h-[min(70vh,520px)] animate-[descer_.22s_var(--ease-suave)] overflow-y-auto rounded-2xl bg-white px-2.5 pt-3.5 pb-2.5 shadow-[0_24px_60px_rgba(16,24,40,.2),0_0_0_1px_rgba(16,24,40,.06)] max-celular:fixed max-celular:inset-x-2.5 max-celular:top-auto max-celular:mt-2 max-celular:max-h-[64vh]"
+            id="busca-painel"
             hidden
           >
-            <p class="mx-2 mb-2 text-[12px] font-semibold text-fg-2" id="searchLabel" aria-live="polite">
+            <p class="mx-2 mb-2 text-[12px] font-semibold text-tinta-2" id="busca-rotulo" aria-live="polite">
               Mais buscados
             </p>
-            <ul id="searchResults"></ul>
+            <ul id="busca-resultados"></ul>
           </div>
         </div>
 
         <a
-          class="inline-flex h-[46px] shrink-0 items-center gap-2 rounded-xl bg-[#e7f5fe] px-3.5 text-[14px] font-bold text-navy no-underline transition-colors duration-200 hover:bg-[#d4edfc] max-lg:px-[13px] max-sm:order-3 max-sm:h-10 max-sm:px-2.5 max-xs:hidden"
+          class="inline-flex h-[46px] shrink-0 items-center gap-2 rounded-xl bg-[#e7f5fe] px-3.5 text-[14px] font-bold text-marinho no-underline transition-colors duration-200 hover:bg-[#d4edfc] max-notebook:px-[13px] max-celular:order-3 max-celular:h-10 max-celular:px-2.5 max-mini:hidden"
           href="#verificar"
         >
-          <i class="icon size-5 text-accent" style="--i: url(assets/icons/contactless.svg)" aria-hidden="true"></i>
-          <span class="max-lg:hidden">Como verificar?</span>
+          <i
+            class="icone size-5 text-destaque"
+            style="--icone: url(assets/icones/aproximacao.svg)"
+            aria-hidden="true"
+          ></i>
+          <span class="max-notebook:hidden">Como verificar?</span>
         </a>
 
         <button
-          class="inline-flex h-[46px] shrink-0 items-center gap-2.5 rounded-xl bg-navy pr-4 pl-3 text-[14px] font-bold text-white transition-colors duration-200 hover:bg-navy-2 max-sm:order-4 max-sm:h-10 max-sm:px-3"
-          id="bagBtn"
+          class="inline-flex h-[46px] shrink-0 items-center gap-2.5 rounded-xl bg-marinho pr-4 pl-3 text-[14px] font-bold text-white transition-colors duration-200 hover:bg-marinho-2 max-celular:order-4 max-celular:h-10 max-celular:px-3"
+          id="botao-sacola"
           type="button"
-          data-open-bag
+          data-abrir-sacola
           aria-label="Sacola de compras"
         >
           <span class="relative grid place-items-center">
-            <i class="icon size-[22px]" style="--i: url(assets/icons/bag.svg)" aria-hidden="true"></i>
+            <i class="icone size-[22px]" style="--icone: url(assets/icones/sacola.svg)" aria-hidden="true"></i>
             <span
-              class="absolute -top-[7px] -right-2 h-[18px] min-w-[18px] rounded-[9px] border-2 border-navy bg-cyan px-[5px] text-center text-[11px] leading-[18px] font-extrabold text-navy-ink [&.bump]:animate-[bump_.4s_var(--ease-smooth)]"
-              id="bagCount"
+              class="absolute -top-[7px] -right-2 h-[18px] min-w-[18px] rounded-[9px] border-2 border-marinho bg-ciano px-[5px] text-center text-[11px] leading-[18px] font-extrabold text-noite [&.pulo]:animate-[pular_.4s_var(--ease-suave)]"
+              id="sacola-quantidade"
               hidden
             >
               0
             </span>
           </span>
-          <span class="whitespace-nowrap tabular-nums max-sm:hidden" id="bagTotal">Sacola</span>
+          <span class="whitespace-nowrap tabular-nums max-celular:hidden" id="sacola-total">Sacola</span>
         </button>
       </div>
     </header>
 
     <nav
-      class="sticky top-[68px] z-[490] border-b border-surface-2 bg-white/94 backdrop-blur-[18px] max-sm:static"
-      id="catnav"
+      class="sticky top-[68px] z-[490] border-b border-fundo-2 bg-white/94 backdrop-blur-[18px] max-celular:static"
       aria-label="Categorias"
     >
       <div
-        class="scrollbar-none mx-auto flex h-12 max-w-[1248px] items-center gap-1 overflow-x-auto px-6 max-sm:h-[46px] max-sm:px-3"
+        class="sem-barra mx-auto flex h-12 max-w-[1248px] items-center gap-1 overflow-x-auto px-6 max-celular:h-[46px] max-celular:px-3"
       >
-        <a
-          class="inline-flex h-[34px] shrink-0 items-center gap-1.5 rounded-full px-3 text-[14px] font-semibold text-sale no-underline transition-colors duration-200 hover:bg-surface"
-          href="#ofertas"
-        >
-          <i class="icon size-4" style="--i: url(assets/icons/tag.svg)" aria-hidden="true"></i>
+        <a class="link-menu text-oferta" href="#ofertas">
+          <i class="icone size-4" style="--icone: url(assets/icones/etiqueta.svg)" aria-hidden="true"></i>
           Ofertas
         </a>
-        <a
-          class="inline-flex h-[34px] shrink-0 items-center gap-1.5 rounded-full px-3 text-[14px] font-semibold text-fg no-underline transition-colors duration-200 hover:bg-surface"
-          href="#catalogo"
-          data-cat="whisky"
-        >
-          Whisky
-        </a>
-        <a
-          class="inline-flex h-[34px] shrink-0 items-center gap-1.5 rounded-full px-3 text-[14px] font-semibold text-fg no-underline transition-colors duration-200 hover:bg-surface"
-          href="#catalogo"
-          data-cat="vodka"
-        >
-          Vodka
-        </a>
-        <a
-          class="inline-flex h-[34px] shrink-0 items-center gap-1.5 rounded-full px-3 text-[14px] font-semibold text-fg no-underline transition-colors duration-200 hover:bg-surface"
-          href="#catalogo"
-          data-cat="gin"
-        >
-          Gin
-        </a>
-        <a
-          class="inline-flex h-[34px] shrink-0 items-center gap-1.5 rounded-full px-3 text-[14px] font-semibold text-fg no-underline transition-colors duration-200 hover:bg-surface"
-          href="#catalogo"
-          data-cat="cachaca"
-        >
-          Cachaça
-        </a>
-        <a
-          class="inline-flex h-[34px] shrink-0 items-center gap-1.5 rounded-full px-3 text-[14px] font-semibold text-fg no-underline transition-colors duration-200 hover:bg-surface"
-          href="#kits"
-        >
-          Kits e presentes
-        </a>
-        <a
-          class="inline-flex h-[34px] shrink-0 items-center gap-1.5 rounded-full px-3 text-[14px] font-semibold text-fg no-underline transition-colors duration-200 hover:bg-surface"
-          href="#mais-pedidos"
-        >
-          Mais pedidos
-        </a>
-        <a
-          class="inline-flex h-[34px] shrink-0 items-center gap-1.5 rounded-full px-3 text-[14px] font-semibold text-navy no-underline transition-colors duration-200 hover:bg-surface"
-          href="#como-funciona"
-        >
-          <img class="aspect-mark h-auto w-[22px]" src="assets/brand/vs-mark.svg" alt="" />
+        <a class="link-menu text-tinta" href="#catalogo" data-categoria="whisky"> Whisky </a>
+        <a class="link-menu text-tinta" href="#catalogo" data-categoria="vodka"> Vodka </a>
+        <a class="link-menu text-tinta" href="#catalogo" data-categoria="gin"> Gin </a>
+        <a class="link-menu text-tinta" href="#catalogo" data-categoria="cachaca"> Cachaça </a>
+        <a class="link-menu text-tinta" href="#kits"> Kits e presentes </a>
+        <a class="link-menu text-tinta" href="#mais-pedidos"> Mais pedidos </a>
+        <a class="link-menu text-marinho" href="#como-funciona">
+          <img class="aspect-simbolo h-auto w-[22px]" src="assets/marca/vs-simbolo.svg" alt="" />
           Lacre VeriSeal
         </a>
       </div>
     </nav>
 
     <main id="conteudo">
-      <section class="pt-[18px] max-sm:pt-3" id="inicio" aria-label="Destaques">
+      <section class="pt-[18px] max-celular:pt-3" id="inicio" aria-label="Destaques">
         <div
-          class="mx-auto grid max-w-[1248px] grid-cols-[minmax(0,1fr)_372px] gap-4 px-6 max-lg:grid-cols-[minmax(0,1fr)_330px] max-md:grid-cols-1 max-sm:px-4"
+          class="mx-auto grid max-w-[1248px] grid-cols-[minmax(0,1fr)_372px] gap-4 px-6 max-notebook:grid-cols-[minmax(0,1fr)_330px] max-tablet:grid-cols-1 max-celular:px-4"
         >
           <div
-            class="relative isolate h-[440px] touch-pan-y touch-pinch-zoom overflow-hidden rounded-3xl bg-navy-ink select-none [--pw:800px] [&.is-dragging]:cursor-grabbing max-sm:h-[540px] max-sm:rounded-[20px]"
-            id="promo"
+            class="relative isolate h-[440px] touch-pan-y touch-pinch-zoom overflow-hidden rounded-3xl bg-noite select-none [--largura-destaque:800px] [&.arrastando]:cursor-grabbing max-celular:h-[540px] max-celular:rounded-[20px]"
+            id="destaques"
             role="region"
             aria-roledescription="carrossel"
             aria-label="Destaques da semana"
           >
-            <div class="grid h-full" id="promoTrack"></div>
+            <div class="grid h-full" id="destaques-trilho"></div>
             <div
-              class="pointer-events-none absolute right-4 bottom-4 left-12 z-[3] flex items-center gap-2 max-sm:right-3 max-sm:bottom-3 max-sm:left-3.5"
-              data-promo-ui
+              class="pointer-events-none absolute right-4 bottom-4 left-12 z-[3] flex items-center gap-2 max-celular:right-3 max-celular:bottom-3 max-celular:left-3.5"
+              data-destaque-controles
             >
-              <div class="pointer-events-auto mr-auto -ml-2 flex" id="promoDots"></div>
-              <button
-                class="pointer-events-auto grid size-10 place-items-center rounded-full bg-white/16 text-white backdrop-blur-[8px] transition-colors duration-200 hover:bg-white/28 max-sm:hidden"
-                type="button"
-                data-promo="-1"
-                aria-label="Destaque anterior"
-              >
-                <i class="icon size-[18px]" style="--i: url(assets/icons/chev-l.svg)" aria-hidden="true"></i>
+              <div class="pointer-events-auto mr-auto -ml-2 flex" id="destaques-pontos"></div>
+              <button class="destaque-seta" type="button" data-destaque="-1" aria-label="Destaque anterior">
+                <i
+                  class="icone size-[18px]"
+                  style="--icone: url(assets/icones/seta-esquerda.svg)"
+                  aria-hidden="true"
+                ></i>
               </button>
-              <button
-                class="pointer-events-auto grid size-10 place-items-center rounded-full bg-white/16 text-white backdrop-blur-[8px] transition-colors duration-200 hover:bg-white/28 max-sm:hidden"
-                type="button"
-                data-promo="1"
-                aria-label="Próximo destaque"
-              >
-                <i class="icon size-[18px]" style="--i: url(assets/icons/chev-r.svg)" aria-hidden="true"></i>
+              <button class="destaque-seta" type="button" data-destaque="1" aria-label="Próximo destaque">
+                <i
+                  class="icone size-[18px]"
+                  style="--icone: url(assets/icones/seta-direita.svg)"
+                  aria-hidden="true"
+                ></i>
               </button>
             </div>
           </div>
 
           <article
-            class="relative h-[440px] overflow-hidden rounded-3xl bg-[radial-gradient(ellipse_80%_55%_at_62%_26%,#0c4a99_0%,var(--color-navy)_46%,var(--color-navy-ink)_100%)] text-white max-md:h-[400px] max-sm:h-[420px] max-sm:rounded-[20px]"
-            id="vsCard"
+            class="relative h-[440px] overflow-hidden rounded-3xl bg-[radial-gradient(ellipse_80%_55%_at_62%_26%,#0c4a99_0%,var(--color-marinho)_46%,var(--color-noite)_100%)] text-white max-tablet:h-[400px] max-celular:h-[420px] max-celular:rounded-[20px]"
+            id="topo-cartao"
           >
             <div
-              class="absolute inset-x-0 bottom-0 z-[2] bg-[linear-gradient(180deg,transparent_0%,rgba(2,12,29,.82)_34%,var(--color-navy-ink)_70%)] px-6 pt-[90px] pb-[22px]"
+              class="absolute inset-x-0 bottom-0 z-[2] bg-[linear-gradient(180deg,transparent_0%,rgba(2,12,29,.82)_34%,var(--color-noite)_70%)] px-6 pt-[90px] pb-[22px]"
             >
               <p
                 class="mt-2 inline-flex items-center gap-2 text-[14px] leading-[1.45] font-bold tracking-[.05em] text-[#b9c6db] uppercase"
               >
-                <img class="aspect-mark h-auto w-6" src="assets/brand/vs-mark-white.svg" alt="" />
+                <img class="aspect-simbolo h-auto w-6" src="assets/marca/vs-simbolo-branco.svg" alt="" />
                 Exclusivo VeriSeal
               </p>
               <h2 class="mt-2 text-[26px] leading-[1.08] font-extrabold tracking-[-.035em]">
@@ -929,209 +1034,182 @@
               >
                 Ver a verificação
                 <i
-                  class="icon size-4 transition-transform duration-[250ms] ease-smooth group-hover:translate-x-[3px]"
-                  style="--i: url(assets/icons/arrow-r.svg)"
+                  class="icone size-4 transition-transform duration-[250ms] ease-suave group-hover:translate-x-[3px]"
+                  style="--icone: url(assets/icones/seta.svg)"
                   aria-hidden="true"
                 ></i>
               </a>
             </div>
-            <div class="absolute inset-0 z-[1]" id="vcStage" aria-hidden="true"></div>
+            <div class="absolute inset-0 z-[1]" id="topo-palco" aria-hidden="true"></div>
           </article>
         </div>
       </section>
 
       <section class="pt-4" aria-label="Entrega">
         <div
-          class="mx-auto grid max-w-[1248px] grid-cols-[minmax(0,1fr)_auto] gap-4 px-6 max-lg:grid-cols-1 max-sm:px-4"
+          class="mx-auto grid max-w-[1248px] grid-cols-[minmax(0,1fr)_auto] gap-4 px-6 max-notebook:grid-cols-1 max-celular:px-4"
         >
           <form
-            class="grid grid-cols-[auto_minmax(0,1fr)_auto] grid-rows-[auto_auto] items-center gap-x-3.5 rounded-2xl bg-surface py-3 pr-3.5 pl-3 max-sm:gap-x-3 max-sm:gap-y-1"
-            id="heroCepForm"
+            class="grid grid-cols-[auto_minmax(0,1fr)_auto] grid-rows-[auto_auto] items-center gap-x-3.5 rounded-2xl bg-fundo py-3 pr-3.5 pl-3 max-celular:gap-x-3 max-celular:gap-y-1"
+            id="topo-cep-form"
             novalidate
           >
             <span
-              class="row-span-2 grid size-11 place-items-center rounded-xl bg-white text-accent shadow-card max-sm:row-span-1"
+              class="row-span-2 grid size-11 place-items-center rounded-xl bg-white text-destaque shadow-cartao max-celular:row-span-1"
             >
-              <i class="icon size-[22px]" style="--i: url(assets/icons/pin.svg)" aria-hidden="true"></i>
+              <i class="icone size-[22px]" style="--icone: url(assets/icones/local.svg)" aria-hidden="true"></i>
             </span>
-            <label class="flex min-w-0 flex-col" for="heroCep">
-              <span class="text-[12px] font-semibold text-fg-2">Onde vamos entregar?</span>
+            <label class="flex min-w-0 flex-col" for="topo-cep">
+              <span class="text-[12px] font-semibold text-tinta-2">Onde vamos entregar?</span>
               <input
-                class="h-[26px] min-w-0 bg-transparent p-0 text-[17px] font-bold tracking-[.01em] outline-none placeholder:font-medium placeholder:text-fg-3 [&.invalid]:text-bad"
-                id="heroCep"
+                class="h-[26px] min-w-0 bg-transparent p-0 text-[17px] font-bold tracking-[.01em] outline-none placeholder:font-medium placeholder:text-tinta-3 [&.invalido]:text-erro"
+                id="topo-cep"
                 inputmode="numeric"
                 placeholder="Digite seu CEP"
                 maxlength="9"
                 autocomplete="postal-code"
               />
             </label>
-            <button class="btn btn-primary btn-sm" type="submit">Ver prazo</button>
+            <button class="botao botao-primario botao-pequeno" type="submit">Ver prazo</button>
             <p
-              class="col-span-2 text-[13px] text-fg-2 empty:hidden data-[state=err]:text-bad data-[state=ok]:font-semibold data-[state=ok]:text-ok max-sm:col-span-3 max-sm:mt-1.5"
-              id="heroCepInfo"
+              class="col-span-2 text-[13px] text-tinta-2 empty:hidden data-[estado=erro]:text-erro data-[estado=ok]:font-semibold data-[estado=ok]:text-ok max-celular:col-span-3 max-celular:mt-1.5"
+              id="topo-cep-info"
               aria-live="polite"
             ></p>
           </form>
-          <ul class="flex gap-2 max-lg:scrollbar-none max-lg:overflow-x-auto max-sm:-mx-4 max-sm:px-4">
-            <li
-              class="flex items-center gap-2.5 rounded-2xl bg-surface py-2.5 pr-4 pl-3 max-lg:flex-[1_0_auto] max-sm:flex-[0_0_auto] max-sm:py-2 max-sm:pr-3.5 max-sm:pl-2.5"
-            >
-              <span class="grid size-9 shrink-0 place-items-center rounded-[10px] bg-white text-navy shadow-card">
-                <i class="icon size-5" style="--i: url(assets/icons/moto.svg)" aria-hidden="true"></i>
+          <ul class="flex gap-2 max-notebook:sem-barra max-notebook:overflow-x-auto max-celular:-mx-4 max-celular:px-4">
+            <li class="vantagem">
+              <span class="vantagem-icone bg-white">
+                <i class="icone size-5" style="--icone: url(assets/icones/moto.svg)" aria-hidden="true"></i>
               </span>
               <span>
-                <b class="block text-[14px] leading-[1.2] font-bold whitespace-nowrap" id="helpEta">30–60 min</b>
-                <small class="block text-[12px] whitespace-nowrap text-fg-2">entrega expressa</small>
+                <b class="vantagem-titulo" id="prazo-entrega">30–60 min</b>
+                <small class="vantagem-texto">entrega expressa</small>
               </span>
             </li>
-            <li
-              class="flex items-center gap-2.5 rounded-2xl bg-surface py-2.5 pr-4 pl-3 max-lg:flex-[1_0_auto] max-sm:flex-[0_0_auto] max-sm:py-2 max-sm:pr-3.5 max-sm:pl-2.5"
-            >
-              <span class="grid size-9 shrink-0 place-items-center rounded-[10px] bg-white text-navy shadow-card">
-                <i class="icon size-5" style="--i: url(assets/icons/truck.svg)" aria-hidden="true"></i>
+            <li class="vantagem">
+              <span class="vantagem-icone bg-white">
+                <i class="icone size-5" style="--icone: url(assets/icones/caminhao.svg)" aria-hidden="true"></i>
               </span>
               <span>
-                <b class="block text-[14px] leading-[1.2] font-bold whitespace-nowrap">Frete grátis</b>
-                <small class="block text-[12px] whitespace-nowrap text-fg-2">acima de R$ 199</small>
+                <b class="vantagem-titulo">Frete grátis</b>
+                <small class="vantagem-texto">acima de R$ 199</small>
               </span>
             </li>
-            <li
-              class="flex items-center gap-2.5 rounded-2xl bg-surface py-2.5 pr-4 pl-3 max-lg:flex-[1_0_auto] max-sm:flex-[0_0_auto] max-sm:py-2 max-sm:pr-3.5 max-sm:pl-2.5"
-            >
-              <span class="grid size-9 shrink-0 place-items-center rounded-[10px] bg-white text-navy shadow-card">
-                <i class="icon size-5" style="--i: url(assets/icons/pix.svg)" aria-hidden="true"></i>
+            <li class="vantagem">
+              <span class="vantagem-icone bg-white">
+                <i class="icone size-5" style="--icone: url(assets/icones/pix.svg)" aria-hidden="true"></i>
               </span>
               <span>
-                <b class="block text-[14px] leading-[1.2] font-bold whitespace-nowrap">5% off no Pix</b>
-                <small class="block text-[12px] whitespace-nowrap text-fg-2">ou até 6x sem juros</small>
+                <b class="vantagem-titulo">5% off no Pix</b>
+                <small class="vantagem-texto">ou até 6x sem juros</small>
               </span>
             </li>
-            <li
-              class="flex items-center gap-2.5 rounded-2xl bg-surface py-2.5 pr-4 pl-3 max-lg:flex-[1_0_auto] max-sm:flex-[0_0_auto] max-sm:py-2 max-sm:pr-3.5 max-sm:pl-2.5"
-            >
-              <span class="grid size-9 shrink-0 place-items-center rounded-[10px] bg-navy text-navy shadow-card">
-                <img class="aspect-mark h-auto w-[22px]" src="assets/brand/vs-mark-white.svg" alt="" />
+            <li class="vantagem">
+              <span class="vantagem-icone bg-marinho">
+                <img class="aspect-simbolo h-auto w-[22px]" src="assets/marca/vs-simbolo-branco.svg" alt="" />
               </span>
               <span>
-                <b class="block text-[14px] leading-[1.2] font-bold whitespace-nowrap">100% lacrado</b>
-                <small class="block text-[12px] whitespace-nowrap text-fg-2">lacre VeriSeal</small>
+                <b class="vantagem-titulo">100% lacrado</b>
+                <small class="vantagem-texto">lacre VeriSeal</small>
               </span>
             </li>
           </ul>
         </div>
       </section>
 
-      <section class="py-[clamp(30px,4vw,44px)] max-sm:py-[26px]" id="loja" aria-labelledby="catTitle">
-        <div class="mx-auto w-full max-w-[1248px] px-6 max-sm:px-4">
-          <h2 class="text-[clamp(22px,2.4vw,28px)] leading-[1.15] font-extrabold tracking-[-.03em]" id="catTitle">
-            Categorias
-          </h2>
+      <section class="secao" aria-labelledby="categorias-titulo">
+        <div class="limite">
+          <h2 class="secao-titulo" id="categorias-titulo">Categorias</h2>
           <div
-            class="mt-4 grid grid-cols-7 gap-3.5 max-md:scrollbar-none max-md:grid-cols-[repeat(7,104px)] max-md:overflow-x-auto max-md:pb-1.5 max-sm:-mx-4 max-sm:grid-cols-[repeat(7,88px)] max-sm:gap-2.5 max-sm:px-4"
-            id="catRow"
+            class="mt-4 grid grid-cols-7 gap-3.5 max-tablet:sem-barra max-tablet:grid-cols-[repeat(7,104px)] max-tablet:overflow-x-auto max-tablet:pb-1.5 max-celular:-mx-4 max-celular:grid-cols-[repeat(7,88px)] max-celular:gap-2.5 max-celular:px-4"
+            id="categorias"
           ></div>
         </div>
       </section>
 
-      <section class="py-[clamp(30px,4vw,44px)] max-sm:py-[26px]" id="ofertas" aria-labelledby="offersTitle">
-        <div class="mx-auto w-full max-w-[1248px] px-6 max-sm:px-4">
-          <div class="mb-[18px] flex flex-wrap items-end gap-x-7 gap-y-4 max-sm:gap-3">
+      <section class="secao" id="ofertas" aria-labelledby="ofertas-titulo">
+        <div class="limite">
+          <div class="secao-topo">
             <div class="mr-auto">
-              <h2
-                class="text-[clamp(22px,2.4vw,28px)] leading-[1.15] font-extrabold tracking-[-.03em]"
-                id="offersTitle"
-              >
-                Ofertas da semana
-              </h2>
-              <p class="mt-1 text-[15px] text-fg-2">Preço baixo e lacre garantido em cada garrafa.</p>
+              <h2 class="secao-titulo" id="ofertas-titulo">Ofertas da semana</h2>
+              <p class="mt-1 text-[15px] text-tinta-2">Preço baixo e lacre garantido em cada garrafa.</p>
             </div>
             <div
-              class="flex items-center gap-1.5 max-sm:flex-wrap"
-              id="countdown"
+              class="flex items-center gap-1.5 max-celular:flex-wrap"
               role="timer"
               aria-label="Tempo restante das ofertas"
             >
-              <span class="mr-1 inline-flex items-center gap-1.5 text-[13px] font-bold text-sale">
-                <i class="icon size-[17px]" style="--i: url(assets/icons/clock.svg)" aria-hidden="true"></i>
+              <span class="mr-1 inline-flex items-center gap-1.5 text-[13px] font-bold text-oferta">
+                <i class="icone size-[17px]" style="--icone: url(assets/icones/relogio.svg)" aria-hidden="true"></i>
                 Termina em
               </span>
-              <span
-                class="flex min-w-[46px] flex-col items-center rounded-[10px] bg-fg px-[7px] pt-1.5 pb-[5px] leading-none text-white max-sm:min-w-[42px]"
-              >
-                <b class="text-[19px] font-extrabold tracking-[-.02em] tabular-nums max-sm:text-[17px]" data-cd="d">
-                  0
-                </b>
-                <small class="mt-[3px] text-[9px] tracking-[.06em] text-[#a1a1a6] uppercase">dias</small>
+              <span class="contagem-caixa">
+                <b class="contagem-numero" data-unidade="d"> 0 </b>
+                <small class="contagem-rotulo">dias</small>
               </span>
-              <span
-                class="flex min-w-[46px] flex-col items-center rounded-[10px] bg-fg px-[7px] pt-1.5 pb-[5px] leading-none text-white max-sm:min-w-[42px]"
-              >
-                <b class="text-[19px] font-extrabold tracking-[-.02em] tabular-nums max-sm:text-[17px]" data-cd="h">
-                  00
-                </b>
-                <small class="mt-[3px] text-[9px] tracking-[.06em] text-[#a1a1a6] uppercase">h</small>
+              <span class="contagem-caixa">
+                <b class="contagem-numero" data-unidade="h"> 00 </b>
+                <small class="contagem-rotulo">h</small>
               </span>
-              <span
-                class="flex min-w-[46px] flex-col items-center rounded-[10px] bg-fg px-[7px] pt-1.5 pb-[5px] leading-none text-white max-sm:min-w-[42px]"
-              >
-                <b class="text-[19px] font-extrabold tracking-[-.02em] tabular-nums max-sm:text-[17px]" data-cd="m">
-                  00
-                </b>
-                <small class="mt-[3px] text-[9px] tracking-[.06em] text-[#a1a1a6] uppercase">min</small>
+              <span class="contagem-caixa">
+                <b class="contagem-numero" data-unidade="m"> 00 </b>
+                <small class="contagem-rotulo">min</small>
               </span>
-              <span
-                class="flex min-w-[46px] flex-col items-center rounded-[10px] bg-fg px-[7px] pt-1.5 pb-[5px] leading-none text-white max-sm:min-w-[42px]"
-              >
-                <b class="text-[19px] font-extrabold tracking-[-.02em] tabular-nums max-sm:text-[17px]" data-cd="s">
-                  00
-                </b>
-                <small class="mt-[3px] text-[9px] tracking-[.06em] text-[#a1a1a6] uppercase">s</small>
+              <span class="contagem-caixa">
+                <b class="contagem-numero" data-unidade="s"> 00 </b>
+                <small class="contagem-rotulo">s</small>
               </span>
             </div>
-            <div class="flex gap-2 max-sm:hidden">
+            <div class="flex gap-2 max-celular:hidden">
               <button
-                class="grid size-[38px] place-items-center rounded-full border border-line bg-white text-fg transition-[background-color,color,opacity,border-color] duration-200 hover:border-fg-3 disabled:opacity-35"
+                class="trilho-botao"
                 type="button"
-                data-rail="offersRail"
-                data-dir="-1"
+                data-trilho="trilho-ofertas"
+                data-direcao="-1"
                 aria-label="Ofertas anteriores"
               >
-                <i class="icon size-[18px]" style="--i: url(assets/icons/chev-l.svg)" aria-hidden="true"></i>
+                <i
+                  class="icone size-[18px]"
+                  style="--icone: url(assets/icones/seta-esquerda.svg)"
+                  aria-hidden="true"
+                ></i>
               </button>
               <button
-                class="grid size-[38px] place-items-center rounded-full border border-line bg-white text-fg transition-[background-color,color,opacity,border-color] duration-200 hover:border-fg-3 disabled:opacity-35"
+                class="trilho-botao"
                 type="button"
-                data-rail="offersRail"
-                data-dir="1"
+                data-trilho="trilho-ofertas"
+                data-direcao="1"
                 aria-label="Mais ofertas"
               >
-                <i class="icon size-[18px]" style="--i: url(assets/icons/chev-r.svg)" aria-hidden="true"></i>
+                <i
+                  class="icone size-[18px]"
+                  style="--icone: url(assets/icones/seta-direita.svg)"
+                  aria-hidden="true"
+                ></i>
               </button>
             </div>
           </div>
-          <div
-            class="scrollbar-none -mx-0.5 -mt-1 grid snap-x snap-mandatory auto-cols-[calc((100%_-_4*16px)/5)] grid-flow-col gap-4 overflow-x-auto px-0.5 pt-1 pb-[18px] *:snap-start max-lg:auto-cols-[calc((100%_-_3*16px)/4)] max-md:auto-cols-[calc((100%_-_2*16px)/3)] max-sm:-mx-4 max-sm:scroll-px-4 max-sm:auto-cols-[46%] max-sm:gap-3 max-sm:px-4"
-            id="offersRail"
-          ></div>
+          <div class="trilho" id="trilho-ofertas"></div>
         </div>
       </section>
 
       <section
-        class="relative my-[clamp(16px,2vw,28px)] overflow-hidden bg-[radial-gradient(ellipse_50%_40%_at_78%_38%,rgba(3,173,249,.18),transparent_70%),radial-gradient(ellipse_70%_60%_at_70%_40%,#0b3f86_0%,var(--color-navy-deep)_48%,var(--color-navy-ink)_100%)] py-[clamp(56px,7vw,96px)] text-[#f5f7fb] max-sm:py-[52px]"
+        class="relative my-[clamp(16px,2vw,28px)] overflow-hidden bg-[radial-gradient(ellipse_50%_40%_at_78%_38%,rgba(3,173,249,.18),transparent_70%),radial-gradient(ellipse_70%_60%_at_70%_40%,#0b3f86_0%,var(--color-marinho-fundo)_48%,var(--color-noite)_100%)] py-[clamp(56px,7vw,96px)] text-[#f5f7fb] max-celular:py-[52px]"
         id="como-funciona"
-        aria-labelledby="howTitle"
+        aria-labelledby="como-titulo"
       >
-        <div class="mx-auto w-full max-w-[1248px] px-6 max-sm:px-4">
-          <div class="mx-auto mb-12 max-w-[760px] text-center max-sm:mb-7 max-sm:text-left">
+        <div class="limite">
+          <div class="mx-auto mb-12 max-w-[760px] text-center max-celular:mb-7 max-celular:text-left">
             <p
-              class="reveal mb-3 inline-flex items-center justify-center gap-2 text-[14px] font-bold tracking-[.01em] text-cyan max-sm:justify-start"
+              class="revelar mb-3 inline-flex items-center justify-center gap-2 text-[14px] font-bold tracking-[.01em] text-ciano max-celular:justify-start"
             >
-              <img class="aspect-mark h-auto w-6" src="assets/brand/vs-mark-white.svg" alt="" />
+              <img class="aspect-simbolo h-auto w-6" src="assets/marca/vs-simbolo-branco.svg" alt="" />
               Exclusivo VeriSeal Delivery
             </p>
             <h2
-              class="reveal text-[clamp(32px,4.8vw,54px)] leading-[1.06] font-extrabold tracking-[-.035em]"
-              id="howTitle"
+              class="revelar text-[clamp(32px,4.8vw,54px)] leading-[1.06] font-extrabold tracking-[-.035em]"
+              id="como-titulo"
             >
               Toda garrafa chega lacrada.
               <br />
@@ -1142,128 +1220,98 @@
           </div>
 
           <div
-            class="grid grid-cols-[minmax(0,.82fr)_minmax(0,1.18fr)] items-center gap-[clamp(28px,5vw,64px)] max-md:grid-cols-1 max-md:gap-9"
+            class="grid grid-cols-[minmax(0,.82fr)_minmax(0,1.18fr)] items-center gap-[clamp(28px,5vw,64px)] max-tablet:grid-cols-1 max-tablet:gap-9"
           >
-            <div class="max-md:max-w-[620px]">
-              <ol class="reveal max-w-[470px]" id="howSteps">
+            <div class="max-tablet:max-w-[620px]">
+              <ol class="revelar max-w-[470px]" id="como-passos">
                 <li class="border-t border-white/12 last:border-b">
-                  <button
-                    class="relative flex w-full gap-4 px-1 py-[18px] text-left opacity-50 transition-opacity duration-[350ms] hover:opacity-85 [.is-active_&]:opacity-100 [.is-done_&]:opacity-72"
-                    type="button"
-                    data-step="0"
-                  >
-                    <span
-                      class="grid size-[34px] flex-none place-items-center rounded-full border-[1.5px] border-white/30 font-mono text-[14px] leading-none font-semibold text-[#a1a1a6] transition-[background-color,border-color,color] duration-300 [.is-active_&]:border-cyan [.is-active_&]:bg-cyan [.is-active_&]:text-navy-ink [.is-done_&]:border-cyan/60 [.is-done_&]:bg-cyan/16 [.is-done_&]:text-cyan"
-                    >
-                      1
-                    </span>
+                  <button class="passo" type="button">
+                    <span class="passo-numero"> 1 </span>
                     <span>
-                      <strong class="block text-[19px] tracking-[-.02em] text-white max-sm:text-[17px]">
-                        Escolha e peça
-                      </strong>
-                      <small class="mt-[3px] block text-[15px] leading-[1.45] text-[#a1aec4] max-sm:text-[14px]">
+                      <strong class="passo-titulo"> Escolha e peça </strong>
+                      <small class="passo-texto">
                         Monte a sacola e pague com Pix, cartão em até 6x ou na entrega.
                       </small>
                     </span>
-                    <i class="absolute inset-x-0 -top-px h-0.5 overflow-hidden">
-                      <i class="absolute inset-0 origin-left scale-x-[var(--sp,0)] bg-cyan"></i>
+                    <i class="passo-trilha">
+                      <i class="passo-progresso"></i>
                     </i>
                   </button>
                 </li>
                 <li class="border-t border-white/12 last:border-b">
-                  <button
-                    class="relative flex w-full gap-4 px-1 py-[18px] text-left opacity-50 transition-opacity duration-[350ms] hover:opacity-85 [.is-active_&]:opacity-100 [.is-done_&]:opacity-72"
-                    type="button"
-                    data-step="1"
-                  >
-                    <span
-                      class="grid size-[34px] flex-none place-items-center rounded-full border-[1.5px] border-white/30 font-mono text-[14px] leading-none font-semibold text-[#a1a1a6] transition-[background-color,border-color,color] duration-300 [.is-active_&]:border-cyan [.is-active_&]:bg-cyan [.is-active_&]:text-navy-ink [.is-done_&]:border-cyan/60 [.is-done_&]:bg-cyan/16 [.is-done_&]:text-cyan"
-                    >
-                      2
-                    </span>
+                  <button class="passo" type="button">
+                    <span class="passo-numero"> 2 </span>
                     <span>
-                      <strong class="block text-[19px] tracking-[-.02em] text-white max-sm:text-[17px]">
-                        Conferimos o lacre e entregamos
-                      </strong>
-                      <small class="mt-[3px] block text-[15px] leading-[1.45] text-[#a1aec4] max-sm:text-[14px]">
+                      <strong class="passo-titulo"> Conferimos o lacre e entregamos </strong>
+                      <small class="passo-texto">
                         Antes de sair, escaneamos o lacre de cada garrafa. Acompanhe a entrega em tempo real.
                       </small>
                     </span>
-                    <i class="absolute inset-x-0 -top-px h-0.5 overflow-hidden">
-                      <i class="absolute inset-0 origin-left scale-x-[var(--sp,0)] bg-cyan"></i>
+                    <i class="passo-trilha">
+                      <i class="passo-progresso"></i>
                     </i>
                   </button>
                 </li>
                 <li class="border-t border-white/12 last:border-b">
-                  <button
-                    class="relative flex w-full gap-4 px-1 py-[18px] text-left opacity-50 transition-opacity duration-[350ms] hover:opacity-85 [.is-active_&]:opacity-100 [.is-done_&]:opacity-72"
-                    type="button"
-                    data-step="2"
-                  >
-                    <span
-                      class="grid size-[34px] flex-none place-items-center rounded-full border-[1.5px] border-white/30 font-mono text-[14px] leading-none font-semibold text-[#a1a1a6] transition-[background-color,border-color,color] duration-300 [.is-active_&]:border-cyan [.is-active_&]:bg-cyan [.is-active_&]:text-navy-ink [.is-done_&]:border-cyan/60 [.is-done_&]:bg-cyan/16 [.is-done_&]:text-cyan"
-                    >
-                      3
-                    </span>
+                  <button class="passo" type="button">
+                    <span class="passo-numero"> 3 </span>
                     <span>
-                      <strong class="block text-[19px] tracking-[-.02em] text-white max-sm:text-[17px]">
-                        Encoste o celular e confira
-                      </strong>
-                      <small class="mt-[3px] block text-[15px] leading-[1.45] text-[#a1aec4] max-sm:text-[14px]">
+                      <strong class="passo-titulo"> Encoste o celular e confira </strong>
+                      <small class="passo-texto">
                         O navegador abre direto no resultado: original e nunca aberta, ou lacre violado.
                       </small>
                     </span>
-                    <i class="absolute inset-x-0 -top-px h-0.5 overflow-hidden">
-                      <i class="absolute inset-0 origin-left scale-x-[var(--sp,0)] bg-cyan"></i>
+                    <i class="passo-trilha">
+                      <i class="passo-progresso"></i>
                     </i>
                   </button>
                 </li>
               </ol>
-              <div class="reveal mt-[26px] flex flex-wrap items-center gap-3.5">
+              <div class="revelar mt-[26px] flex flex-wrap items-center gap-3.5">
                 <button
-                  class="is-playing grid size-[46px] flex-none place-items-center rounded-full bg-white text-navy-ink transition-[scale] duration-300 ease-spring hover:scale-106"
-                  id="howPlay"
+                  class="tocando grid size-[46px] flex-none place-items-center rounded-full bg-white text-noite transition-[scale] duration-300 ease-mola hover:scale-106"
+                  id="como-tocar"
                   type="button"
                   aria-label="Pausar demonstração"
                 >
                   <i
-                    class="icon size-[18px] [grid-area:1/1] [.is-playing_&]:hidden"
-                    style="--i: url(assets/icons/play.svg)"
+                    class="icone size-[18px] [grid-area:1/1] [.tocando_&]:hidden"
+                    style="--icone: url(assets/icones/tocar.svg)"
                     aria-hidden="true"
                   ></i>
                   <i
-                    class="icon hidden size-[18px] [grid-area:1/1] [.is-playing_&]:block"
-                    style="--i: url(assets/icons/pause.svg)"
+                    class="icone hidden size-[18px] [grid-area:1/1] [.tocando_&]:block"
+                    style="--icone: url(assets/icones/pausar.svg)"
                     aria-hidden="true"
                   ></i>
                 </button>
                 <div
                   class="relative isolate inline-grid grid-cols-2 rounded-full bg-white/10 p-1"
-                  id="howSeg"
+                  id="como-modo"
                   role="radiogroup"
                   aria-label="Simular resultado da verificação"
                 >
                   <button
-                    class="relative z-[1] min-h-[42px] rounded-full px-[18px] text-[14px] font-bold whitespace-nowrap text-[#a1aec4] transition-colors duration-[250ms] aria-checked:text-navy-ink max-sm:px-3.5 max-sm:text-[13px]"
+                    class="relative z-[1] min-h-[42px] rounded-full px-[18px] text-[14px] font-bold whitespace-nowrap text-[#a1aec4] transition-colors duration-[250ms] aria-checked:text-noite max-celular:px-3.5 max-celular:text-[13px]"
                     type="button"
                     role="radio"
                     aria-checked="true"
-                    data-mode="ok"
+                    data-modo="ok"
                   >
                     Lacre íntegro
                   </button>
                   <button
-                    class="relative z-[1] min-h-[42px] rounded-full px-[18px] text-[14px] font-bold whitespace-nowrap text-[#a1aec4] transition-colors duration-[250ms] aria-checked:text-navy-ink [.is-bad_&]:text-bad max-sm:px-3.5 max-sm:text-[13px]"
+                    class="relative z-[1] min-h-[42px] rounded-full px-[18px] text-[14px] font-bold whitespace-nowrap text-[#a1aec4] transition-colors duration-[250ms] aria-checked:text-noite [.violado_&]:text-erro max-celular:px-3.5 max-celular:text-[13px]"
                     type="button"
                     role="radio"
                     aria-checked="false"
-                    data-mode="bad"
+                    data-modo="erro"
                     tabindex="-1"
                   >
                     Lacre violado
                   </button>
                   <i
-                    class="absolute top-1 bottom-1 left-1 z-0 w-[calc(50%_-_4px)] rounded-full bg-white shadow-[0_2px_8px_rgba(0,0,0,.25)] [transition:translate_.45s_var(--ease-spring),background-color_.3s] [.is-bad_&]:translate-x-full [.is-bad_&]:bg-[#ffe6e3]"
+                    class="absolute top-1 bottom-1 left-1 z-0 w-[calc(50%_-_4px)] rounded-full bg-white shadow-[0_2px_8px_rgba(0,0,0,.25)] [transition:translate_.45s_var(--ease-mola),background-color_.3s] [.violado_&]:translate-x-full [.violado_&]:bg-[#ffe6e3]"
                     aria-hidden="true"
                   ></i>
                 </div>
@@ -1271,12 +1319,12 @@
             </div>
 
             <div
-              class="relative h-[min(80vh,680px)] min-h-[540px] [container-type:size] max-md:h-[min(74svh,640px)] max-sm:-mx-3 max-sm:h-[80svh] max-sm:max-h-[660px] max-sm:min-h-[520px]"
-              id="howScene"
+              class="relative h-[min(80vh,680px)] min-h-[540px] [container-type:size] max-tablet:h-[min(74svh,640px)] max-celular:-mx-3 max-celular:h-[80svh] max-celular:max-h-[660px] max-celular:min-h-[520px]"
+              id="como-cena"
               aria-hidden="true"
             >
               <div
-                class="absolute inset-0 overflow-hidden rounded-[32px] bg-[linear-gradient(165deg,#0d3470_0%,#061a3c_55%,#030d22_100%)] shadow-[inset_0_0_0_1px_rgba(255,255,255,.08)] [mask-image:linear-gradient(to_bottom,#000_82%,transparent)] max-sm:rounded-3xl"
+                class="absolute inset-0 overflow-hidden rounded-[32px] bg-[linear-gradient(165deg,#0d3470_0%,#061a3c_55%,#030d22_100%)] shadow-[inset_0_0_0_1px_rgba(255,255,255,.08)] [mask-image:linear-gradient(to_bottom,#000_82%,transparent)] max-celular:rounded-3xl"
               >
                 <div
                   class="absolute -top-[10%] -left-[14%] h-[90%] w-[80%] bg-[radial-gradient(closest-side,rgba(150,195,255,.42),rgba(70,130,230,.14)_62%,transparent)]"
@@ -1285,50 +1333,49 @@
                   class="absolute top-[18%] left-[4%] h-[30%] w-[36%] bg-[radial-gradient(closest-side,rgba(3,173,249,.3),transparent)] blur-[8px]"
                 ></div>
                 <div
-                  class="absolute top-[calc(32cqh_-_var(--seal,.2)*var(--bh))] left-[9cqw] aspect-[var(--ar,251/900)] h-(--bh) translate-y-[5%] opacity-0 drop-shadow-[0_30px_50px_rgba(0,0,0,.45)] [--bh:116cqh] [transition:opacity_.8s_ease,translate_1.1s_var(--ease-smooth)] [.is-started_&]:translate-y-0 [.is-started_&]:opacity-100 max-sm:left-[1cqw] max-sm:[--bh:92cqh]"
-                  id="hsBottle"
+                  class="absolute top-[calc(32cqh_-_var(--lacre,.2)*var(--altura-garrafa))] left-[9cqw] aspect-[var(--proporcao,251/900)] h-(--altura-garrafa) translate-y-[5%] opacity-0 drop-shadow-[0_30px_50px_rgba(0,0,0,.45)] [--altura-garrafa:116cqh] [transition:opacity_.8s_ease,translate_1.1s_var(--ease-suave)] [.iniciado_&]:translate-y-0 [.iniciado_&]:opacity-100 max-celular:left-[1cqw] max-celular:[--altura-garrafa:92cqh]"
+                  id="como-garrafa"
                 >
-                  <div class="absolute inset-0" id="hsPhoto"></div>
+                  <div class="absolute inset-0" id="como-foto"></div>
                   <i
-                    class="absolute inset-x-[22%] top-[calc(var(--seal-top,.12)*100%)] z-[2] h-0.5 rounded-[2px] bg-[linear-gradient(90deg,transparent,#bdf0ff,#fff,#bdf0ff,transparent)] opacity-0 shadow-[0_0_14px_3px_rgba(3,173,249,.7)] [.st-1_&]:animate-[sealScan_1.7s_var(--ease-io)_.4s_1_both]"
+                    class="absolute inset-x-[22%] top-[calc(var(--lacre-topo,.12)*100%)] z-[2] h-0.5 rounded-[2px] bg-[linear-gradient(90deg,transparent,#bdf0ff,#fff,#bdf0ff,transparent)] opacity-0 shadow-[0_0_14px_3px_rgba(3,173,249,.7)] [.etapa-1_&]:animate-[lacre-varrer_1.7s_var(--ease-vaivem)_.4s_1_both]"
                   ></i>
-                  <div class="pointer-events-none absolute top-[calc(var(--seal,.2)*100%)] left-1/2 z-[2] size-0">
+                  <div class="pointer-events-none absolute top-[calc(var(--lacre,.2)*100%)] left-1/2 z-[2] size-0">
                     <i
-                      class="absolute top-0 left-0 -mt-[11cqw] -ml-[11cqw] size-[22cqw] rounded-full border-2 border-cyan/85 opacity-0 [.is-reading_&]:animate-[wave_1.8s_ease-out_infinite]"
+                      class="absolute top-0 left-0 -mt-[11cqw] -ml-[11cqw] size-[22cqw] rounded-full border-2 border-ciano/85 opacity-0 [.lendo_&]:animate-[onda_1.8s_ease-out_infinite]"
                     ></i>
                     <i
-                      class="absolute top-0 left-0 -mt-[11cqw] -ml-[11cqw] size-[22cqw] rounded-full border-2 border-cyan/85 opacity-0 [.is-reading_&]:animate-[wave_1.8s_ease-out_.6s_infinite]"
+                      class="absolute top-0 left-0 -mt-[11cqw] -ml-[11cqw] size-[22cqw] rounded-full border-2 border-ciano/85 opacity-0 [.lendo_&]:animate-[onda_1.8s_ease-out_.6s_infinite]"
                     ></i>
                     <i
-                      class="absolute top-0 left-0 -mt-[11cqw] -ml-[11cqw] size-[22cqw] rounded-full border-2 border-cyan/85 opacity-0 [.is-reading_&]:animate-[wave_1.8s_ease-out_1.2s_infinite]"
+                      class="absolute top-0 left-0 -mt-[11cqw] -ml-[11cqw] size-[22cqw] rounded-full border-2 border-ciano/85 opacity-0 [.lendo_&]:animate-[onda_1.8s_ease-out_1.2s_infinite]"
                     ></i>
                   </div>
                   <span
-                    class="absolute top-[calc((var(--seal,.2)_+_.08)*100%)] left-1/2 z-[3] inline-flex items-center gap-1.5 rounded-full bg-white/96 py-[7px] pr-3 pl-[9px] text-[length:max(11px,2.1cqw)] font-bold whitespace-nowrap text-ok opacity-0 shadow-[0_10px_28px_rgba(0,0,0,.35)] [transform:translate(-50%,8px)_scale(.94)] [transition:opacity_.35s,transform_.5s_var(--ease-spring)] [.is-scanned_&]:opacity-100 [.is-scanned_&]:[transform:translate(-50%,0)] max-sm:py-1.5 max-sm:pr-2.5 max-sm:pl-2 max-sm:text-[10.5px]"
+                    class="absolute top-[calc((var(--lacre,.2)_+_.08)*100%)] left-1/2 z-[3] inline-flex items-center gap-1.5 rounded-full bg-white/96 py-[7px] pr-3 pl-[9px] text-[length:max(11px,2.1cqw)] font-bold whitespace-nowrap text-ok opacity-0 shadow-[0_10px_28px_rgba(0,0,0,.35)] [transform:translate(-50%,8px)_scale(.94)] [transition:opacity_.35s,transform_.5s_var(--ease-mola)] [.escaneado_&]:opacity-100 [.escaneado_&]:[transform:translate(-50%,0)] max-celular:py-1.5 max-celular:pr-2.5 max-celular:pl-2 max-celular:text-[10.5px]"
                   >
-                    <i class="icon size-[15px]" style="--i: url(assets/icons/check.svg)" aria-hidden="true"></i>
+                    <i class="icone size-[15px]" style="--icone: url(assets/icones/certo.svg)" aria-hidden="true"></i>
                     Lacre conferido no envio
                   </span>
                   <span
-                    class="absolute top-[calc((var(--seal,.2)_+_.08)*100%)] left-1/2 z-[3] inline-flex items-center gap-1.5 rounded-full bg-[#fff1ef] py-[7px] pr-3 pl-[9px] text-[length:max(11px,2.1cqw)] font-bold whitespace-nowrap text-bad opacity-0 shadow-[0_10px_28px_rgba(0,0,0,.35)] [transform:translate(-50%,8px)_scale(.94)] [transition:opacity_.35s,transform_.5s_var(--ease-spring)] [.is-bad.ph-result_&]:opacity-100 [.is-bad.ph-result_&]:[transform:translate(-50%,0)] max-sm:py-1.5 max-sm:pr-2.5 max-sm:pl-2 max-sm:text-[10.5px]"
+                    class="absolute top-[calc((var(--lacre,.2)_+_.08)*100%)] left-1/2 z-[3] inline-flex items-center gap-1.5 rounded-full bg-[#fff1ef] py-[7px] pr-3 pl-[9px] text-[length:max(11px,2.1cqw)] font-bold whitespace-nowrap text-erro opacity-0 shadow-[0_10px_28px_rgba(0,0,0,.35)] [transform:translate(-50%,8px)_scale(.94)] [transition:opacity_.35s,transform_.5s_var(--ease-mola)] [.violado.celular-resultado_&]:opacity-100 [.violado.celular-resultado_&]:[transform:translate(-50%,0)] max-celular:py-1.5 max-celular:pr-2.5 max-celular:pl-2 max-celular:text-[10.5px]"
                   >
-                    <i class="icon size-[15px]" style="--i: url(assets/icons/alert.svg)" aria-hidden="true"></i>
+                    <i class="icone size-[15px]" style="--icone: url(assets/icones/alerta.svg)" aria-hidden="true"></i>
                     Lacre rompido
                   </span>
                 </div>
               </div>
 
               <div
-                class="absolute top-1/2 right-[3cqw] z-[4] aspect-[9/19] h-[min(90cqh,46cqw_*_19_/_9)] rounded-[15%/7.1%] bg-[linear-gradient(145deg,#2b313b,#0b0e13_40%,#1f242c)] p-[1.7cqh] opacity-0 shadow-[inset_0_0_0_1.5px_rgba(255,255,255,.12),0_40px_80px_-30px_rgba(0,0,0,.7),0_18px_30px_-18px_rgba(0,0,0,.5)] will-change-transform [transform:translate(34%,-50%)_perspective(1300px)_rotateY(-40deg)_rotate(12deg)] [transition:transform_.9s_var(--ease-spring),opacity_.5s_ease] [.is-started_&]:opacity-100 [.st-0_&]:[transform:translate(0,-50%)_perspective(1300px)_rotateY(-14deg)_rotate(0deg)] [.st-1_&]:[transform:translate(0,-50%)_perspective(1300px)_rotateY(-14deg)_rotate(0deg)] [.st-2_&]:[transform:translate(-30%,-46%)_perspective(1300px)_rotateY(-30deg)_rotate(-7deg)] [.st-2.ph-open_&]:[transform:translate(-18%,-48%)_perspective(1300px)_rotateY(-12deg)_rotate(-3deg)] [.st-2.ph-open.ph-result_&]:[transform:translate(-2%,-50%)_perspective(1300px)_rotateY(-6deg)_rotate(0deg)] max-sm:right-[2cqw] max-sm:h-[min(80cqh,49cqw_*_19_/_9)] max-sm:[.st-2_&]:[transform:translate(-8%,-46%)_perspective(1300px)_rotateY(-26deg)_rotate(-6deg)] max-sm:[.st-2.ph-open_&]:[transform:translate(-4%,-48%)_perspective(1300px)_rotateY(-10deg)_rotate(-2deg)] max-sm:[.st-2.ph-open.ph-result_&]:[transform:translate(0,-50%)_perspective(1300px)_rotateY(-6deg)_rotate(0deg)]"
-                id="phone"
+                class="absolute top-1/2 right-[3cqw] z-[4] aspect-[9/19] h-[min(90cqh,46cqw_*_19_/_9)] rounded-[15%/7.1%] bg-[linear-gradient(145deg,#2b313b,#0b0e13_40%,#1f242c)] p-[1.7cqh] opacity-0 shadow-[inset_0_0_0_1.5px_rgba(255,255,255,.12),0_40px_80px_-30px_rgba(0,0,0,.7),0_18px_30px_-18px_rgba(0,0,0,.5)] will-change-transform [transform:translate(34%,-50%)_perspective(1300px)_rotateY(-40deg)_rotate(12deg)] [transition:transform_.9s_var(--ease-mola),opacity_.5s_ease] [.iniciado_&]:opacity-100 [.etapa-0_&]:[transform:translate(0,-50%)_perspective(1300px)_rotateY(-14deg)_rotate(0deg)] [.etapa-1_&]:[transform:translate(0,-50%)_perspective(1300px)_rotateY(-14deg)_rotate(0deg)] [.etapa-2_&]:[transform:translate(-30%,-46%)_perspective(1300px)_rotateY(-30deg)_rotate(-7deg)] [.etapa-2.celular-aberto_&]:[transform:translate(-18%,-48%)_perspective(1300px)_rotateY(-12deg)_rotate(-3deg)] [.etapa-2.celular-aberto.celular-resultado_&]:[transform:translate(-2%,-50%)_perspective(1300px)_rotateY(-6deg)_rotate(0deg)] max-celular:right-[2cqw] max-celular:h-[min(80cqh,49cqw_*_19_/_9)] max-celular:[.etapa-2_&]:[transform:translate(-8%,-46%)_perspective(1300px)_rotateY(-26deg)_rotate(-6deg)] max-celular:[.etapa-2.celular-aberto_&]:[transform:translate(-4%,-48%)_perspective(1300px)_rotateY(-10deg)_rotate(-2deg)] max-celular:[.etapa-2.celular-aberto.celular-resultado_&]:[transform:translate(0,-50%)_perspective(1300px)_rotateY(-6deg)_rotate(0deg)]"
               >
                 <div
-                  class="@container relative h-full overflow-hidden rounded-[12.6%/6%] bg-[#fbfcfe] leading-[1.3] tracking-[-.01em] text-ink"
+                  class="@container relative h-full overflow-hidden rounded-[12.6%/6%] bg-[#fbfcfe] leading-[1.3] tracking-[-.01em] text-grafite"
                 >
                   <div
-                    class="absolute inset-x-0 top-0 z-[6] flex h-[15cqi] items-center justify-between px-[8cqi] pt-[4.5cqi] text-[5cqi] font-semibold text-white transition-colors duration-300 [.ph-open_&]:text-ink [.st-0_&]:text-ink [.st-1_&]:text-ink"
+                    class="absolute inset-x-0 top-0 z-[6] flex h-[15cqi] items-center justify-between px-[8cqi] pt-[4.5cqi] text-[5cqi] font-semibold text-white transition-colors duration-300 [.celular-aberto_&]:text-grafite [.etapa-0_&]:text-grafite [.etapa-1_&]:text-grafite"
                   >
-                    <span data-clock>21:08</span>
+                    <span data-relogio>21:08</span>
                     <i
                       class="absolute top-[3.6cqi] left-1/2 h-[8.5cqi] w-[30%] -translate-x-1/2 rounded-full bg-[#05070a]"
                     ></i>
@@ -1340,10 +1387,10 @@
                   </div>
 
                   <div
-                    class="absolute inset-0 flex flex-col bg-[radial-gradient(120%_70%_at_20%_0%,#2f6fd0,transparent_60%),radial-gradient(90%_60%_at_100%_100%,#03adf9_0%,transparent_55%),linear-gradient(160deg,#0b2a66,#041330_70%)] px-[7cqi] pt-[22cqi] pb-[7cqi] [transition:scale_.5s_var(--ease-smooth),opacity_.45s_ease,filter_.5s_ease] [.ph-open_&]:scale-106 [.ph-open_&]:opacity-0 [.ph-open_&]:blur-[3px]"
+                    class="absolute inset-0 flex flex-col bg-[radial-gradient(120%_70%_at_20%_0%,#2f6fd0,transparent_60%),radial-gradient(90%_60%_at_100%_100%,#03adf9_0%,transparent_55%),linear-gradient(160deg,#0b2a66,#041330_70%)] px-[7cqi] pt-[22cqi] pb-[7cqi] [transition:scale_.5s_var(--ease-suave),opacity_.45s_ease,filter_.5s_ease] [.celular-aberto_&]:scale-106 [.celular-aberto_&]:opacity-0 [.celular-aberto_&]:blur-[3px]"
                   >
                     <div class="rounded-[7cqi] bg-white/12 px-[5cqi] py-[4cqi] text-white">
-                      <b class="block text-[14cqi] leading-none font-semibold tracking-[-.03em]" data-clock>21:08</b>
+                      <b class="block text-[14cqi] leading-none font-semibold tracking-[-.03em]" data-relogio>21:08</b>
                       <span class="mt-[1.5cqi] block text-[4.6cqi] opacity-80">Pedido entregue</span>
                     </div>
                     <div
@@ -1373,16 +1420,18 @@
                   </div>
 
                   <div
-                    class="absolute inset-0 z-[3] scale-94 bg-[linear-gradient(#f5f8fc,#fbfcfe_40%)] px-[6cqi] pt-[25.5cqi] pb-[6cqi] opacity-0 [transition:opacity_.4s_ease,scale_.5s_var(--ease-smooth)] [.st-0_&]:scale-100 [.st-0_&]:opacity-100 [.st-1_&]:scale-100 [.st-1_&]:opacity-100"
+                    class="absolute inset-0 z-[3] scale-94 bg-[linear-gradient(#f5f8fc,#fbfcfe_40%)] px-[6cqi] pt-[25.5cqi] pb-[6cqi] opacity-0 [transition:opacity_.4s_ease,scale_.5s_var(--ease-suave)] [.etapa-0_&]:scale-100 [.etapa-0_&]:opacity-100 [.etapa-1_&]:scale-100 [.etapa-1_&]:opacity-100"
                   >
-                    <div
-                      class="absolute inset-x-[5cqi] top-[14cqi] flex h-[8.4cqi] items-center justify-center gap-[1.3cqi] overflow-hidden rounded-[3cqi] bg-[#e6ebf2] text-[3.4cqi] font-semibold tracking-normal text-[#3a4250]"
-                    >
-                      <i class="icon size-[3.3cqi]" style="--i: url(assets/icons/lock.svg)" aria-hidden="true"></i>
-                      <span class="max-w-[82%] truncate" data-url="pedido/48213"></span>
+                    <div class="celular-endereco">
+                      <i
+                        class="icone size-[3.3cqi]"
+                        style="--icone: url(assets/icones/cadeado.svg)"
+                        aria-hidden="true"
+                      ></i>
+                      <span class="max-w-[82%] truncate" data-pagina="pedido/48213"></span>
                     </div>
                     <div class="flex items-center justify-center gap-[1.8cqi]">
-                      <img class="aspect-wordmark h-[5.4cqi] w-auto" src="assets/brand/vs-wordmark.svg" alt="" />
+                      <img class="aspect-logotipo h-[5.4cqi] w-auto" src="assets/marca/vs-logotipo.svg" alt="" />
                       <span
                         class="border-l-[.3cqi] border-[#d2d2d7] pl-[1.8cqi] text-[3.3cqi] leading-none font-bold text-[#6e6e73]"
                       >
@@ -1390,45 +1439,53 @@
                       </span>
                     </div>
                     <div
-                      class="absolute inset-x-[6cqi] top-[34cqi] bottom-[6cqi] flex translate-y-[3cqi] flex-col items-center text-center opacity-0 [transition:opacity_.3s_var(--ease-smooth),translate_.35s_var(--ease-smooth)] [.st-0_&]:translate-y-0 [.st-0_&]:opacity-100"
+                      class="absolute inset-x-[6cqi] top-[34cqi] bottom-[6cqi] flex translate-y-[3cqi] flex-col items-center text-center opacity-0 [transition:opacity_.3s_var(--ease-suave),translate_.35s_var(--ease-suave)] [.etapa-0_&]:translate-y-0 [.etapa-0_&]:opacity-100"
                     >
                       <div
                         class="grid size-[15cqi] place-items-center rounded-full bg-[radial-gradient(circle_at_35%_30%,#3fe07a,#14a64a_70%)] text-white shadow-[0_2cqi_5cqi_rgba(20,166,74,.35)]"
                       >
-                        <i class="icon size-[8.5cqi]" style="--i: url(assets/icons/check.svg)" aria-hidden="true"></i>
+                        <i
+                          class="icone size-[8.5cqi]"
+                          style="--icone: url(assets/icones/certo.svg)"
+                          aria-hidden="true"
+                        ></i>
                       </div>
                       <p class="mt-[3.4cqi] text-[7.4cqi] leading-[1.05] font-extrabold tracking-[-.03em]">
                         Pedido confirmado
                       </p>
                       <p class="mt-[1.2cqi] font-mono text-[3.7cqi] tracking-normal text-[#6e6e73]">#VSD-48213 · Pix</p>
-                      <ul class="mt-[4.4cqi] grid w-full gap-[2.2cqi] text-left" id="dpItems"></ul>
+                      <ul class="mt-[4.4cqi] grid w-full gap-[2.2cqi] text-left" id="demo-itens"></ul>
                       <p
-                        class="mt-[3.6cqi] inline-flex items-center gap-[1.8cqi] rounded-full bg-[#e7f5fe] px-[3cqi] py-[1.6cqi] text-[3.3cqi] font-semibold text-navy"
+                        class="mt-[3.6cqi] inline-flex items-center gap-[1.8cqi] rounded-full bg-[#e7f5fe] px-[3cqi] py-[1.6cqi] text-[3.3cqi] font-semibold text-marinho"
                       >
-                        <img class="aspect-mark h-auto w-[6cqi] flex-none" src="assets/brand/vs-mark.svg" alt="" />
+                        <img
+                          class="aspect-simbolo h-auto w-[6cqi] flex-none"
+                          src="assets/marca/vs-simbolo.svg"
+                          alt=""
+                        />
                         Lacre VeriSeal em todas as garrafas
                       </p>
                       <div
-                        class="mt-auto flex w-full items-baseline justify-between border-t-[.3cqi] border-ink/8 pt-[3cqi] text-[3.9cqi] text-[#6e6e73]"
+                        class="mt-auto flex w-full items-baseline justify-between border-t-[.3cqi] border-grafite/8 pt-[3cqi] text-[3.9cqi] text-[#6e6e73]"
                       >
                         <span>Total no Pix</span>
-                        <b class="text-[5.6cqi] tracking-[-.02em] text-ink" id="dpTotal">R$ 0,00</b>
+                        <b class="text-[5.6cqi] tracking-[-.02em] text-grafite" id="demo-total">R$ 0,00</b>
                       </div>
                     </div>
                     <div
-                      class="absolute inset-x-[6cqi] top-[34cqi] bottom-[6cqi] flex translate-y-[3cqi] flex-col items-center text-center opacity-0 [transition:opacity_.3s_var(--ease-smooth),translate_.35s_var(--ease-smooth)] [.st-1_&]:translate-y-0 [.st-1_&]:opacity-100"
+                      class="absolute inset-x-[6cqi] top-[34cqi] bottom-[6cqi] flex translate-y-[3cqi] flex-col items-center text-center opacity-0 [transition:opacity_.3s_var(--ease-suave),translate_.35s_var(--ease-suave)] [.etapa-1_&]:translate-y-0 [.etapa-1_&]:opacity-100"
                     >
                       <p class="mt-[2cqi] text-[4cqi] text-[#6e6e73]">Chega em</p>
                       <p class="mt-[1cqi] text-[6cqi] leading-none font-bold text-[#6e6e73]">
-                        <b class="text-[21cqi] font-extrabold tracking-[-.05em] text-ink">18</b>
+                        <b class="text-[21cqi] font-extrabold tracking-[-.05em] text-grafite">18</b>
                         min
                       </p>
                       <p class="mt-[1.2cqi] font-mono text-[3.7cqi] tracking-normal text-[#6e6e73]">
                         Previsão:
-                        <span id="dpEta">21:26</span>
+                        <span id="demo-prazo">21:26</span>
                       </p>
                       <div
-                        class="relative mt-[5cqi] mb-[4cqi] aspect-[200/92] w-full overflow-hidden rounded-[4.5cqi] shadow-[0_.5cqi_2cqi_rgba(15,26,46,.08),0_0_0_.3cqi_rgba(15,26,46,.05)]"
+                        class="relative mt-[5cqi] mb-[4cqi] aspect-[200/92] w-full overflow-hidden rounded-[4.5cqi] shadow-celular"
                       >
                         <svg class="block size-full" viewBox="0 0 200 92" preserveAspectRatio="xMidYMid slice">
                           <rect width="200" height="92" fill="#e3e9f1" />
@@ -1457,7 +1514,7 @@
                             stroke-dasharray="1 5"
                           />
                           <path
-                            class="[stroke-dasharray:1] [stroke-dashoffset:.86] [.st-1_&]:animate-[routeGo_4s_var(--ease-smooth)_.2s_forwards]"
+                            class="[stroke-dasharray:1] [stroke-dashoffset:.86] [.etapa-1_&]:animate-[rota_4s_var(--ease-suave)_.2s_forwards]"
                             d="M50 88V60H100V30H172"
                             pathLength="1"
                             fill="none"
@@ -1469,7 +1526,7 @@
                           <circle cx="50" cy="84" r="4.5" fill="#042555" />
                           <circle cx="50" cy="84" r="1.8" fill="#03adf9" />
                           <circle
-                            class="origin-center animate-[homePin_1.6s_ease-in-out_infinite] [transform-box:fill-box]"
+                            class="origin-center animate-[pino-casa_1.6s_ease-in-out_infinite] [transform-box:fill-box]"
                             cx="172"
                             cy="30"
                             r="5"
@@ -1479,29 +1536,29 @@
                           />
                         </svg>
                         <span
-                          class="absolute top-[3cqi] left-[3cqi] inline-flex items-center gap-[1.4cqi] rounded-full bg-navy py-[1.2cqi] pr-[2.6cqi] pl-[1.6cqi] text-[3.2cqi] font-semibold text-white shadow-[0_1cqi_3cqi_rgba(4,37,85,.35)]"
+                          class="absolute top-[3cqi] left-[3cqi] inline-flex items-center gap-[1.4cqi] rounded-full bg-marinho py-[1.2cqi] pr-[2.6cqi] pl-[1.6cqi] text-[3.2cqi] font-semibold text-white shadow-[0_1cqi_3cqi_rgba(4,37,85,.35)]"
                         >
                           <i
-                            class="icon size-[4.6cqi] text-cyan"
-                            style="--i: url(assets/icons/moto.svg)"
+                            class="icone size-[4.6cqi] text-ciano"
+                            style="--icone: url(assets/icones/moto.svg)"
                             aria-hidden="true"
                           ></i>
                           A caminho
                         </span>
                       </div>
                       <ul class="w-full text-left">
-                        <li class="flex items-center gap-[3cqi] py-[2cqi] text-[4cqi] text-ink">
-                          <i class="size-[3.6cqi] flex-none rounded-full border-[.6cqi] border-cyan bg-cyan"></i>
+                        <li class="flex items-center gap-[3cqi] py-[2cqi] text-[4cqi] text-grafite">
+                          <i class="size-[3.6cqi] flex-none rounded-full border-[.6cqi] border-ciano bg-ciano"></i>
                           Pedido separado
                         </li>
-                        <li class="flex items-center gap-[3cqi] py-[2cqi] text-[4cqi] text-ink">
-                          <i class="size-[3.6cqi] flex-none rounded-full border-[.6cqi] border-cyan bg-cyan"></i>
+                        <li class="flex items-center gap-[3cqi] py-[2cqi] text-[4cqi] text-grafite">
+                          <i class="size-[3.6cqi] flex-none rounded-full border-[.6cqi] border-ciano bg-ciano"></i>
                           Lacres conferidos no envio
                           <b class="ml-auto text-[3.4cqi] text-[#12823b]">2/2</b>
                         </li>
-                        <li class="flex items-center gap-[3cqi] py-[2cqi] text-[4cqi] font-bold text-ink">
+                        <li class="flex items-center gap-[3cqi] py-[2cqi] text-[4cqi] font-bold text-grafite">
                           <i
-                            class="size-[3.6cqi] flex-none rounded-full border-[.6cqi] border-cyan shadow-[0_0_0_1.2cqi_rgba(3,173,249,.22)]"
+                            class="size-[3.6cqi] flex-none rounded-full border-[.6cqi] border-ciano shadow-[0_0_0_1.2cqi_rgba(3,173,249,.22)]"
                           ></i>
                           Saiu para entrega
                         </li>
@@ -1514,151 +1571,135 @@
                   </div>
 
                   <div
-                    class="absolute inset-0 z-[4] translate-y-[5%] bg-[linear-gradient(#f5f8fc,#fbfcfe_40%)] px-[6cqi] pt-[25.5cqi] pb-[6cqi] opacity-0 [transition:opacity_.3s_ease,translate_.45s_var(--ease-smooth)] [.ph-open_&]:translate-y-0 [.ph-open_&]:opacity-100 [.ph-open.is-bad_&]:bg-[radial-gradient(75cqi_55cqi_at_50%_34%,rgba(217,48,37,.12),transparent_70%),linear-gradient(#f5f8fc,#fbfcfe_40%)] [.ph-open:not(.is-bad)_&]:bg-[radial-gradient(75cqi_55cqi_at_50%_34%,rgba(20,166,74,.13),transparent_70%),linear-gradient(#f5f8fc,#fbfcfe_40%)]"
+                    class="absolute inset-0 z-[4] translate-y-[5%] bg-[linear-gradient(#f5f8fc,#fbfcfe_40%)] px-[6cqi] pt-[25.5cqi] pb-[6cqi] opacity-0 [transition:opacity_.3s_ease,translate_.45s_var(--ease-suave)] [.celular-aberto_&]:translate-y-0 [.celular-aberto_&]:opacity-100 [.celular-aberto.violado_&]:bg-[radial-gradient(75cqi_55cqi_at_50%_34%,rgba(217,48,37,.12),transparent_70%),linear-gradient(#f5f8fc,#fbfcfe_40%)] [.celular-aberto:not(.violado)_&]:bg-[radial-gradient(75cqi_55cqi_at_50%_34%,rgba(20,166,74,.13),transparent_70%),linear-gradient(#f5f8fc,#fbfcfe_40%)]"
                   >
-                    <div
-                      class="absolute inset-x-[5cqi] top-[14cqi] flex h-[8.4cqi] items-center justify-center gap-[1.3cqi] overflow-hidden rounded-[3cqi] bg-[#e6ebf2] text-[3.4cqi] font-semibold tracking-normal text-[#3a4250]"
-                    >
-                      <i class="icon size-[3.3cqi]" style="--i: url(assets/icons/lock.svg)" aria-hidden="true"></i>
-                      <span class="max-w-[82%] truncate" data-url="v/7K2M-9QXA"></span>
+                    <div class="celular-endereco">
                       <i
-                        class="absolute bottom-0 left-0 h-[.7cqi] w-full origin-left bg-cyan opacity-0 [transform:scaleX(0)] [.ph-open_&]:animate-[wbLoad_.7s_var(--ease-smooth)_forwards]"
+                        class="icone size-[3.3cqi]"
+                        style="--icone: url(assets/icones/cadeado.svg)"
+                        aria-hidden="true"
+                      ></i>
+                      <span class="max-w-[82%] truncate" data-pagina="v/7K2M-9QXA"></span>
+                      <i
+                        class="absolute bottom-0 left-0 h-[.7cqi] w-full origin-left bg-ciano opacity-0 [transform:scaleX(0)] [.celular-aberto_&]:animate-[endereco-carregar_.7s_var(--ease-suave)_forwards]"
                       ></i>
                     </div>
                     <div class="flex items-center justify-center gap-[1.8cqi]">
-                      <img class="aspect-wordmark h-[5.4cqi] w-auto" src="assets/brand/vs-wordmark.svg" alt="" />
+                      <img class="aspect-logotipo h-[5.4cqi] w-auto" src="assets/marca/vs-logotipo.svg" alt="" />
                     </div>
-                    <div
-                      class="pointer-events-none absolute inset-x-[6cqi] top-[39cqi] bottom-[6cqi] flex flex-col items-center text-center opacity-0 [--rise:4cqi] [&.is-on]:opacity-100"
-                      data-scr="ok"
-                    >
-                      <span class="grid place-items-center" data-medal="ok"></span>
+                    <div class="tela-resultado" data-tela="ok">
+                      <span class="grid place-items-center" data-medalha="ok"></span>
                       <p
-                        class="mt-[5cqi] text-[8.6cqi] leading-[1.05] font-extrabold tracking-[-.03em] text-[#0f8a3c] opacity-0 [.is-on_&]:animate-[riseIn_.5s_var(--ease-smooth)_var(--d,0s)_both]"
-                        style="--d: 0.4s"
+                        class="subir-ligado mt-[5cqi] text-[8.6cqi] leading-[1.05] font-extrabold tracking-[-.03em] text-[#0f8a3c]"
+                        style="--atraso: 0.4s"
                       >
                         Autêntico
                       </p>
-                      <p
-                        class="mt-[1.6cqi] text-[4.2cqi] text-[#5a6377] opacity-0 [.is-on_&]:animate-[riseIn_.5s_var(--ease-smooth)_var(--d,0s)_both]"
-                        style="--d: 0.5s"
-                      >
+                      <p class="subir-ligado mt-[1.6cqi] text-[4.2cqi] text-[#5a6377]" style="--atraso: 0.5s">
                         Original · lacre íntegro, nunca aberto
                       </p>
                       <div
-                        class="mt-[4.5cqi] flex w-full items-center gap-[3.6cqi] rounded-[4.5cqi] bg-white p-[2.6cqi] text-left opacity-0 shadow-[0_.5cqi_2cqi_rgba(15,26,46,.08),0_0_0_.3cqi_rgba(15,26,46,.05)] [.is-on_&]:animate-[riseIn_.5s_var(--ease-smooth)_var(--d,0s)_both]"
-                        style="--d: 0.6s"
+                        class="subir-ligado mt-[4.5cqi] flex w-full items-center gap-[3.6cqi] rounded-[4.5cqi] bg-white p-[2.6cqi] text-left shadow-celular"
+                        style="--atraso: 0.6s"
                       >
-                        <span
-                          class="mt-[.6cqi] block h-[21cqi] w-[13cqi] flex-none rounded-[3.4cqi] bg-[linear-gradient(#f4f8fd,#e3eaf4)] pt-[1.4cqi] pb-[.8cqi] text-[3.5cqi] text-[#5a6377]"
-                          data-thumb="ok"
-                        ></span>
-                        <div data-prod>
+                        <span class="celular-miniatura" data-miniatura="ok"></span>
+                        <div data-produto>
                           <b class="block text-[4.4cqi] font-bold tracking-[-.01em]">Old No.7</b>
                           <span class="mt-[.6cqi] block text-[3.5cqi] text-[#5a6377]">Jack Daniel's · 1 L · 40%</span>
                         </div>
                       </div>
                       <dl
-                        class="mt-[2.6cqi] w-full rounded-[4.5cqi] bg-white px-[4cqi] py-[1cqi] text-left opacity-0 shadow-[0_.5cqi_2cqi_rgba(15,26,46,.08),0_0_0_.3cqi_rgba(15,26,46,.05)] [.is-on_&]:animate-[riseIn_.5s_var(--ease-smooth)_var(--d,0s)_both]"
-                        style="--d: 0.7s"
+                        class="subir-ligado mt-[2.6cqi] w-full rounded-[4.5cqi] bg-white px-[4cqi] py-[1cqi] text-left shadow-celular"
+                        style="--atraso: 0.7s"
                       >
                         <div
-                          class="flex justify-between gap-[3cqi] border-b-[.3cqi] border-ink/7 py-[2.3cqi] text-[3.8cqi]"
+                          class="flex justify-between gap-[3cqi] border-b-[.3cqi] border-grafite/7 py-[2.3cqi] text-[3.8cqi]"
                         >
                           <dt class="text-[#5a6377]">Lacre</dt>
                           <dd class="text-right font-mono text-[3.5cqi] font-semibold">VS-7K2M-9QXA</dd>
                         </div>
                         <div class="flex justify-between gap-[3cqi] py-[2.3cqi] text-[3.8cqi]">
                           <dt class="text-[#5a6377]">Conferido no envio</dt>
-                          <dd class="text-right font-semibold" id="apSent">hoje</dd>
+                          <dd class="text-right font-semibold" id="demo-enviado">hoje</dd>
                         </div>
                       </dl>
                       <ol
-                        class="relative mt-[4cqi] grid w-full grid-cols-4 opacity-0 before:absolute before:inset-x-[12.5%] before:top-[1.3cqi] before:h-[.5cqi] before:origin-left before:bg-[linear-gradient(90deg,#03adf9,#14a64a)] [.is-on_&]:animate-[riseIn_.5s_var(--ease-smooth)_var(--d,0s)_both] [.is-on_&]:before:animate-[lineGrow_.8s_var(--ease-smooth)_.95s_both]"
-                        style="--d: 0.8s"
+                        class="subir-ligado relative mt-[4cqi] grid w-full grid-cols-4 before:absolute before:inset-x-[12.5%] before:top-[1.3cqi] before:h-[.5cqi] before:origin-left before:bg-[linear-gradient(90deg,#03adf9,#14a64a)] [.ligado_&]:before:animate-[linha-crescer_.8s_var(--ease-suave)_.95s_both]"
+                        style="--atraso: 0.8s"
                       >
                         <li
-                          class="relative pt-[4.6cqi] text-center text-[3.3cqi] text-[#5a6377] before:absolute before:top-0 before:left-1/2 before:-ml-[1.5cqi] before:size-[3cqi] before:rounded-full before:border-[.6cqi] before:border-[#03adf9] before:bg-white [.is-on_&]:before:animate-[dotPop_.45s_var(--ease-spring)_1s_both]"
+                          class="relative pt-[4.6cqi] text-center text-[3.3cqi] text-[#5a6377] before:absolute before:top-0 before:left-1/2 before:-ml-[1.5cqi] before:size-[3cqi] before:rounded-full before:border-[.6cqi] before:border-[#03adf9] before:bg-white [.ligado_&]:before:animate-[ponto-surgir_.45s_var(--ease-mola)_1s_both]"
                         >
                           Produção
                         </li>
                         <li
-                          class="relative pt-[4.6cqi] text-center text-[3.3cqi] text-[#5a6377] before:absolute before:top-0 before:left-1/2 before:-ml-[1.5cqi] before:size-[3cqi] before:rounded-full before:border-[.6cqi] before:border-[#03adf9] before:bg-white [.is-on_&]:before:animate-[dotPop_.45s_var(--ease-spring)_1.17s_both]"
+                          class="relative pt-[4.6cqi] text-center text-[3.3cqi] text-[#5a6377] before:absolute before:top-0 before:left-1/2 before:-ml-[1.5cqi] before:size-[3cqi] before:rounded-full before:border-[.6cqi] before:border-[#03adf9] before:bg-white [.ligado_&]:before:animate-[ponto-surgir_.45s_var(--ease-mola)_1.17s_both]"
                         >
                           Distribuidor
                         </li>
                         <li
-                          class="relative pt-[4.6cqi] text-center text-[3.3cqi] text-[#5a6377] before:absolute before:top-0 before:left-1/2 before:-ml-[1.5cqi] before:size-[3cqi] before:rounded-full before:border-[.6cqi] before:border-[#03adf9] before:bg-white [.is-on_&]:before:animate-[dotPop_.45s_var(--ease-spring)_1.34s_both]"
+                          class="relative pt-[4.6cqi] text-center text-[3.3cqi] text-[#5a6377] before:absolute before:top-0 before:left-1/2 before:-ml-[1.5cqi] before:size-[3cqi] before:rounded-full before:border-[.6cqi] before:border-[#03adf9] before:bg-white [.ligado_&]:before:animate-[ponto-surgir_.45s_var(--ease-mola)_1.34s_both]"
                         >
                           Envio
                         </li>
                         <li
-                          class="relative pt-[4.6cqi] text-center text-[3.3cqi] font-bold text-ink before:absolute before:top-0 before:left-1/2 before:-ml-[1.5cqi] before:size-[3cqi] before:rounded-full before:border-[.6cqi] before:border-[#14a64a] before:bg-[#14a64a] [.is-on_&]:before:animate-[dotPop_.45s_var(--ease-spring)_1.51s_both,mePulse_1.8s_ease-out_2.1s_infinite]"
+                          class="relative pt-[4.6cqi] text-center text-[3.3cqi] font-bold text-grafite before:absolute before:top-0 before:left-1/2 before:-ml-[1.5cqi] before:size-[3cqi] before:rounded-full before:border-[.6cqi] before:border-[#14a64a] before:bg-[#14a64a] [.ligado_&]:before:animate-[ponto-surgir_.45s_var(--ease-mola)_1.51s_both,voce-pulsar_1.8s_ease-out_2.1s_infinite]"
                         >
                           Você
                         </li>
                       </ol>
                       <span
-                        class="mt-auto w-full rounded-[3.6cqi] bg-navy p-[3.4cqi] text-center text-[4.2cqi] font-semibold text-white opacity-0 [.is-on_&]:animate-[riseIn_.5s_var(--ease-smooth)_var(--d,0s)_both]"
-                        style="--d: 0.95s"
+                        class="subir-ligado mt-auto w-full rounded-[3.6cqi] bg-marinho p-[3.4cqi] text-center text-[4.2cqi] font-semibold text-white"
+                        style="--atraso: 0.95s"
                       >
                         Ver jornada completa
                       </span>
                     </div>
-                    <div
-                      class="pointer-events-none absolute inset-x-[6cqi] top-[39cqi] bottom-[6cqi] flex flex-col items-center text-center opacity-0 [--rise:4cqi] [&.is-on]:opacity-100"
-                      data-scr="bad"
-                    >
-                      <span class="grid place-items-center" data-medal="bad"></span>
+                    <div class="tela-resultado" data-tela="erro">
+                      <span class="grid place-items-center" data-medalha="erro"></span>
                       <p
-                        class="mt-[5cqi] text-[8.6cqi] leading-[1.05] font-extrabold tracking-[-.03em] text-bad opacity-0 [.is-on_&]:animate-[riseIn_.5s_var(--ease-smooth)_var(--d,0s)_both]"
-                        style="--d: 0.4s"
+                        class="subir-ligado mt-[5cqi] text-[8.6cqi] leading-[1.05] font-extrabold tracking-[-.03em] text-erro"
+                        style="--atraso: 0.4s"
                       >
                         Lacre violado
                       </p>
-                      <p
-                        class="mt-[1.6cqi] text-[4.2cqi] text-[#5a6377] opacity-0 [.is-on_&]:animate-[riseIn_.5s_var(--ease-smooth)_var(--d,0s)_both]"
-                        style="--d: 0.5s"
-                      >
+                      <p class="subir-ligado mt-[1.6cqi] text-[4.2cqi] text-[#5a6377]" style="--atraso: 0.5s">
                         Esta garrafa foi aberta depois do envio
                       </p>
                       <div
-                        class="mt-[4.5cqi] flex w-full items-center gap-[3.6cqi] rounded-[4.5cqi] bg-white p-[2.6cqi] text-left opacity-0 shadow-[0_.5cqi_2cqi_rgba(15,26,46,.08),0_0_0_.3cqi_rgba(15,26,46,.05)] [.is-on_&]:animate-[riseIn_.5s_var(--ease-smooth)_var(--d,0s)_both]"
-                        style="--d: 0.6s"
+                        class="subir-ligado mt-[4.5cqi] flex w-full items-center gap-[3.6cqi] rounded-[4.5cqi] bg-white p-[2.6cqi] text-left shadow-celular"
+                        style="--atraso: 0.6s"
                       >
-                        <span
-                          class="mt-[.6cqi] block h-[21cqi] w-[13cqi] flex-none rounded-[3.4cqi] bg-[linear-gradient(#f4f8fd,#e3eaf4)] pt-[1.4cqi] pb-[.8cqi] text-[3.5cqi] text-[#5a6377]"
-                          data-thumb="bad"
-                        ></span>
-                        <div data-prod>
+                        <span class="celular-miniatura" data-miniatura="erro"></span>
+                        <div data-produto>
                           <b class="block text-[4.4cqi] font-bold tracking-[-.01em]">Old No.7</b>
                           <span class="mt-[.6cqi] block text-[3.5cqi] text-[#5a6377]">Jack Daniel's · 1 L · 40%</span>
                         </div>
                       </div>
                       <dl
-                        class="mt-[2.6cqi] w-full rounded-[4.5cqi] bg-white px-[4cqi] py-[1cqi] text-left opacity-0 shadow-[0_.5cqi_2cqi_rgba(15,26,46,.08),0_0_0_.3cqi_rgba(15,26,46,.05)] [.is-on_&]:animate-[riseIn_.5s_var(--ease-smooth)_var(--d,0s)_both]"
-                        style="--d: 0.7s"
+                        class="subir-ligado mt-[2.6cqi] w-full rounded-[4.5cqi] bg-white px-[4cqi] py-[1cqi] text-left shadow-celular"
+                        style="--atraso: 0.7s"
                       >
                         <div
-                          class="flex justify-between gap-[3cqi] border-b-[.3cqi] border-ink/7 py-[2.3cqi] text-[3.8cqi]"
+                          class="flex justify-between gap-[3cqi] border-b-[.3cqi] border-grafite/7 py-[2.3cqi] text-[3.8cqi]"
                         >
                           <dt class="text-[#5a6377]">Rompido em</dt>
-                          <dd class="text-right font-semibold" id="apBroken">hoje</dd>
+                          <dd class="text-right font-semibold" id="demo-rompido">hoje</dd>
                         </div>
                         <div class="flex justify-between gap-[3cqi] py-[2.3cqi] text-[3.8cqi]">
                           <dt class="text-[#5a6377]">Situação</dt>
-                          <dd class="text-right font-semibold text-bad">circuito rompido</dd>
+                          <dd class="text-right font-semibold text-erro">circuito rompido</dd>
                         </div>
                       </dl>
                       <p
-                        class="mt-[3cqi] text-[3.7cqi] leading-[1.35] text-[#5a6377] opacity-0 [.is-on_&]:animate-[riseIn_.5s_var(--ease-smooth)_var(--d,0s)_both]"
-                        style="--d: 0.8s"
+                        class="subir-ligado mt-[3cqi] text-[3.7cqi] leading-[1.35] text-[#5a6377]"
+                        style="--atraso: 0.8s"
                       >
                         Não aceite a garrafa: recuse a entrega e receba o valor integral.
                       </p>
                       <span
-                        class="mt-auto w-full rounded-[3.6cqi] bg-bad p-[3.4cqi] text-center text-[4.2cqi] font-semibold text-white opacity-0 [.is-on_&]:animate-[riseIn_.5s_var(--ease-smooth)_var(--d,0s)_both]"
-                        style="--d: 0.9s"
+                        class="subir-ligado mt-auto w-full rounded-[3.6cqi] bg-erro p-[3.4cqi] text-center text-[4.2cqi] font-semibold text-white"
+                        style="--atraso: 0.9s"
                       >
                         Recusar e reembolsar
                       </span>
@@ -1669,64 +1710,42 @@
             </div>
           </div>
 
-          <ul class="mt-12 grid grid-cols-4 gap-3.5 max-md:grid-cols-2 max-sm:mt-8 max-sm:gap-2.5">
-            <li
-              class="reveal flex flex-col gap-1.5 rounded-2xl bg-white/6 p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,.09)] max-sm:p-4"
-            >
-              <span
-                class="mb-1.5 grid size-10 place-items-center rounded-xl bg-cyan/16 text-[14px] leading-[1.45] text-[#a1aec4] max-sm:text-[13px]"
-              >
-                <i class="icon size-[22px]" style="--i: url(assets/icons/shield.svg)" aria-hidden="true"></i>
+          <ul class="mt-12 grid grid-cols-4 gap-3.5 max-tablet:grid-cols-2 max-celular:mt-8 max-celular:gap-2.5">
+            <li class="recurso revelar">
+              <span class="recurso-icone">
+                <i class="icone size-[22px]" style="--icone: url(assets/icones/escudo.svg)" aria-hidden="true"></i>
               </span>
-              <b class="text-[16px] tracking-[-.01em] text-white">Só garrafas lacradas</b>
-              <span class="text-[14px] leading-[1.45] text-[#a1aec4] max-sm:text-[13px]">
-                Não vendemos nenhuma garrafa sem o lacre VeriSeal.
-              </span>
+              <b class="recurso-titulo">Só garrafas lacradas</b>
+              <span class="recurso-texto"> Não vendemos nenhuma garrafa sem o lacre VeriSeal. </span>
             </li>
-            <li
-              class="reveal flex flex-col gap-1.5 rounded-2xl bg-white/6 p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,.09)] max-sm:p-4"
-            >
-              <span
-                class="mb-1.5 grid size-10 place-items-center rounded-xl bg-cyan/16 text-[14px] leading-[1.45] text-[#a1aec4] max-sm:text-[13px]"
-              >
-                <i class="icon size-[22px]" style="--i: url(assets/icons/check.svg)" aria-hidden="true"></i>
+            <li class="recurso revelar">
+              <span class="recurso-icone">
+                <i class="icone size-[22px]" style="--icone: url(assets/icones/certo.svg)" aria-hidden="true"></i>
               </span>
-              <b class="text-[16px] tracking-[-.01em] text-white">Conferido antes de sair</b>
-              <span class="text-[14px] leading-[1.45] text-[#a1aec4] max-sm:text-[13px]">
-                O lacre de cada garrafa é escaneado no envio.
-              </span>
+              <b class="recurso-titulo">Conferido antes de sair</b>
+              <span class="recurso-texto"> O lacre de cada garrafa é escaneado no envio. </span>
             </li>
-            <li
-              class="reveal flex flex-col gap-1.5 rounded-2xl bg-white/6 p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,.09)] max-sm:p-4"
-            >
-              <span
-                class="mb-1.5 grid size-10 place-items-center rounded-xl bg-cyan/16 text-[14px] leading-[1.45] text-[#a1aec4] max-sm:text-[13px]"
-              >
-                <i class="icon size-[22px]" style="--i: url(assets/icons/refund.svg)" aria-hidden="true"></i>
+            <li class="recurso revelar">
+              <span class="recurso-icone">
+                <i class="icone size-[22px]" style="--icone: url(assets/icones/reembolso.svg)" aria-hidden="true"></i>
               </span>
-              <b class="text-[16px] tracking-[-.01em] text-white">Violado? Recuse</b>
-              <span class="text-[14px] leading-[1.45] text-[#a1aec4] max-sm:text-[13px]">
-                Sinal de violação: recuse na hora e receba 100% de volta.
-              </span>
+              <b class="recurso-titulo">Violado? Recuse</b>
+              <span class="recurso-texto"> Sinal de violação: recuse na hora e receba 100% de volta. </span>
             </li>
-            <li
-              class="reveal flex flex-col gap-1.5 rounded-2xl bg-white/6 p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,.09)] max-sm:p-4"
-            >
-              <span
-                class="mb-1.5 grid size-10 place-items-center rounded-xl bg-cyan/16 text-[14px] leading-[1.45] text-[#a1aec4] max-sm:text-[13px]"
-              >
-                <i class="icon size-[22px]" style="--i: url(assets/icons/contactless.svg)" aria-hidden="true"></i>
+            <li class="recurso revelar">
+              <span class="recurso-icone">
+                <i class="icone size-[22px]" style="--icone: url(assets/icones/aproximacao.svg)" aria-hidden="true"></i>
               </span>
-              <b class="text-[16px] tracking-[-.01em] text-white">Sem aplicativo</b>
-              <span class="text-[14px] leading-[1.45] text-[#a1aec4] max-sm:text-[13px]">
+              <b class="recurso-titulo">Sem aplicativo</b>
+              <span class="recurso-texto">
                 Encostou o celular, a verificação abre no navegador. Ou digite o código do lacre.
               </span>
             </li>
           </ul>
 
           <div
-            class="reveal mt-[18px] grid grid-cols-[minmax(0,.8fr)_minmax(0,1.2fr)] items-center gap-[clamp(24px,4vw,56px)] rounded-3xl bg-[radial-gradient(ellipse_at_85%_90%,rgba(11,74,154,.7)_0%,rgba(4,37,85,.35)_45%,rgba(2,12,29,.3)_100%)] p-[clamp(24px,4vw,44px)] shadow-[inset_0_0_0_1px_rgba(255,255,255,.08)] max-md:grid-cols-1 max-sm:px-[18px] max-sm:py-[22px]"
-            id="sealTile"
+            class="revelar mt-[18px] grid grid-cols-[minmax(0,.8fr)_minmax(0,1.2fr)] items-center gap-[clamp(24px,4vw,56px)] rounded-3xl bg-[radial-gradient(ellipse_at_85%_90%,rgba(11,74,154,.7)_0%,rgba(4,37,85,.35)_45%,rgba(2,12,29,.3)_100%)] p-[clamp(24px,4vw,44px)] shadow-[inset_0_0_0_1px_rgba(255,255,255,.08)] max-tablet:grid-cols-1 max-celular:px-[18px] max-celular:py-[22px]"
+            id="lacre-bloco"
           >
             <div>
               <p
@@ -1740,146 +1759,142 @@
               <p class="mt-3 text-[15px] text-[#a1aec4]">
                 O holograma fica na tampa; o chip, no gargalo. Girou a tampa, o circuito se parte e a garrafa passa a
                 constar como aberta.
-                <span class="touch:hidden">Passe o cursor sobre o lacre para ver por dentro.</span>
-                <span class="hidden touch:inline">A lente mostra o lacre por dentro.</span>
+                <span class="toque:hidden">Passe o cursor sobre o lacre para ver por dentro.</span>
+                <span class="hidden toque:inline">A lente mostra o lacre por dentro.</span>
               </p>
               <ul class="mt-[18px] flex flex-wrap gap-x-[18px] gap-y-2 text-[13px] text-[#a1aec4]">
                 <li class="flex items-center">
-                  <b
-                    class="mr-2 inline-grid size-5 place-items-center rounded-full border border-cyan/60 bg-cyan/12 font-mono text-[11px] leading-none font-semibold text-cyan"
-                  >
-                    1
-                  </b>
+                  <b class="lacre-numero"> 1 </b>
                   Chip NFC e antena
                 </li>
                 <li class="flex items-center">
-                  <b
-                    class="mr-2 inline-grid size-5 place-items-center rounded-full border border-cyan/60 bg-cyan/12 font-mono text-[11px] leading-none font-semibold text-cyan"
-                  >
-                    2
-                  </b>
+                  <b class="lacre-numero"> 2 </b>
                   Circuito de ruptura
                 </li>
                 <li class="flex items-center">
-                  <b
-                    class="mr-2 inline-grid size-5 place-items-center rounded-full border border-cyan/60 bg-cyan/12 font-mono text-[11px] leading-none font-semibold text-cyan"
-                  >
-                    3
-                  </b>
+                  <b class="lacre-numero"> 3 </b>
                   Holograma e nº de série
                 </li>
               </ul>
             </div>
-            <div class="px-1.5 py-[30px] max-sm:px-0 max-sm:pt-5 max-sm:pb-3.5">
-              <div class="relative aspect-[1000/280] w-full" id="tileSeal"></div>
+            <div class="px-1.5 py-[30px] max-celular:px-0 max-celular:pt-5 max-celular:pb-3.5">
+              <div class="relative aspect-[1000/280] w-full" id="lacre-palco"></div>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="py-[clamp(30px,4vw,44px)] max-sm:py-[26px]" id="mais-pedidos" aria-labelledby="topTitle">
-        <div class="mx-auto w-full max-w-[1248px] px-6 max-sm:px-4">
-          <div class="mb-[18px] flex flex-wrap items-end gap-x-7 gap-y-4 max-sm:gap-3">
+      <section class="secao" id="mais-pedidos" aria-labelledby="pedidos-titulo">
+        <div class="limite">
+          <div class="secao-topo">
             <div class="mr-auto">
-              <h2 class="text-[clamp(22px,2.4vw,28px)] leading-[1.15] font-extrabold tracking-[-.03em]" id="topTitle">
-                Os mais pedidos
-              </h2>
-              <p class="mt-1 text-[15px] text-fg-2">Clássicos que chegam lacrados na sua porta.</p>
+              <h2 class="secao-titulo" id="pedidos-titulo">Os mais pedidos</h2>
+              <p class="mt-1 text-[15px] text-tinta-2">Clássicos que chegam lacrados na sua porta.</p>
             </div>
-            <div class="flex gap-2 max-sm:hidden">
+            <div class="flex gap-2 max-celular:hidden">
               <button
-                class="grid size-[38px] place-items-center rounded-full border border-line bg-white text-fg transition-[background-color,color,opacity,border-color] duration-200 hover:border-fg-3 disabled:opacity-35"
+                class="trilho-botao"
                 type="button"
-                data-rail="topRail"
-                data-dir="-1"
+                data-trilho="trilho-pedidos"
+                data-direcao="-1"
                 aria-label="Anteriores"
               >
-                <i class="icon size-[18px]" style="--i: url(assets/icons/chev-l.svg)" aria-hidden="true"></i>
+                <i
+                  class="icone size-[18px]"
+                  style="--icone: url(assets/icones/seta-esquerda.svg)"
+                  aria-hidden="true"
+                ></i>
               </button>
               <button
-                class="grid size-[38px] place-items-center rounded-full border border-line bg-white text-fg transition-[background-color,color,opacity,border-color] duration-200 hover:border-fg-3 disabled:opacity-35"
+                class="trilho-botao"
                 type="button"
-                data-rail="topRail"
-                data-dir="1"
+                data-trilho="trilho-pedidos"
+                data-direcao="1"
                 aria-label="Mais produtos"
               >
-                <i class="icon size-[18px]" style="--i: url(assets/icons/chev-r.svg)" aria-hidden="true"></i>
+                <i
+                  class="icone size-[18px]"
+                  style="--icone: url(assets/icones/seta-direita.svg)"
+                  aria-hidden="true"
+                ></i>
               </button>
             </div>
           </div>
-          <div
-            class="scrollbar-none -mx-0.5 -mt-1 grid snap-x snap-mandatory auto-cols-[calc((100%_-_4*16px)/5)] grid-flow-col gap-4 overflow-x-auto px-0.5 pt-1 pb-[18px] *:snap-start max-lg:auto-cols-[calc((100%_-_3*16px)/4)] max-md:auto-cols-[calc((100%_-_2*16px)/3)] max-sm:-mx-4 max-sm:scroll-px-4 max-sm:auto-cols-[46%] max-sm:gap-3 max-sm:px-4"
-            id="topRail"
-          ></div>
+          <div class="trilho" id="trilho-pedidos"></div>
         </div>
       </section>
 
-      <section class="py-[clamp(30px,4vw,44px)] max-sm:py-[26px]" id="kits" aria-labelledby="kitsTitle">
-        <div class="mx-auto w-full max-w-[1248px] px-6 max-sm:px-4">
+      <section class="secao" id="kits" aria-labelledby="kits-titulo">
+        <div class="limite">
           <div
-            class="reveal relative mb-[18px] flex h-[330px] items-center overflow-hidden rounded-3xl bg-[#20302a] text-white after:absolute after:inset-0 after:bg-[linear-gradient(90deg,rgba(10,18,14,.88)_0%,rgba(10,18,14,.62)_36%,transparent_66%)] max-sm:h-[400px] max-sm:items-end max-sm:after:bg-[linear-gradient(180deg,transparent_22%,rgba(10,18,14,.7)_50%,rgba(10,18,14,.95)_78%)]"
+            class="revelar relative mb-[18px] flex h-[330px] items-center overflow-hidden rounded-3xl bg-[#20302a] text-white after:absolute after:inset-0 after:bg-[linear-gradient(90deg,rgba(10,18,14,.88)_0%,rgba(10,18,14,.62)_36%,transparent_66%)] max-celular:h-[400px] max-celular:items-end max-celular:after:bg-[linear-gradient(180deg,transparent_22%,rgba(10,18,14,.7)_50%,rgba(10,18,14,.95)_78%)]"
           >
             <img
-              class="absolute inset-0 size-full object-cover object-[50%_62%] max-sm:object-[70%_40%]"
-              src="assets/photos/tanqueray-sunset.webp"
+              class="absolute inset-0 size-full object-cover object-[50%_62%] max-celular:object-[70%_40%]"
+              src="assets/fotos/tanqueray-sunset.webp"
               alt="Garrafa de Tanqueray London Dry ao lado de duas taças de gin tônica, ao pôr do sol"
               loading="lazy"
               decoding="async"
             />
-            <div class="relative z-[1] max-w-[470px] px-11 max-sm:px-[22px] max-sm:pb-6">
+            <div class="relative z-[1] max-w-[470px] px-11 max-celular:px-[22px] max-celular:pb-6">
               <p class="mt-2.5 text-[15px] font-bold tracking-[.05em] text-white/82 uppercase">Kits e presentes</p>
               <h2
                 class="mt-2 text-[clamp(26px,3vw,38px)] leading-[1.05] font-extrabold tracking-[-.035em]"
-                id="kitsTitle"
+                id="kits-titulo"
               >
                 Cada garrafa do kit com o próprio lacre.
               </h2>
               <p class="mt-2.5 text-[15px] text-white/82">
                 Vai presentear? Quem recebe confere a originalidade de cada garrafa no celular.
               </p>
-              <button class="btn btn-light mt-[18px]" type="button" id="kitBannerBtn" data-open="kit-tanqueray-3">
+              <button
+                class="botao botao-claro mt-[18px]"
+                type="button"
+                id="kit-banner-botao"
+                data-abrir="kit-tanqueray-3"
+              >
                 Ver kit Tanqueray
               </button>
             </div>
           </div>
-          <div class="grid grid-cols-[repeat(auto-fill,minmax(340px,1fr))] gap-4 max-sm:grid-cols-1" id="kitGrid"></div>
+          <div
+            class="grid grid-cols-[repeat(auto-fill,minmax(340px,1fr))] gap-4 max-celular:grid-cols-1"
+            id="kits-grade"
+          ></div>
         </div>
       </section>
 
-      <section
-        class="bg-surface py-[clamp(30px,4vw,44px)] max-sm:py-[26px]"
-        id="catalogo"
-        aria-labelledby="catalogTitle"
-      >
-        <div class="mx-auto w-full max-w-[1248px] px-6 max-sm:px-4">
-          <div class="mb-[18px] flex flex-wrap items-end gap-x-7 gap-y-4 max-sm:gap-3">
+      <section class="secao bg-fundo" id="catalogo" aria-labelledby="catalogo-titulo">
+        <div class="limite">
+          <div class="secao-topo">
             <div class="mr-auto">
-              <h2
-                class="text-[clamp(22px,2.4vw,28px)] leading-[1.15] font-extrabold tracking-[-.03em]"
-                id="catalogTitle"
-              >
-                Todas as bebidas
-              </h2>
-              <p class="mt-1 text-[15px] text-fg-2">Escolha pela categoria ou pela marca. Todas lacradas.</p>
+              <h2 class="secao-titulo" id="catalogo-titulo">Todas as bebidas</h2>
+              <p class="mt-1 text-[15px] text-tinta-2">Escolha pela categoria ou pela marca. Todas lacradas.</p>
             </div>
           </div>
 
-          <div class="flex flex-wrap items-center justify-between gap-3.5 max-sm:flex-col max-sm:items-stretch">
+          <div
+            class="flex flex-wrap items-center justify-between gap-3.5 max-celular:flex-col max-celular:items-stretch"
+          >
             <div
-              class="scrollbar-none flex max-w-full gap-2 overflow-x-auto p-0.5"
-              id="catFilter"
+              class="sem-barra flex max-w-full gap-2 overflow-x-auto p-0.5"
+              id="filtro-categorias"
               role="group"
               aria-label="Filtrar por categoria"
             ></div>
-            <div class="flex flex-wrap items-center gap-2.5 max-sm:flex-nowrap">
+            <div class="flex flex-wrap items-center gap-2.5 max-celular:flex-nowrap">
               <label
-                class="flex h-10 min-w-0 items-center gap-2 rounded-full border border-line bg-white px-3.5 focus-within:border-accent focus-within:shadow-focus max-sm:flex-1"
+                class="flex h-10 min-w-0 items-center gap-2 rounded-full border border-linha bg-white px-3.5 focus-within:border-destaque focus-within:shadow-foco max-celular:flex-1"
               >
-                <i class="icon size-4 text-fg-2" style="--i: url(assets/icons/search.svg)" aria-hidden="true"></i>
+                <i
+                  class="icone size-4 text-tinta-2"
+                  style="--icone: url(assets/icones/busca.svg)"
+                  aria-hidden="true"
+                ></i>
                 <input
-                  class="w-[190px] min-w-0 bg-transparent px-0.5 py-px text-[14px] outline-none max-sm:w-full"
+                  class="w-[190px] min-w-0 bg-transparent px-0.5 py-px text-[14px] outline-none max-celular:w-full"
                   type="search"
-                  id="catalogSearch"
+                  id="busca-catalogo"
                   placeholder="Buscar marca ou bebida"
                   aria-label="Buscar no catálogo"
                 />
@@ -1887,15 +1902,15 @@
               <label>
                 <span class="sr-only">Ordenar</span>
                 <select
-                  class="h-10 appearance-none rounded-full border border-line bg-white bg-(image:--icon-chevron) bg-[length:14px] bg-[position:right_12px_center] bg-no-repeat pr-[34px] pl-3.5 text-[14px] outline-none focus:border-accent focus:shadow-focus"
-                  id="sortSelect"
+                  class="h-10 appearance-none rounded-full border border-linha bg-white bg-(image:--icone-seta) bg-[length:14px] bg-[position:right_12px_center] bg-no-repeat pr-[34px] pl-3.5 text-[14px] outline-none focus:border-destaque focus:shadow-foco"
+                  id="ordenar"
                   aria-label="Ordenar produtos"
                 >
-                  <option value="relevance">Relevância</option>
-                  <option value="price-asc">Menor preço</option>
-                  <option value="price-desc">Maior preço</option>
-                  <option value="discount">Maior desconto</option>
-                  <option value="name">Nome (A–Z)</option>
+                  <option value="relevancia">Relevância</option>
+                  <option value="menor-preco">Menor preço</option>
+                  <option value="maior-preco">Maior preço</option>
+                  <option value="desconto">Maior desconto</option>
+                  <option value="nome">Nome (A–Z)</option>
                 </select>
               </label>
             </div>
@@ -1903,71 +1918,69 @@
 
           <div
             class="mt-[22px] mb-1.5 flex flex-wrap items-baseline gap-x-5 gap-y-1"
-            id="brandRow"
+            id="marcas"
             aria-label="Filtrar por marca"
           ></div>
 
-          <p class="mt-4 mb-3.5 text-[14px] text-fg-2" id="resultCount" aria-live="polite"></p>
+          <p class="mt-4 mb-3.5 text-[14px] text-tinta-2" id="resultado-total" aria-live="polite"></p>
           <div
-            class="grid grid-cols-[repeat(auto-fill,minmax(206px,1fr))] gap-4 *:border-transparent max-sm:grid-cols-2 max-sm:gap-2.5"
-            id="productGrid"
+            class="grid grid-cols-[repeat(auto-fill,minmax(206px,1fr))] gap-4 *:border-transparent max-celular:grid-cols-2 max-celular:gap-2.5"
+            id="produtos-grade"
           ></div>
-          <div class="py-[60px] text-center text-fg-2" id="emptyState" hidden>
-            <p class="mb-1.5 text-[22px] font-bold text-fg">Nenhuma bebida encontrada.</p>
+          <div class="py-[60px] text-center text-tinta-2" id="vazio" hidden>
+            <p class="mb-1.5 text-[22px] font-bold text-tinta">Nenhuma bebida encontrada.</p>
             <p>
               Tente outra busca ou
-              <button class="text-accent hover:underline" type="button" id="clearFilters">limpe os filtros</button>.
+              <button class="text-destaque hover:underline" type="button" id="limpar-filtros">limpe os filtros</button>.
             </p>
           </div>
         </div>
       </section>
 
-      <section class="py-[clamp(30px,4vw,44px)] max-sm:py-[26px]" id="verificar" aria-labelledby="verifyTitle">
-        <div
-          class="mx-auto grid w-full max-w-[1248px] grid-cols-2 items-center gap-14 px-6 max-md:grid-cols-1 max-sm:px-4"
-        >
+      <section class="secao" id="verificar" aria-labelledby="verificar-titulo">
+        <div class="limite grid grid-cols-2 items-center gap-14 max-tablet:grid-cols-1">
           <div>
-            <p class="reveal mb-3 inline-flex items-center gap-2 text-[14px] font-bold tracking-[.01em] text-accent">
+            <p class="revelar mb-3 inline-flex items-center gap-2 text-[14px] font-bold tracking-[.01em] text-destaque">
               Verificar garrafa
             </p>
             <h2
-              class="reveal mb-3.5 text-[clamp(28px,3.6vw,38px)] leading-[1.1] font-extrabold tracking-[-.03em]"
-              id="verifyTitle"
+              class="revelar mb-3.5 text-[clamp(28px,3.6vw,38px)] leading-[1.1] font-extrabold tracking-[-.03em]"
+              id="verificar-titulo"
             >
               Recebeu? Confira se é original.
             </h2>
-            <form class="reveal mt-7 flex flex-wrap gap-2.5" id="verifyForm" novalidate>
-              <label for="verifyInput" class="sr-only">Código do lacre</label>
+            <form class="revelar mt-7 flex flex-wrap gap-2.5" id="verificar-form" novalidate>
+              <label for="verificar-campo" class="sr-only">Código do lacre</label>
               <input
-                class="h-[54px] min-w-0 flex-[1_1_240px] rounded-xl border border-line bg-white px-[18px] font-mono text-[21px] tracking-[.06em] uppercase outline-none transition-[border-color,box-shadow] duration-200 placeholder:text-[#c7c7cc] focus:border-accent focus:shadow-focus [&.invalid]:border-bad"
-                id="verifyInput"
+                class="h-[54px] min-w-0 flex-[1_1_240px] rounded-xl border border-linha bg-white px-[18px] font-mono text-[21px] tracking-[.06em] uppercase outline-none transition-[border-color,box-shadow] duration-200 placeholder:text-[#c7c7cc] focus:border-destaque focus:shadow-foco [&.invalido]:border-erro"
+                id="verificar-campo"
                 placeholder="VS-XXXX-XXXX"
                 maxlength="12"
                 autocomplete="off"
                 spellcheck="false"
                 autocapitalize="characters"
               />
-              <button class="btn btn-primary h-[54px] px-7" type="submit">Verificar</button>
+              <button class="botao botao-primario h-[54px] px-7" type="submit">Verificar</button>
             </form>
-            <p class="mt-2 text-[14px] text-bad" id="verifyError" role="alert" hidden></p>
-            <button class="btn btn-ghost reveal mt-3 w-full" id="nfcBtn" type="button">
-              <i class="icon" style="--i: url(assets/icons/contactless.svg)" aria-hidden="true"></i>
+            <p class="mt-2 text-[14px] text-erro" id="verificar-erro" role="alert" hidden></p>
+            <button class="botao botao-contorno revelar mt-3 w-full" id="botao-nfc" type="button">
+              <i class="icone" style="--icone: url(assets/icones/aproximacao.svg)" aria-hidden="true"></i>
               Simular aproximação (NFC)
             </button>
-            <div class="reveal mt-7">
-              <p class="mb-2 text-[13px] text-fg-2">Códigos de exemplo:</p>
-              <div class="flex flex-wrap gap-2" id="sampleCodes"></div>
+            <div class="revelar mt-7">
+              <p class="mb-2 text-[13px] text-tinta-2">Códigos de exemplo:</p>
+              <div class="flex flex-wrap gap-2" id="codigos-exemplo"></div>
             </div>
           </div>
           <div
-            class="relative flex min-h-[500px] items-center justify-center overflow-hidden rounded-3xl bg-[radial-gradient(ellipse_at_85%_0%,#0b4a9a_0%,var(--color-navy)_40%,var(--color-navy-ink)_100%)] p-[34px] text-[#f5f7fb] shadow-[0_30px_60px_-30px_rgba(4,37,85,.55)] data-[state=bad]:bg-[radial-gradient(ellipse_70%_42%_at_50%_0%,rgba(255,91,79,.22),transparent_72%),radial-gradient(ellipse_at_85%_0%,#0b4a9a_0%,var(--color-navy)_40%,var(--color-navy-ink)_100%)] data-[state=ok]:bg-[radial-gradient(ellipse_70%_42%_at_50%_0%,rgba(48,209,88,.24),transparent_72%),radial-gradient(ellipse_at_85%_0%,#0b4a9a_0%,var(--color-navy)_40%,var(--color-navy-ink)_100%)] data-[state=warn]:bg-[radial-gradient(ellipse_70%_42%_at_50%_0%,rgba(250,178,25,.22),transparent_72%),radial-gradient(ellipse_at_85%_0%,#0b4a9a_0%,var(--color-navy)_40%,var(--color-navy-ink)_100%)] max-sm:min-h-[420px] max-sm:p-5"
-            id="verifyResult"
+            class="relative flex min-h-[500px] items-center justify-center overflow-hidden rounded-3xl bg-[radial-gradient(ellipse_at_85%_0%,#0b4a9a_0%,var(--color-marinho)_40%,var(--color-noite)_100%)] p-[34px] text-[#f5f7fb] shadow-[0_30px_60px_-30px_rgba(4,37,85,.55)] data-[estado=erro]:bg-[radial-gradient(ellipse_70%_42%_at_50%_0%,rgba(255,91,79,.22),transparent_72%),radial-gradient(ellipse_at_85%_0%,#0b4a9a_0%,var(--color-marinho)_40%,var(--color-noite)_100%)] data-[estado=ok]:bg-[radial-gradient(ellipse_70%_42%_at_50%_0%,rgba(48,209,88,.24),transparent_72%),radial-gradient(ellipse_at_85%_0%,#0b4a9a_0%,var(--color-marinho)_40%,var(--color-noite)_100%)] data-[estado=alerta]:bg-[radial-gradient(ellipse_70%_42%_at_50%_0%,rgba(250,178,25,.22),transparent_72%),radial-gradient(ellipse_at_85%_0%,#0b4a9a_0%,var(--color-marinho)_40%,var(--color-noite)_100%)] max-celular:min-h-[420px] max-celular:p-5"
+            id="verificar-resultado"
             aria-live="polite"
           >
             <div class="text-center text-[15px] text-[#94a0b8]">
               <img
-                class="mx-auto mb-4 block aspect-mark h-auto w-20 opacity-35"
-                src="assets/brand/vs-mark-white.svg"
+                class="mx-auto mb-4 block aspect-simbolo h-auto w-20 opacity-35"
+                src="assets/marca/vs-simbolo-branco.svg"
                 alt=""
               />
               <p>O resultado da verificação aparece aqui.</p>
@@ -1976,109 +1989,71 @@
         </div>
       </section>
 
-      <section class="py-[clamp(30px,4vw,44px)] max-sm:py-[26px]" id="ajuda" aria-labelledby="faqTitle">
-        <div class="mx-auto w-full max-w-[868px] px-6 max-sm:px-4">
-          <h2 class="text-[clamp(22px,2.4vw,28px)] leading-[1.15] font-extrabold tracking-[-.03em]" id="faqTitle">
-            Perguntas frequentes
-          </h2>
-          <div class="mt-3" id="faq">
-            <details class="group border-b border-line">
-              <summary
-                class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-[clamp(16px,1.8vw,19px)] font-bold tracking-[-.015em] after:size-[22px] after:shrink-0 after:bg-(image:--icon-plus) after:bg-contain after:bg-center after:bg-no-repeat after:[transition:transform_.3s_var(--ease-smooth)] group-open:after:[transform:rotate(45deg)] [&::-webkit-details-marker]:hidden"
-              >
-                Vocês vendem alguma garrafa sem lacre?
-              </summary>
-              <p class="animate-[fade_.4s_ease] pr-10 pb-[22px] text-[16px] text-fg-2">
+      <section class="secao" id="ajuda" aria-labelledby="faq-titulo">
+        <div class="mx-auto w-full max-w-[868px] px-6 max-celular:px-4">
+          <h2 class="secao-titulo" id="faq-titulo">Perguntas frequentes</h2>
+          <div class="mt-3">
+            <details class="group border-b border-linha">
+              <summary class="faq-pergunta">Vocês vendem alguma garrafa sem lacre?</summary>
+              <p class="faq-resposta">
                 Não. Todas as bebidas vendidas aqui saem com o lacre VeriSeal, conferido no nosso centro antes do envio.
                 Garrafa sem lacre não entra no estoque.
               </p>
             </details>
-            <details class="group border-b border-line">
-              <summary
-                class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-[clamp(16px,1.8vw,19px)] font-bold tracking-[-.015em] after:size-[22px] after:shrink-0 after:bg-(image:--icon-plus) after:bg-contain after:bg-center after:bg-no-repeat after:[transition:transform_.3s_var(--ease-smooth)] group-open:after:[transform:rotate(45deg)] [&::-webkit-details-marker]:hidden"
-              >
-                Qual é o prazo e o valor da entrega?
-              </summary>
-              <p class="animate-[fade_.4s_ease] pr-10 pb-[22px] text-[16px] text-fg-2">
+            <details class="group border-b border-linha">
+              <summary class="faq-pergunta">Qual é o prazo e o valor da entrega?</summary>
+              <p class="faq-resposta">
                 Nas regiões atendidas, a entrega expressa leva de 30 a 60 minutos. O frete custa R$ 9,90 e é grátis em
                 pedidos a partir de R$ 199.
               </p>
             </details>
-            <details class="group border-b border-line">
-              <summary
-                class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-[clamp(16px,1.8vw,19px)] font-bold tracking-[-.015em] after:size-[22px] after:shrink-0 after:bg-(image:--icon-plus) after:bg-contain after:bg-center after:bg-no-repeat after:[transition:transform_.3s_var(--ease-smooth)] group-open:after:[transform:rotate(45deg)] [&::-webkit-details-marker]:hidden"
-              >
-                Como sei se vocês entregam no meu endereço?
-              </summary>
-              <p class="animate-[fade_.4s_ease] pr-10 pb-[22px] text-[16px] text-fg-2">
+            <details class="group border-b border-linha">
+              <summary class="faq-pergunta">Como sei se vocês entregam no meu endereço?</summary>
+              <p class="faq-resposta">
                 Informe seu CEP no topo da página ou na sacola. Mostramos na hora o bairro atendido e o prazo estimado.
               </p>
             </details>
-            <details class="group border-b border-line">
-              <summary
-                class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-[clamp(16px,1.8vw,19px)] font-bold tracking-[-.015em] after:size-[22px] after:shrink-0 after:bg-(image:--icon-plus) after:bg-contain after:bg-center after:bg-no-repeat after:[transition:transform_.3s_var(--ease-smooth)] group-open:after:[transform:rotate(45deg)] [&::-webkit-details-marker]:hidden"
-              >
-                Quais formas de pagamento são aceitas?
-              </summary>
-              <p class="animate-[fade_.4s_ease] pr-10 pb-[22px] text-[16px] text-fg-2">
+            <details class="group border-b border-linha">
+              <summary class="faq-pergunta">Quais formas de pagamento são aceitas?</summary>
+              <p class="faq-resposta">
                 Pix com 5% de desconto, cartão de crédito em até 6x sem juros e pagamento na entrega (cartão ou
                 dinheiro).
               </p>
             </details>
-            <details class="group border-b border-line">
-              <summary
-                class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-[clamp(16px,1.8vw,19px)] font-bold tracking-[-.015em] after:size-[22px] after:shrink-0 after:bg-(image:--icon-plus) after:bg-contain after:bg-center after:bg-no-repeat after:[transition:transform_.3s_var(--ease-smooth)] group-open:after:[transform:rotate(45deg)] [&::-webkit-details-marker]:hidden"
-              >
-                O que é o lacre VeriSeal?
-              </summary>
-              <p class="animate-[fade_.4s_ease] pr-10 pb-[22px] text-[16px] text-fg-2">
+            <details class="group border-b border-linha">
+              <summary class="faq-pergunta">O que é o lacre VeriSeal?</summary>
+              <p class="faq-resposta">
                 É um lacre inteligente com chip NFC que cruza a junção entre a tampa e o gargalo. Ele dá a cada garrafa
                 uma identidade digital única e se rompe quando a tampa é aberta.
               </p>
             </details>
-            <details class="group border-b border-line">
-              <summary
-                class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-[clamp(16px,1.8vw,19px)] font-bold tracking-[-.015em] after:size-[22px] after:shrink-0 after:bg-(image:--icon-plus) after:bg-contain after:bg-center after:bg-no-repeat after:[transition:transform_.3s_var(--ease-smooth)] group-open:after:[transform:rotate(45deg)] [&::-webkit-details-marker]:hidden"
-              >
-                Por que isso importa?
-              </summary>
-              <p class="animate-[fade_.4s_ease] pr-10 pb-[22px] text-[16px] text-fg-2">
+            <details class="group border-b border-linha">
+              <summary class="faq-pergunta">Por que isso importa?</summary>
+              <p class="faq-resposta">
                 Destilados são alvo de falsificação e de garrafas originais reaproveitadas com bebida adulterada — que
                 pode conter metanol, uma substância tóxica. Com o lacre, você confirma a origem e a integridade da
                 garrafa antes do primeiro gole.
               </p>
             </details>
-            <details class="group border-b border-line">
-              <summary
-                class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-[clamp(16px,1.8vw,19px)] font-bold tracking-[-.015em] after:size-[22px] after:shrink-0 after:bg-(image:--icon-plus) after:bg-contain after:bg-center after:bg-no-repeat after:[transition:transform_.3s_var(--ease-smooth)] group-open:after:[transform:rotate(45deg)] [&::-webkit-details-marker]:hidden"
-              >
-                Como verifico a garrafa que recebi?
-              </summary>
-              <p class="animate-[fade_.4s_ease] pr-10 pb-[22px] text-[16px] text-fg-2">
+            <details class="group border-b border-linha">
+              <summary class="faq-pergunta">Como verifico a garrafa que recebi?</summary>
+              <p class="faq-resposta">
                 Encoste um celular com NFC no lacre do gargalo: a página de verificação da VeriSeal abre direto no
                 navegador, sem instalar nada, e já mostra se a bebida é original e se o lacre está íntegro. Se preferir,
                 digite o código impresso no lacre em
                 <a href="#verificar">Verificar garrafa</a>.
               </p>
             </details>
-            <details class="group border-b border-line">
-              <summary
-                class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-[clamp(16px,1.8vw,19px)] font-bold tracking-[-.015em] after:size-[22px] after:shrink-0 after:bg-(image:--icon-plus) after:bg-contain after:bg-center after:bg-no-repeat after:[transition:transform_.3s_var(--ease-smooth)] group-open:after:[transform:rotate(45deg)] [&::-webkit-details-marker]:hidden"
-              >
-                E se o lacre chegar violado?
-              </summary>
-              <p class="animate-[fade_.4s_ease] pr-10 pb-[22px] text-[16px] text-fg-2">
+            <details class="group border-b border-linha">
+              <summary class="faq-pergunta">E se o lacre chegar violado?</summary>
+              <p class="faq-resposta">
                 Não aceite a garrafa. Recuse a entrega na hora e o valor é devolvido integralmente, sem custo e sem
                 burocracia.
               </p>
             </details>
-            <details class="group border-b border-line">
-              <summary
-                class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-[clamp(16px,1.8vw,19px)] font-bold tracking-[-.015em] after:size-[22px] after:shrink-0 after:bg-(image:--icon-plus) after:bg-contain after:bg-center after:bg-no-repeat after:[transition:transform_.3s_var(--ease-smooth)] group-open:after:[transform:rotate(45deg)] [&::-webkit-details-marker]:hidden"
-              >
-                Vocês vendem para menores de 18 anos?
-              </summary>
-              <p class="animate-[fade_.4s_ease] pr-10 pb-[22px] text-[16px] text-fg-2">
+            <details class="group border-b border-linha">
+              <summary class="faq-pergunta">Vocês vendem para menores de 18 anos?</summary>
+              <p class="faq-resposta">
                 Não. A venda de bebidas alcoólicas é proibida para menores de 18 anos. Um documento com foto pode ser
                 solicitado na entrega.
               </p>
@@ -2089,41 +2064,41 @@
     </main>
 
     <footer
-      class="mt-6 bg-surface pt-5 pb-[calc(28px_+_env(safe-area-inset-bottom,0px))] text-[13px] leading-[1.4] text-fg-2 max-md:[.has-bagbar_&]:pb-[calc(96px_+_env(safe-area-inset-bottom,0px))]"
+      class="mt-6 bg-fundo pt-5 pb-[calc(28px_+_env(safe-area-inset-bottom,0px))] text-[13px] leading-[1.4] text-tinta-2 max-tablet:[.com-barra_&]:pb-[calc(96px_+_env(safe-area-inset-bottom,0px))]"
     >
-      <div class="mx-auto w-full max-w-[1248px] px-6 max-sm:px-4">
-        <p class="border-b border-line py-4 font-semibold text-fg">
+      <div class="limite">
+        <p class="border-b border-linha py-4 font-semibold text-tinta">
           Venda proibida para menores de 18 anos. Se beber, não dirija. Aprecie com moderação.
         </p>
-        <div class="grid grid-cols-[repeat(3,1fr)_1.4fr] gap-6 py-6 max-md:grid-cols-3 max-sm:grid-cols-2">
+        <div class="grid grid-cols-[repeat(3,1fr)_1.4fr] gap-6 py-6 max-tablet:grid-cols-3 max-celular:grid-cols-2">
           <div>
-            <h4 class="mb-2.5 text-[13px] font-bold text-fg">Loja</h4>
+            <h4 class="mb-2.5 text-[13px] font-bold text-tinta">Loja</h4>
             <ul>
-              <li class="mb-2"><a class="text-[#424245]" href="#catalogo" data-cat="whisky">Whisky</a></li>
-              <li class="mb-2"><a class="text-[#424245]" href="#catalogo" data-cat="vodka">Vodka</a></li>
-              <li class="mb-2"><a class="text-[#424245]" href="#catalogo" data-cat="gin">Gin</a></li>
-              <li class="mb-2"><a class="text-[#424245]" href="#catalogo" data-cat="cachaca">Cachaça</a></li>
+              <li class="mb-2"><a class="text-[#424245]" href="#catalogo" data-categoria="whisky">Whisky</a></li>
+              <li class="mb-2"><a class="text-[#424245]" href="#catalogo" data-categoria="vodka">Vodka</a></li>
+              <li class="mb-2"><a class="text-[#424245]" href="#catalogo" data-categoria="gin">Gin</a></li>
+              <li class="mb-2"><a class="text-[#424245]" href="#catalogo" data-categoria="cachaca">Cachaça</a></li>
               <li class="mb-2"><a class="text-[#424245]" href="#kits">Kits e presentes</a></li>
             </ul>
           </div>
           <div>
-            <h4 class="mb-2.5 text-[13px] font-bold text-fg">Seu pedido</h4>
+            <h4 class="mb-2.5 text-[13px] font-bold text-tinta">Seu pedido</h4>
             <ul>
               <li class="mb-2"><a class="text-[#424245]" href="#ofertas">Ofertas da semana</a></li>
               <li class="mb-2">
-                <button class="text-left text-[13px] text-[#424245] hover:underline" type="button" data-open-address>
+                <button class="text-left text-[13px] text-[#424245] hover:underline" type="button" data-abrir-endereco>
                   Área de entrega
                 </button>
               </li>
               <li class="mb-2">
-                <button class="text-left text-[13px] text-[#424245] hover:underline" type="button" data-open-bag>
+                <button class="text-left text-[13px] text-[#424245] hover:underline" type="button" data-abrir-sacola>
                   Minha sacola
                 </button>
               </li>
             </ul>
           </div>
           <div>
-            <h4 class="mb-2.5 text-[13px] font-bold text-fg">Lacre VeriSeal</h4>
+            <h4 class="mb-2.5 text-[13px] font-bold text-tinta">Lacre VeriSeal</h4>
             <ul>
               <li class="mb-2"><a class="text-[#424245]" href="#como-funciona">Como funciona</a></li>
               <li class="mb-2"><a class="text-[#424245]" href="#verificar">Verificar garrafa</a></li>
@@ -2131,16 +2106,16 @@
               <li class="mb-2"><a class="text-[#424245]" href="#ajuda">Perguntas frequentes</a></li>
             </ul>
           </div>
-          <div class="max-md:col-span-full">
+          <div class="max-tablet:col-span-full">
             <img
-              class="mb-2.5 block aspect-wordmark h-[19px] w-auto"
-              src="assets/brand/vs-wordmark.svg"
+              class="mb-2.5 block aspect-logotipo h-[19px] w-auto"
+              src="assets/marca/vs-logotipo.svg"
               alt="VeriSeal"
             />
             <p>Bebidas originais, lacradas e verificadas, entregues na sua porta.</p>
           </div>
         </div>
-        <div class="flex flex-wrap justify-between gap-3 border-t border-line pt-4 text-[12px]">
+        <div class="flex flex-wrap justify-between gap-3 border-t border-linha pt-4 text-[12px]">
           <p>© 2026 VeriSeal Delivery. Todos os direitos reservados.</p>
           <p>
             As marcas e imagens de produtos pertencem aos seus respectivos proprietários. Preços e estoque ilustrativos.
@@ -2150,213 +2125,174 @@
     </footer>
 
     <div
-      class="hidden max-md:fixed max-md:right-3 max-md:bottom-[calc(12px_+_env(safe-area-inset-bottom,0px))] max-md:left-3 max-md:z-[800] max-md:block max-md:animate-[toastIn_.4s_var(--ease-smooth)] [.menu-open_&]:hidden!"
-      id="bagBar"
+      class="hidden max-tablet:fixed max-tablet:right-3 max-tablet:bottom-[calc(12px_+_env(safe-area-inset-bottom,0px))] max-tablet:left-3 max-tablet:z-[800] max-tablet:block max-tablet:animate-[aviso-entrar_.4s_var(--ease-suave)] [.menu-aberto_&]:hidden!"
+      id="barra-sacola"
       hidden
     >
       <button
-        class="flex min-h-[58px] w-full items-center gap-3 rounded-[18px] bg-navy pr-[18px] pl-2.5 text-[16px] font-bold text-white shadow-[0_14px_34px_rgba(4,37,85,.45)]"
+        class="flex min-h-[58px] w-full items-center gap-3 rounded-[18px] bg-marinho pr-[18px] pl-2.5 text-[16px] font-bold text-white shadow-[0_14px_34px_rgba(4,37,85,.45)]"
         type="button"
-        data-open-bag
+        data-abrir-sacola
       >
         <span
-          class="grid h-[38px] min-w-[38px] place-items-center rounded-xl bg-cyan px-2 text-[15px] font-extrabold text-navy-ink"
-          id="bagBarCount"
+          class="grid h-[38px] min-w-[38px] place-items-center rounded-xl bg-ciano px-2 text-[15px] font-extrabold text-noite"
+          id="barra-sacola-quantidade"
         >
           0
         </span>
         <span class="flex-1 text-left">Ver sacola</span>
-        <span class="tabular-nums" id="bagBarTotal">R$ 0,00</span>
+        <span class="tabular-nums" id="barra-sacola-total">R$ 0,00</span>
       </button>
     </div>
 
     <div
-      class="fixed inset-0 z-[1000] grid animate-[fade_.35s_ease] place-items-center bg-navy-ink/55 p-5 backdrop-blur-[22px] backdrop-saturate-160 [&.is-leaving]:animate-[fadeOut_.3s_ease_forwards]"
-      id="ageGate"
+      class="fixed inset-0 z-[1000] grid animate-[aparecer_.35s_ease] place-items-center bg-noite/55 p-5 backdrop-blur-[22px] backdrop-saturate-160 [&.saindo]:animate-[sumir_.3s_ease_forwards]"
+      id="idade"
       role="dialog"
       aria-modal="true"
-      aria-labelledby="ageTitle"
+      aria-labelledby="idade-titulo"
       hidden
     >
       <div
-        class="w-full max-w-[460px] animate-[pop_.45s_var(--ease-smooth)] rounded-3xl bg-white p-[clamp(28px,6vw,44px)] text-center shadow-[0_30px_80px_rgba(0,0,0,.3)]"
+        class="w-full max-w-[460px] animate-[surgir_.45s_var(--ease-suave)] rounded-3xl bg-white p-[clamp(28px,6vw,44px)] text-center shadow-[0_30px_80px_rgba(0,0,0,.3)]"
       >
         <img
-          class="mx-auto mb-[26px] block aspect-wordmark h-[26px] w-auto"
-          src="assets/brand/vs-wordmark.svg"
+          class="mx-auto mb-[26px] block aspect-logotipo h-[26px] w-auto"
+          src="assets/marca/vs-logotipo.svg"
           alt="VeriSeal"
         />
-        <div id="ageAsk">
-          <h2 class="text-[26px] leading-[1.15] font-extrabold tracking-[-.03em]" id="ageTitle">
+        <div id="idade-pergunta">
+          <h2 class="text-[26px] leading-[1.15] font-extrabold tracking-[-.03em]" id="idade-titulo">
             Boas-vindas à VeriSeal Delivery.
           </h2>
-          <p class="mt-2.5 text-fg-2">Para continuar, confirme que você tem 18 anos ou mais.</p>
+          <p class="mt-2.5 text-tinta-2">Para continuar, confirme que você tem 18 anos ou mais.</p>
           <div class="mt-[26px] flex flex-col gap-2.5">
-            <button class="btn btn-primary" type="button" id="ageYes">Tenho 18 anos ou mais</button>
-            <button class="btn btn-ghost" type="button" id="ageNo">Tenho menos de 18</button>
+            <button class="botao botao-primario" type="button" id="idade-sim">Tenho 18 anos ou mais</button>
+            <button class="botao botao-contorno" type="button" id="idade-nao">Tenho menos de 18</button>
           </div>
         </div>
-        <div id="ageDenied" hidden>
+        <div id="idade-negada" hidden>
           <h2 class="text-[26px] leading-[1.15] font-extrabold tracking-[-.03em]">Volte quando completar 18 anos.</h2>
-          <p class="mt-2.5 text-fg-2">A venda de bebidas alcoólicas é proibida para menores de idade.</p>
+          <p class="mt-2.5 text-tinta-2">A venda de bebidas alcoólicas é proibida para menores de idade.</p>
         </div>
-        <p class="mt-[22px] text-[12px] text-fg-3">Se beber, não dirija. Aprecie com moderação.</p>
+        <p class="mt-[22px] text-[12px] text-tinta-3">Se beber, não dirija. Aprecie com moderação.</p>
       </div>
     </div>
 
     <div
-      class="fixed inset-0 z-[900] grid place-items-center p-6 max-sm:items-end max-sm:p-0"
-      id="addressSheet"
+      class="janela"
+      id="janela-endereco"
       role="dialog"
       aria-modal="true"
-      aria-labelledby="addrTitle"
-      data-layer
+      aria-labelledby="endereco-titulo"
+      data-camada
       hidden
     >
-      <div
-        class="absolute inset-0 animate-[fade_.3s_ease] bg-navy-ink/42 backdrop-blur-[4px] [.is-closing_&]:animate-[fadeOut_.22s_ease_forwards]"
-        data-close
-      ></div>
-      <div
-        class="relative max-h-[calc(100vh_-_48px)] w-full max-w-[460px] animate-[pop_.4s_var(--ease-smooth)] overflow-y-auto overscroll-contain rounded-3xl bg-white px-8 pt-10 pb-8 shadow-[0_40px_100px_rgba(0,0,0,.3)] [.is-closing_&]:animate-[popOut_.22s_ease_forwards] max-sm:max-h-[94vh] max-sm:animate-[sheetUp_.45s_var(--ease-smooth)] max-sm:rounded-t-[22px] max-sm:rounded-b-none max-sm:[.is-closing_&]:animate-[sheetDown_.22s_ease_forwards]"
-      >
-        <button
-          class="absolute top-4 right-4 z-[3] grid size-9 place-items-center rounded-full bg-surface-2 text-fg-2 hover:bg-[#dcdfe6] hover:text-fg"
-          type="button"
-          data-close
-          aria-label="Fechar"
-        >
-          <i class="icon size-4" style="--i: url(assets/icons/close.svg)" aria-hidden="true"></i>
+      <div class="janela-fundo" data-fechar></div>
+      <div class="janela-painel max-w-[460px] px-8 pt-10 pb-8">
+        <button class="botao-fechar absolute top-4 right-4" type="button" data-fechar aria-label="Fechar">
+          <i class="icone size-4" style="--icone: url(assets/icones/fechar.svg)" aria-hidden="true"></i>
         </button>
-        <h2 class="pr-10 text-[26px] font-extrabold tracking-[-.03em]" id="addrTitle">Onde vamos entregar?</h2>
-        <p class="mt-1.5 text-[15px] text-fg-2">Informe o CEP para ver o prazo e o valor do frete.</p>
-        <form class="mt-5 flex gap-2" id="addrForm" novalidate>
-          <label class="sr-only" for="addrCep">CEP</label>
+        <h2 class="pr-10 text-[26px] font-extrabold tracking-[-.03em]" id="endereco-titulo">Onde vamos entregar?</h2>
+        <p class="mt-1.5 text-[15px] text-tinta-2">Informe o CEP para ver o prazo e o valor do frete.</p>
+        <form class="mt-5 flex gap-2" id="endereco-form" novalidate>
+          <label class="sr-only" for="endereco-cep">CEP</label>
           <input
-            class="h-12 min-w-0 flex-1 rounded-xl border border-line bg-white px-4 text-[18px] tracking-[.02em] outline-none focus:border-accent focus:shadow-focus [&.invalid]:border-bad"
-            id="addrCep"
+            class="h-12 min-w-0 flex-1 rounded-xl border border-linha bg-white px-4 text-[18px] tracking-[.02em] outline-none focus:border-destaque focus:shadow-foco [&.invalido]:border-erro"
+            id="endereco-cep"
             inputmode="numeric"
             placeholder="00000-000"
             maxlength="9"
             autocomplete="postal-code"
           />
-          <button class="btn btn-primary h-12" type="submit">Confirmar</button>
+          <button class="botao botao-primario h-12" type="submit">Confirmar</button>
         </form>
         <p
-          class="mt-3 min-h-4 text-[14px] text-fg-2 data-[state=err]:text-bad data-[state=ok]:text-ok"
-          id="addrInfo"
+          class="mt-3 min-h-4 text-[14px] text-tinta-2 data-[estado=erro]:text-erro data-[estado=ok]:text-ok"
+          id="endereco-info"
           aria-live="polite"
         ></p>
       </div>
     </div>
 
     <div
-      class="fixed inset-0 z-[900] grid place-items-center p-6 max-sm:items-end max-sm:p-0"
-      id="productSheet"
+      class="janela"
+      id="janela-produto"
       role="dialog"
       aria-modal="true"
-      aria-labelledby="ppTitle"
-      data-layer
+      aria-labelledby="produto-titulo"
+      data-camada
       hidden
     >
-      <div
-        class="absolute inset-0 animate-[fade_.3s_ease] bg-navy-ink/42 backdrop-blur-[4px] [.is-closing_&]:animate-[fadeOut_.22s_ease_forwards]"
-        data-close
-      ></div>
-      <div
-        class="relative grid max-h-[calc(100vh_-_48px)] w-full max-w-[1000px] animate-[pop_.4s_var(--ease-smooth)] grid-cols-2 overflow-y-auto overscroll-contain rounded-3xl bg-white shadow-[0_40px_100px_rgba(0,0,0,.3)] [.is-closing_&]:animate-[popOut_.22s_ease_forwards] max-md:grid-cols-1 max-sm:max-h-[94vh] max-sm:animate-[sheetUp_.45s_var(--ease-smooth)] max-sm:rounded-t-[22px] max-sm:rounded-b-none max-sm:[.is-closing_&]:animate-[sheetDown_.22s_ease_forwards]"
-        id="productPanel"
-      >
-        <button
-          class="absolute top-4 right-4 z-[3] grid size-9 place-items-center rounded-full bg-surface-2 text-fg-2 hover:bg-[#dcdfe6] hover:text-fg"
-          type="button"
-          data-close
-          aria-label="Fechar"
-        >
-          <i class="icon size-4" style="--i: url(assets/icons/close.svg)" aria-hidden="true"></i>
+      <div class="janela-fundo" data-fechar></div>
+      <div class="janela-painel grid max-w-[1000px] grid-cols-2 max-tablet:grid-cols-1" id="produto-painel">
+        <button class="botao-fechar absolute top-4 right-4" type="button" data-fechar aria-label="Fechar">
+          <i class="icone size-4" style="--icone: url(assets/icones/fechar.svg)" aria-hidden="true"></i>
         </button>
         <div
-          class="relative flex min-h-[580px] flex-col items-center justify-center gap-4 bg-[radial-gradient(ellipse_50%_40%_at_50%_30%,rgba(3,175,251,.16),transparent_70%),radial-gradient(ellipse_40%_6%_at_50%_82%,rgba(4,37,85,.18),transparent_72%),linear-gradient(180deg,#f6f8fb,#e7ecf3)] px-6 pt-11 pb-[26px] max-md:min-h-0 max-md:pt-10 max-md:pb-[22px]"
-          id="ppMedia"
+          class="relative flex min-h-[580px] flex-col items-center justify-center gap-4 bg-[radial-gradient(ellipse_50%_40%_at_50%_30%,rgba(3,175,251,.16),transparent_70%),radial-gradient(ellipse_40%_6%_at_50%_82%,rgba(4,37,85,.18),transparent_72%),linear-gradient(180deg,#f6f8fb,#e7ecf3)] px-6 pt-11 pb-[26px] max-tablet:min-h-0 max-tablet:pt-10 max-tablet:pb-[22px]"
+          id="produto-midia"
         ></div>
-        <div class="flex flex-col px-10 pt-12 pb-9 max-md:px-6 max-md:pt-[26px] max-md:pb-[30px]" id="ppInfo"></div>
+        <div
+          class="flex flex-col px-10 pt-12 pb-9 max-tablet:px-6 max-tablet:pt-[26px] max-tablet:pb-[30px]"
+          id="produto-info"
+        ></div>
       </div>
     </div>
 
     <div
       class="fixed inset-0 z-[900]"
-      id="bagDrawer"
+      id="gaveta-sacola"
       role="dialog"
       aria-modal="true"
-      aria-labelledby="bagTitle"
-      data-layer
+      aria-labelledby="sacola-titulo"
+      data-camada
       hidden
     >
-      <div
-        class="absolute inset-0 animate-[fade_.3s_ease] bg-navy-ink/42 backdrop-blur-[4px] [.is-closing_&]:animate-[fadeOut_.22s_ease_forwards]"
-        data-close
-      ></div>
+      <div class="janela-fundo" data-fechar></div>
       <aside
-        class="absolute top-0 right-0 bottom-0 flex w-[min(440px,100%)] animate-[slideIn_.4s_var(--ease-smooth)] flex-col bg-white pt-[env(safe-area-inset-top,0px)] shadow-[-20px_0_60px_rgba(0,0,0,.18)] [.is-closing_&]:animate-[slideOut_.22s_ease_forwards]"
+        class="absolute top-0 right-0 bottom-0 flex w-[min(440px,100%)] animate-[gaveta-entrar_.4s_var(--ease-suave)] flex-col bg-white pt-[env(safe-area-inset-top,0px)] shadow-[-20px_0_60px_rgba(0,0,0,.18)] [.fechando_&]:animate-[gaveta-sair_.22s_ease_forwards]"
       >
         <div class="flex items-center justify-between px-6 pt-[22px] pb-3">
-          <h2 class="text-[26px] font-extrabold tracking-[-.03em]" id="bagTitle">Sua sacola</h2>
-          <button
-            class="z-[3] grid size-9 place-items-center rounded-full bg-surface-2 text-fg-2 hover:bg-[#dcdfe6] hover:text-fg"
-            type="button"
-            data-close
-            aria-label="Fechar sacola"
-          >
-            <i class="icon size-4" style="--i: url(assets/icons/close.svg)" aria-hidden="true"></i>
+          <h2 class="text-[26px] font-extrabold tracking-[-.03em]" id="sacola-titulo">Sua sacola</h2>
+          <button class="botao-fechar" type="button" data-fechar aria-label="Fechar sacola">
+            <i class="icone size-4" style="--icone: url(assets/icones/fechar.svg)" aria-hidden="true"></i>
           </button>
         </div>
-        <div class="flex-1 overflow-y-auto overscroll-contain px-6" id="bagBody"></div>
+        <div class="flex-1 overflow-y-auto overscroll-contain px-6" id="sacola-corpo"></div>
         <div
-          class="border-t border-surface-2 px-6 pt-3.5 pb-[calc(18px_+_env(safe-area-inset-bottom,0px))]"
-          id="bagFoot"
+          class="border-t border-fundo-2 px-6 pt-3.5 pb-[calc(18px_+_env(safe-area-inset-bottom,0px))]"
+          id="sacola-rodape"
         ></div>
       </aside>
     </div>
 
     <div
-      class="fixed inset-0 z-[900] grid place-items-center p-6 max-sm:items-end max-sm:p-0"
-      id="checkoutSheet"
+      class="janela"
+      id="janela-compra"
       role="dialog"
       aria-modal="true"
       aria-label="Finalizar pedido"
-      data-layer
+      data-camada
       hidden
     >
-      <div
-        class="absolute inset-0 animate-[fade_.3s_ease] bg-navy-ink/42 backdrop-blur-[4px] [.is-closing_&]:animate-[fadeOut_.22s_ease_forwards]"
-        data-close
-      ></div>
-      <div
-        class="relative max-h-[calc(100vh_-_48px)] w-full max-w-[640px] animate-[pop_.4s_var(--ease-smooth)] overflow-y-auto overscroll-contain rounded-3xl bg-white p-[clamp(24px,5vw,44px)] shadow-[0_40px_100px_rgba(0,0,0,.3)] [.is-closing_&]:animate-[popOut_.22s_ease_forwards] max-sm:max-h-[94vh] max-sm:animate-[sheetUp_.45s_var(--ease-smooth)] max-sm:rounded-t-[22px] max-sm:rounded-b-none max-sm:[.is-closing_&]:animate-[sheetDown_.22s_ease_forwards]"
-        id="checkoutPanel"
-      >
-        <button
-          class="absolute top-4 right-4 z-[3] grid size-9 place-items-center rounded-full bg-surface-2 text-fg-2 hover:bg-[#dcdfe6] hover:text-fg"
-          type="button"
-          data-close
-          aria-label="Fechar"
-        >
-          <i class="icon size-4" style="--i: url(assets/icons/close.svg)" aria-hidden="true"></i>
+      <div class="janela-fundo" data-fechar></div>
+      <div class="janela-painel max-w-[640px] p-[clamp(24px,5vw,44px)]" id="compra-painel">
+        <button class="botao-fechar absolute top-4 right-4" type="button" data-fechar aria-label="Fechar">
+          <i class="icone size-4" style="--icone: url(assets/icones/fechar.svg)" aria-hidden="true"></i>
         </button>
-        <div id="checkoutContent"></div>
+        <div id="compra-conteudo"></div>
       </div>
     </div>
 
     <div
-      class="fixed bottom-[calc(24px_+_env(safe-area-inset-bottom,0px))] left-1/2 z-[1100] flex w-max max-w-[calc(100vw_-_32px)] animate-[toastIn_.4s_var(--ease-smooth)] items-center gap-3.5 rounded-full bg-fg/94 py-2.5 pr-2.5 pl-5 text-[14px] font-medium text-white shadow-[0_12px_40px_rgba(0,0,0,.25)] backdrop-blur-[20px] [transform:translateX(-50%)] [&.is-out]:animate-[toastOut_.22s_ease_forwards] [.has-bagbar_&]:bottom-[calc(92px_+_env(safe-area-inset-bottom,0px))]"
-      id="toast"
+      class="fixed bottom-[calc(24px_+_env(safe-area-inset-bottom,0px))] left-1/2 z-[1100] flex w-max max-w-[calc(100vw_-_32px)] animate-[aviso-entrar_.4s_var(--ease-suave)] items-center gap-3.5 rounded-full bg-tinta/94 py-2.5 pr-2.5 pl-5 text-[14px] font-medium text-white shadow-[0_12px_40px_rgba(0,0,0,.25)] backdrop-blur-[20px] [transform:translateX(-50%)] [&.sumindo]:animate-[aviso-sair_.22s_ease_forwards] [.com-barra_&]:bottom-[calc(92px_+_env(safe-area-inset-bottom,0px))]"
+      id="aviso"
       role="status"
       aria-live="polite"
       hidden
     ></div>
 
-    <script src="js/products.js"></script>
-    <script src="js/seal.js"></script>
-    <script src="js/app.js"></script>
+    <script type="module" src="js/app.js"></script>
   </body>
 </html>
