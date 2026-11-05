@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import "./theme.css";
+@import "./base.css";
+@import "./components.css";
+@import "./animations.css";
+@source "../index.html";
+@source "../sobre.html";
+@source "../js";
+@source "../scripts/build-products.js";

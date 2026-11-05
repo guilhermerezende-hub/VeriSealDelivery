@@ -1,0 +1,47 @@
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-xs: 400px;
+  --breakpoint-sm: 760px;
+  --breakpoint-md: 1000px;
+  --breakpoint-lg: 1180px;
+}
+
+@theme static {
+  --font-sans:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono:
+    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --color-navy: #042555;
+  --color-navy-2: #0a3a7a;
+  --color-navy-deep: #031a3d;
+  --color-navy-ink: #020c1d;
+  --color-cyan: #03adf9;
+  --color-ink: #0f1a2e;
+  --color-fg: #111827;
+  --color-fg-2: #5b6474;
+  --color-fg-3: #8a93a3;
+  --color-surface: #f3f5f9;
+  --color-surface-2: #e6eaf0;
+  --color-tile: #f2f5f9;
+  --color-line: #dde2ea;
+  --color-accent: #006aa8;
+  --color-accent-hover: #005688;
+  --color-ok: #12823b;
+  --color-ok-fill: #14a64a;
+  --color-bad: #c62a1f;
+  --color-badge: #b64400;
+  --color-sale: #e0282e;
+
+  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.05), 0 1px 3px rgb(16 24 40 / 0.07);
+  --shadow-lift: 0 14px 30px -10px rgb(16 24 40 / 0.22);
+  --shadow-focus: 0 0 0 4px rgb(0 106 168 / 0.28);
+
+  --ease-smooth: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  --aspect-mark: 668 / 359;
+  --aspect-wordmark: 977 / 161;
+}

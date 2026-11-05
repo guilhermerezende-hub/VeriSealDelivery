@@ -1,0 +1,20 @@
+{
+  "name": "veriseal-delivery",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/serve.js",
+    "build": "tailwindcss -i styles/main.css -o assets/css/site.css --minify && node scripts/build-products.js",
+    "test": "node --test tests/*.test.js",
+    "test:e2e": "playwright test",
+    "format": "prettier --write js styles scripts tests index.html sobre.html playwright.config.js",
+    "check": "npm run build && npm test && npm run test:e2e"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "@tailwindcss/cli": "4.1.11",
+    "prettier": "3.6.2",
+    "tailwindcss": "4.1.11"
+  }
+}
