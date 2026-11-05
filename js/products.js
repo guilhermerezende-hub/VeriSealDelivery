@@ -1,8 +1,7 @@
 /* =========================================================
    VeriSeal Delivery — catálogo (dados estáticos do frontend)
-   Só entram aqui garrafas com foto real em assets/products/.
-   As fotos foram recortadas (fundo transparente) a partir das
-   imagens originais guardadas em assets/originais/.
+   Só entram aqui garrafas com foto real em assets/products/
+   (recortadas, com fundo transparente).
 
    img / size  → arquivo e tamanho em px da foto recortada
    seal        → onde o lacre VeriSeal cruza a garrafa:
