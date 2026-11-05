@@ -14,11 +14,11 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const safe = (name, fn) => { try { return fn(); } catch (err) { console.error('[VeriSeal Delivery] ' + name, err); } };
   const setState = (el, s) => { if (s) el.dataset.state = s; else delete el.dataset.state; };
-  const icon = (name, cls = '') => `<svg class="icon ${cls}" aria-hidden="true"><use href="#i-${name}"/></svg>`;
-  const vsMark = (cls = '') => `<svg class="aspect-mark h-auto ${cls}" viewBox="0 0 668 359" aria-hidden="true"><use href="#vs-mark"/></svg>`;
+  const icon = (name, cls = '') => `<i class="icon ${cls}" style="--i: url(assets/icons/${name}.svg)" aria-hidden="true"></i>`;
+  const vsMark = (cls = '', white = false) => `<img class="aspect-mark h-auto ${cls}" src="assets/brand/vs-mark${white ? '-white' : ''}.svg" alt="">`;
 
   const SEAL_PILL = 'absolute top-[9px] right-[9px] z-[2] inline-flex items-center gap-[5px] rounded-full bg-navy py-[3px] pr-2 pl-1.5 text-[11px] font-bold text-white max-sm:pr-[7px] max-sm:pl-[5px] max-sm:text-[10px]';
-  const SEAL_PILL_MARK = 'w-[18px] [--lg-ink:#fff] max-sm:w-[15px]';
+  const SEAL_PILL_MARK = 'w-[18px] max-sm:w-[15px]';
   const MEDIA_BG = 'bg-[radial-gradient(ellipse_52%_9%_at_50%_93%,rgba(4,37,85,.2),transparent_72%),linear-gradient(180deg,#f6f8fb,#e9eef5)]';
   const LINK_BTN = 'text-accent hover:underline';
   const NOTE_MARK = 'inline-flex items-center gap-2 text-[13px] font-bold text-navy';
@@ -155,12 +155,12 @@
   const bag = new Map(Object.entries(store.get('bag', {})).filter(([id, q]) => byId[id] && q > 0));
   function ctaInner(id) {
     const q = bag.get(id) || 0, p = byId[id];
-    if (!q) return `<button class="grid size-10 place-items-center rounded-xl bg-accent text-white shadow-[0_6px_14px_rgba(0,106,168,.3)] transition-[background-color,scale] duration-200 hover:bg-accent-hover active:scale-90 max-sm:size-9" type="button" data-add="${id}" aria-label="Adicionar ${esc(fullName(p))} à sacola">${icon('plus', 'size-5 stroke-[2.5]')}</button>`;
+    if (!q) return `<button class="grid size-10 place-items-center rounded-xl bg-accent text-white shadow-[0_6px_14px_rgba(0,106,168,.3)] transition-[background-color,scale] duration-200 hover:bg-accent-hover active:scale-90 max-sm:size-9" type="button" data-add="${id}" aria-label="Adicionar ${esc(fullName(p))} à sacola">${icon('plus', 'size-5')}</button>`;
     const btn = 'grid h-10 w-8 place-items-center rounded-xl text-white hover:bg-white/14 max-sm:h-9 max-sm:w-7';
     return `<div class="inline-flex h-10 animate-[qtyIn_.35s_var(--ease-spring)] items-center rounded-xl bg-accent text-white shadow-[0_6px_14px_rgba(0,106,168,.3)] max-sm:h-9" role="group" aria-label="${esc(fullName(p))} na sacola">
-      <button class="${btn}" type="button" data-dec="${id}" aria-label="Remover uma unidade">${icon(q === 1 ? 'close' : 'minus', 'size-4 stroke-[2.4]')}</button>
+      <button class="${btn}" type="button" data-dec="${id}" aria-label="Remover uma unidade">${icon(q === 1 ? 'close' : 'minus', 'size-4')}</button>
       <span class="min-w-4 text-center text-[15px] font-extrabold" aria-live="polite">${q}</span>
-      <button class="${btn}" type="button" data-inc="${id}" aria-label="Adicionar uma unidade">${icon('plus', 'size-4 stroke-[2.4]')}</button>
+      <button class="${btn}" type="button" data-inc="${id}" aria-label="Adicionar uma unidade">${icon('plus', 'size-4')}</button>
     </div>`;
   }
   const cta = (id) => `<div class="relative z-[2] shrink-0" data-cta="${id}">${ctaInner(id)}</div>`;
@@ -171,7 +171,7 @@
     return `<article class="group/card relative flex min-w-0 animate-[cardIn_.5s_var(--ease-smooth)_calc(var(--i,0)*26ms)_both] cursor-pointer flex-col rounded-[18px] border border-surface-2 bg-white px-2 pt-2 pb-3.5 transition-[box-shadow,translate,border-color] duration-300 ease-smooth hover:-translate-y-0.5 hover:border-transparent hover:shadow-lift max-sm:rounded-2xl max-sm:px-1.5 max-sm:pt-1.5 max-sm:pb-3" data-card style="--i:${Math.min(i, 12)}">
       <div class="relative h-[232px] overflow-hidden rounded-[13px] ${MEDIA_BG} px-2.5 pt-[30px] pb-3 max-sm:h-[190px] max-sm:px-1.5 max-sm:pb-2.5">
         ${badgeHTML(p)}
-        <span class="${SEAL_PILL}">${vsMark(SEAL_PILL_MARK)}${kit ? p.bottles.length + ' lacres' : 'Lacrado'}</span>
+        <span class="${SEAL_PILL}">${vsMark(SEAL_PILL_MARK, true)}${kit ? p.bottles.length + ' lacres' : 'Lacrado'}</span>
         <div class="flex h-full items-end justify-center transition-transform duration-[450ms] ease-smooth group-hover/card:-translate-y-1 group-hover/card:scale-[1.035]">${visual(p)}</div>
       </div>
       <div class="flex flex-1 flex-col px-1.5 pt-3 max-sm:px-1 max-sm:pt-2.5">
@@ -454,10 +454,10 @@
         <p class="mt-4 flex flex-wrap items-baseline gap-x-2.5 gap-y-1">${p.oldPrice ? `<s class="text-[15px] text-white/62">${money(p.oldPrice)}</s>` : ''}<b class="text-[32px] leading-none font-extrabold tracking-[-.03em] max-sm:text-[26px]">${money(p.price)}</b><span class="text-[14px] font-semibold text-[#8ef5b0]">${money(pix(p.price))} no Pix</span></p>
         <div class="mt-5 flex flex-wrap items-center gap-3.5">
           <button class="btn btn-light" type="button" data-add="${p.id}" aria-label="Adicionar ${esc(fullName(p))} à sacola">${icon('plus')}Adicionar</button>
-          <button class="inline-flex items-center gap-1 py-2 text-[15px] font-semibold text-white hover:underline" type="button" data-open="${p.id}">Ver detalhes ${icon('chev-r', 'size-4 stroke-[2.2]')}</button>
+          <button class="inline-flex items-center gap-1 py-2 text-[15px] font-semibold text-white hover:underline" type="button" data-open="${p.id}">Ver detalhes ${icon('chev-r', 'size-4')}</button>
         </div>
       </div>
-      <span class="absolute top-[18px] right-[18px] z-[2] inline-flex items-center gap-[7px] rounded-full bg-navy-ink/50 py-1.5 pr-3 pl-[9px] text-[12px] font-bold shadow-[inset_0_0_0_1px_rgba(255,255,255,.18)] backdrop-blur-[10px] max-sm:top-3 max-sm:right-3 max-sm:text-[11px] ${FADE_OUT}">${vsMark('w-[22px] [--lg-ink:#fff]')}Lacre VeriSeal</span>
+      <span class="absolute top-[18px] right-[18px] z-[2] inline-flex items-center gap-[7px] rounded-full bg-navy-ink/50 py-1.5 pr-3 pl-[9px] text-[12px] font-bold shadow-[inset_0_0_0_1px_rgba(255,255,255,.18)] backdrop-blur-[10px] max-sm:top-3 max-sm:right-3 max-sm:text-[11px] ${FADE_OUT}">${vsMark('w-[22px]', true)}Lacre VeriSeal</span>
     </article>`;
   }
   // curva cubic-bezier do CSS, para animar em JS com a mesma sensação das transições
@@ -615,11 +615,11 @@
       <div class="absolute -top-[2%] left-[2%] h-[64%] w-[76%] bg-[radial-gradient(closest-side,rgba(95,208,255,.5),rgba(3,173,249,.16)_58%,transparent)] blur-[8px]"></div>
       <div class="absolute top-[calc(31%_-_var(--nfc)*var(--bh))] left-[14%] aspect-[var(--ar)] h-(--bh) drop-shadow-[0_30px_40px_rgba(0,0,0,.5)] [--bh:560px] max-md:left-[24%] max-sm:left-[9%] max-sm:[--bh:520px]" style="--nfc:${g.nfc.toFixed(4)};--ar:${p.size[0]} / ${p.size[1]}">${shot(p, { eager: true, sealCls: 'animate-[vcGlow_7s_var(--ease-smooth)_infinite]' })}
         <span class="absolute top-[calc(var(--nfc)*100%)] left-1/2 size-0 animate-[vcRead_7s_linear_infinite]">${ring('animate-[ring_1.2s_var(--ease-smooth)_infinite]')}${ring('animate-[ring_1.2s_var(--ease-smooth)_.4s_infinite]')}${ring('animate-[ring_1.2s_var(--ease-smooth)_.8s_infinite]')}</span>
-        <span class="absolute top-[calc(var(--nfc)*100%_+_44px)] -left-[6%] z-[2] inline-flex animate-[vcOk_7s_var(--ease-smooth)_infinite] items-center gap-1.5 rounded-full bg-white py-[7px] pr-3 pl-2 text-[12px] font-bold whitespace-nowrap text-ok opacity-0 shadow-[0_12px_28px_rgba(0,0,0,.35)] motion-reduce:opacity-100! motion-reduce:[transform:none]! max-sm:hidden">${icon('check', 'box-content size-[15px] rounded-full bg-ok-fill p-0.5 stroke-[2.6] text-white')}Original · lacre íntegro</span>
+        <span class="absolute top-[calc(var(--nfc)*100%_+_44px)] -left-[6%] z-[2] inline-flex animate-[vcOk_7s_var(--ease-smooth)_infinite] items-center gap-1.5 rounded-full bg-white py-[7px] pr-3 pl-2 text-[12px] font-bold whitespace-nowrap text-ok opacity-0 shadow-[0_12px_28px_rgba(0,0,0,.35)] motion-reduce:opacity-100! motion-reduce:[transform:none]! max-sm:hidden"><span class="rounded-full bg-ok-fill p-0.5 text-white">${icon('check', 'size-[15px]')}</span>Original · lacre íntegro</span>
       </div>
       <div class="absolute top-[calc(31%_-_104px)] right-[26px] h-[210px] w-[104px] animate-[vcPhone_7s_var(--ease-smooth)_infinite] rounded-[22px] bg-[linear-gradient(145deg,#2b313b,#0b0e13_40%,#1f242c)] p-[5px] shadow-[inset_0_0_0_1.5px_rgba(255,255,255,.14),0_26px_40px_-18px_rgba(0,0,0,.7)] max-md:right-[22%] max-sm:right-[22px]"><div class="relative h-full overflow-hidden rounded-[17px] bg-[#f5f8fc] text-ink before:absolute before:top-1.5 before:left-1/2 before:z-[2] before:h-[9px] before:w-[34%] before:-translate-x-1/2 before:rounded-[9px] before:bg-[#05070a]">
         <span class="${screen} animate-[vcHome_7s_var(--ease-smooth)_infinite] bg-[radial-gradient(120%_70%_at_20%_0%,#2f6fd0,transparent_60%),linear-gradient(160deg,#0b2a66,#041330_70%)] pt-[30px] text-white motion-reduce:opacity-0!"><b class="text-[24px] leading-none font-semibold tracking-[-.03em]">${hhmm(new Date())}</b><span class="mt-4 grid grid-cols-[repeat(4,15px)] gap-[7px]">${APP_TINTS.map(([a, b]) => `<i class="size-[15px] rounded-[4px]" style="background:linear-gradient(135deg,${a},${b})"></i>`).join('')}</span></span>
-        <span class="${screen} animate-[vcWeb_7s_var(--ease-smooth)_infinite] gap-[3px] bg-[#f5f8fc] bg-[radial-gradient(90px_70px_at_50%_38%,rgba(20,166,74,.14),transparent_70%)] pt-10 motion-reduce:opacity-100! motion-reduce:[transform:none]!"><span class="absolute inset-x-[7px] top-[19px] flex h-[13px] items-center justify-center gap-[3px] rounded-[5px] bg-[#e6ebf2] text-[7px] font-semibold text-[#3a4250]">${icon('lock', 'size-[7px] stroke-[2.6]')}${esc(SITE_HOST)}</span>${medal('ok', 'loop', '50px', 'mt-2.5 mb-2')}<b class="text-[14px] leading-[1.1] font-extrabold tracking-[-.02em] text-[#0f8a3c]">Autêntico</b><small class="text-[9.5px] text-fg-2">Nunca aberta</small></span>
+        <span class="${screen} animate-[vcWeb_7s_var(--ease-smooth)_infinite] gap-[3px] bg-[#f5f8fc] bg-[radial-gradient(90px_70px_at_50%_38%,rgba(20,166,74,.14),transparent_70%)] pt-10 motion-reduce:opacity-100! motion-reduce:[transform:none]!"><span class="absolute inset-x-[7px] top-[19px] flex h-[13px] items-center justify-center gap-[3px] rounded-[5px] bg-[#e6ebf2] text-[7px] font-semibold text-[#3a4250]">${icon('lock', 'size-[7px]')}${esc(SITE_HOST)}</span>${medal('ok', 'loop', '50px', 'mt-2.5 mb-2')}<b class="text-[14px] leading-[1.1] font-extrabold tracking-[-.02em] text-[#0f8a3c]">Autêntico</b><small class="text-[9.5px] text-fg-2">Nunca aberta</small></span>
       </div></div>`;
     // a animação só roda com o cartão na tela
     new IntersectionObserver(([e]) => stage.classList.toggle('is-paused', !e.isIntersecting)).observe(stage);
@@ -632,9 +632,9 @@
     const photo = 'items-start justify-center bg-[radial-gradient(ellipse_60%_30%_at_50%_100%,rgba(0,0,0,.08),transparent_70%)] bg-(--tint)';
     const lift = 'mt-[12%] h-[150%] transition-transform duration-[450ms] ease-smooth group-hover/cat:-translate-y-1.5 group-hover/cat:-rotate-4';
     const tiles = [
-      { go: 'ofertas', name: 'Ofertas', cls: 'flex-col items-center justify-center gap-0.5 bg-[linear-gradient(150deg,#ff5a4e,#d6191f)] text-white', html: `<span>${icon('tag', 'inline size-[34px] align-baseline stroke-[1.8]')}</span><span class="text-[20px] font-extrabold tracking-[-.03em]">-${Math.max(...PRODUCTS.map(pct))}%</span>` },
+      { go: 'ofertas', name: 'Ofertas', cls: 'flex-col items-center justify-center gap-0.5 bg-[linear-gradient(150deg,#ff5a4e,#d6191f)] text-white', html: `<span>${icon('tag', 'inline-block size-[34px] align-baseline')}</span><span class="text-[20px] font-extrabold tracking-[-.03em]">-${Math.max(...PRODUCTS.map(pct))}%</span>` },
       ...CATS.map((c) => { const p = byId[c.icon]; return { go: c.id, name: c.name, cls: photo, tint: c.tint, html: p ? visual(p, { cls: (isKit(p) ? 'w-[130%] ' : '') + lift }) : '' }; }),
-      { go: 'verificar', name: 'Verificar lacre', cls: 'flex-col items-center justify-center gap-1.5 bg-[radial-gradient(ellipse_at_70%_20%,#0c4a99,var(--color-navy)_50%,var(--color-navy-ink))] text-cyan', html: `<span>${icon('contactless', 'inline size-[38px] align-baseline stroke-[1.8]')}</span>${vsMark('w-[34px] [--lg-ink:#fff]')}` }
+      { go: 'verificar', name: 'Verificar lacre', cls: 'flex-col items-center justify-center gap-1.5 bg-[radial-gradient(ellipse_at_70%_20%,#0c4a99,var(--color-navy)_50%,var(--color-navy-ink))] text-cyan', html: `<span>${icon('contactless', 'inline-block size-[38px] align-baseline')}</span>${vsMark('w-[34px]', true)}` }
     ];
     $('#catRow').innerHTML = tiles.map((t) => `<button class="group/cat flex min-w-0 flex-col items-center gap-2" type="button" data-cat-go="${t.go}">
         <span class="relative flex aspect-square w-full overflow-hidden rounded-[22px] transition-[translate,box-shadow] duration-[350ms] ease-smooth group-hover/cat:-translate-y-[3px] group-hover/cat:shadow-lift max-sm:rounded-[18px] ${t.cls}"${t.tint ? ` style="--tint:${t.tint}"` : ''}>${t.html}</span><span class="text-[14px] font-bold tracking-[-.01em] group-hover/cat:text-accent max-sm:text-[13px]">${esc(t.name)}</span></button>`).join('');
@@ -685,7 +685,7 @@
 
   safe('kits', () => {
     $('#kitGrid').innerHTML = PRODUCTS.filter(isKit).map((p) => `<article class="group/card relative grid cursor-pointer grid-cols-[minmax(0,.95fr)_minmax(0,1.05fr)] gap-1 overflow-hidden rounded-[20px] border border-surface-2 bg-white p-2 transition-[box-shadow,translate,border-color] duration-300 ease-smooth hover:-translate-y-0.5 hover:border-transparent hover:shadow-lift max-sm:grid-cols-[1fr_1.1fr] max-xs:grid-cols-1" data-card>
-        <div class="relative h-[250px] overflow-hidden rounded-[14px] bg-[radial-gradient(ellipse_60%_9%_at_50%_93%,rgba(4,37,85,.2),transparent_72%),linear-gradient(180deg,#f6f8fb,#e9eef5)] px-2 pt-[34px] pb-3 max-sm:h-[220px]">${badgeHTML(p)}<span class="${SEAL_PILL}">${vsMark(SEAL_PILL_MARK)}${p.bottles.length} lacres</span><div class="flex h-full items-end justify-center transition-transform duration-[450ms] ease-smooth group-hover/card:-translate-y-1 group-hover/card:scale-[1.03]">${visual(p)}</div></div>
+        <div class="relative h-[250px] overflow-hidden rounded-[14px] bg-[radial-gradient(ellipse_60%_9%_at_50%_93%,rgba(4,37,85,.2),transparent_72%),linear-gradient(180deg,#f6f8fb,#e9eef5)] px-2 pt-[34px] pb-3 max-sm:h-[220px]">${badgeHTML(p)}<span class="${SEAL_PILL}">${vsMark(SEAL_PILL_MARK, true)}${p.bottles.length} lacres</span><div class="flex h-full items-end justify-center transition-transform duration-[450ms] ease-smooth group-hover/card:-translate-y-1 group-hover/card:scale-[1.03]">${visual(p)}</div></div>
         <div class="flex min-w-0 flex-col pt-3 pr-2.5 pb-2 pl-3">
           <p class="text-[12px] font-bold text-badge">${esc(p.badge || 'Kit')}</p>
           <h3 class="mt-0.5 text-[20px] leading-[1.15] font-extrabold tracking-[-.025em] max-sm:text-[18px]"><button type="button" class="text-left tracking-[inherit] hover:text-accent" data-open="${p.id}">${esc(p.name)}</button></h3>
@@ -810,7 +810,7 @@
   function renderBag() {
     const bb = $('#bagBody'), bf = $('#bagFoot');
     if (!bag.size) {
-      bb.innerHTML = `<div class="px-2.5 py-[60px] text-center text-fg-2">${icon('bag', 'mx-auto mb-3.5 block size-[52px] stroke-[1.2] text-fg-3')}<p class="mb-[18px]">Sua sacola está vazia.</p><a class="btn btn-primary" href="#ofertas" data-close>Ver ofertas</a></div>`;
+      bb.innerHTML = `<div class="px-2.5 py-[60px] text-center text-fg-2">${icon('bag', 'mx-auto mb-3.5 block size-[52px] text-fg-3')}<p class="mb-[18px]">Sua sacola está vazia.</p><a class="btn btn-primary" href="#ofertas" data-close>Ver ofertas</a></div>`;
       bf.innerHTML = ''; bf.hidden = true;
       return;
     }
@@ -1119,9 +1119,9 @@
 
     // pedido confirmado
     const o = co.order;
-    const tl = (state, title, sub) => `<li class="${state} relative flex gap-3.5 pb-[18px] before:absolute before:top-[26px] before:bottom-0.5 before:left-[11px] before:w-0.5 before:bg-surface-2 last:pb-0 last:before:hidden [&.done]:before:bg-accent"><span class="relative z-[1] grid size-6 shrink-0 place-items-center rounded-full border-2 border-line bg-white transition-all duration-[400ms] [.current_&]:border-accent [.current_&]:shadow-[0_0_0_5px_rgb(0_106_168/.1)] [.done_&]:border-accent [.done_&]:bg-accent">${icon('check', 'size-[13px] stroke-3 text-white opacity-0 [.done_&]:opacity-100')}</span><div><strong class="block text-[15px] tracking-[-.01em] [li:not(.done):not(.current)_&]:text-fg-3">${title}</strong><small class="text-[13px] text-fg-2">${sub}</small></div></li>`;
+    const tl = (state, title, sub) => `<li class="${state} relative flex gap-3.5 pb-[18px] before:absolute before:top-[26px] before:bottom-0.5 before:left-[11px] before:w-0.5 before:bg-surface-2 last:pb-0 last:before:hidden [&.done]:before:bg-accent"><span class="relative z-[1] grid size-6 shrink-0 place-items-center rounded-full border-2 border-line bg-white transition-all duration-[400ms] [.current_&]:border-accent [.current_&]:shadow-[0_0_0_5px_rgb(0_106_168/.1)] [.done_&]:border-accent [.done_&]:bg-accent">${icon('check', 'size-[13px] text-white opacity-0 [.done_&]:opacity-100')}</span><div><strong class="block text-[15px] tracking-[-.01em] [li:not(.done):not(.current)_&]:text-fg-3">${title}</strong><small class="text-[13px] text-fg-2">${sub}</small></div></li>`;
     el.innerHTML = `<div class="text-center">
-        <div class="mx-auto mt-1 mb-[18px] grid size-16 place-items-center rounded-full bg-ok-fill text-white">${icon('check', 'size-[34px] animate-[draw_.6s_var(--ease-smooth)_.2s_forwards] stroke-[2.6] [stroke-dasharray:30] [stroke-dashoffset:30]')}</div>
+        <div class="mx-auto mt-1 mb-[18px] grid size-16 place-items-center rounded-full bg-ok-fill text-white">${icon('check', 'size-[34px] animate-[draw_.6s_var(--ease-smooth)_.2s_both]')}</div>
         <h2 class="text-[30px] font-extrabold tracking-[-.03em] outline-none">Pedido confirmado!</h2>
         <p class="mt-1.5 text-fg-2">Pedido <span class="font-mono font-semibold text-fg">#${o.num}</span> · ${o.when}</p>
         ${o.pay === 'pix' ? `<p class="mt-3 inline-flex items-center gap-2 rounded-full bg-ok-fill/10 px-3.5 py-1.5 text-[14px] font-semibold text-ok">${icon('pix', 'size-4')}Pix aprovado · você economizou ${money(o.disc)}</p>` : ''}
@@ -1212,7 +1212,7 @@
     if (verifyResult.getBoundingClientRect().top > innerHeight - 120) verifyResult.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
   }
   const VR_HEAD = { ok: 'text-[#8ef5b0]', warn: 'text-[#ffd67a]', bad: 'text-[#ffaaa3]' };
-  const vrUrl = (code) => `<p class="mx-auto mb-3.5 flex w-fit max-w-full items-center gap-1.5 rounded-full bg-white/8 px-3 py-1.5 font-mono text-[12px] leading-[1.2] font-medium text-[#c3cbd9] shadow-[inset_0_0_0_1px_rgba(255,255,255,.1)] ${VR_IN}">${icon('lock', 'size-[13px] stroke-[2.2] text-[#8ef5b0]')}<span>${esc(SITE_HOST)}/v/${esc(code.slice(3))}</span></p>`;
+  const vrUrl = (code) => `<p class="mx-auto mb-3.5 flex w-fit max-w-full items-center gap-1.5 rounded-full bg-white/8 px-3 py-1.5 font-mono text-[12px] leading-[1.2] font-medium text-[#c3cbd9] shadow-[inset_0_0_0_1px_rgba(255,255,255,.1)] ${VR_IN}">${icon('lock', 'size-[13px] text-[#8ef5b0]')}<span>${esc(SITE_HOST)}/v/${esc(code.slice(3))}</span></p>`;
   const vrHead = (kind, title, sub) => `<div class="flex flex-col items-center gap-3 pt-1.5 pb-0.5 text-center">${medal(kind, 'now', '92px')}<div class="${VR_IN}" style="--d:.38s"><b class="block text-[clamp(28px,3vw,36px)] leading-none font-extrabold tracking-[-.03em] ${VR_HEAD[kind]}">${title}</b><span class="mt-1.5 block text-[14px] text-white/78">${sub}</span></div></div>`;
   // cls troca o tamanho/cor padrão do valor (text-[15px])
   const vrGrid = (cells, d) => `<dl class="mt-4 grid grid-cols-2 gap-x-[18px] gap-y-3.5 rounded-2xl bg-white/5 px-4 py-3.5 max-sm:gap-x-3 max-sm:gap-y-2.5 ${VR_IN}" style="--d:${d}">${cells.map(([k, v, cls]) => `<div><dt class="text-[12px] text-[#94a0b8]">${k}</dt><dd class="mt-0.5 font-semibold ${cls || 'text-[15px]'}">${v}</dd></div>`).join('')}</dl>`;
