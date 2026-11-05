@@ -7505,7 +7505,7 @@ body.has-bagbar .toast {
     transform: none;
   }
 
-  .vcs-home {
+  .vcs-home { 
     opacity: 0 !important;
   }
 
