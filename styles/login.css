@@ -1,3 +1,90 @@
+@keyframes loginCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes loginVisualIn {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes loginCopyIn {
+  from {
+    opacity: 0;
+    transform: translateY(9px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes loginFormIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.995);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes loginGlowDrift {
+  from {
+    transform: translate3d(-10px, 0, 0) scale(0.96);
+  }
+  to {
+    transform: translate3d(14px, 12px, 0) scale(1.04);
+  }
+}
+
+@keyframes loginOrbitFloat {
+  from {
+    transform: translate3d(0, 0, 0) rotate(-3deg);
+  }
+  to {
+    transform: translate3d(-8px, -13px, 0) rotate(3deg);
+  }
+}
+
+@keyframes loginBeacon {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(3 173 249 / 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 9px rgb(3 173 249 / 0);
+    transform: scale(1.12);
+  }
+}
+
+@keyframes loginNoticeIn {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @layer components {
   .login-page {
     min-height: 100vh;
@@ -27,6 +114,7 @@
     border-radius: 28px;
     background: #fff;
     box-shadow: 0 28px 90px rgb(4 37 85 / 0.16);
+    animation: loginCardIn 720ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
 
   .login-visual {
@@ -40,6 +128,50 @@
     background:
       radial-gradient(ellipse at 18% 12%, rgb(3 173 249 / 0.32), transparent 45%),
       linear-gradient(148deg, #0a3a7a 0%, #042555 45%, #020c1d 100%);
+  }
+
+  .login-visual::before {
+    position: absolute;
+    top: -20%;
+    left: 42%;
+    width: 330px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(3 173 249 / 0.2), transparent 68%);
+    content: "";
+    pointer-events: none;
+    animation: loginGlowDrift 12s ease-in-out infinite alternate;
+  }
+
+  .login-visual::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: clamp(180px, 25vw, 280px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgb(74 205 255 / 0.34) 0%,
+      rgb(3 173 249 / 0.2) 30%,
+      rgb(3 173 249 / 0.08) 52%,
+      transparent 72%
+    );
+    content: "";
+    opacity: 0;
+    filter: blur(3px);
+    pointer-events: none;
+    transform: translate3d(var(--cursor-x, 50%), var(--cursor-y, 50%), 0)
+      translate(-50%, -50%);
+    transition:
+      opacity 180ms ease,
+      transform 100ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    will-change: transform, opacity;
+  }
+
+  .login-visual.is-cursor-active::after {
+    opacity: 1;
   }
 
   .login-visual > a,
@@ -56,12 +188,14 @@
     gap: 10px;
     color: #fff;
     text-decoration: none;
+    animation: loginVisualIn 640ms 120ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
 
   .login-visual > div:nth-of-type(1) {
     max-width: 400px;
     margin-top: auto;
     padding-block: 64px 20px;
+    animation: loginCopyIn 620ms 260ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
 
   .login-visual > div:nth-of-type(1) > span {
@@ -86,6 +220,7 @@
     border-radius: 50%;
     background: var(--color-cyan);
     padding: 0;
+    animation: loginBeacon 3s ease-in-out infinite;
   }
 
   .login-visual > div:nth-of-type(1) p {
@@ -121,6 +256,15 @@
     height: 300px;
     border-color: rgb(255 255 255 / 0.13);
     background: radial-gradient(circle, rgb(3 173 249 / 0.12), transparent 68%);
+    animation: loginOrbitFloat 10s ease-in-out infinite alternate;
+  }
+
+  .login-orbit > div:nth-child(3) {
+    animation: loginBeacon 3s ease-in-out infinite;
+  }
+
+  .login-orbit > div:nth-child(4) {
+    animation: loginOrbitFloat 7s ease-in-out infinite alternate-reverse;
   }
 
   .login-layout > div:last-child {
@@ -129,6 +273,7 @@
     flex-direction: column;
     justify-content: center;
     padding: 48px clamp(32px, 6vw, 76px);
+    animation: loginCopyIn 680ms 180ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
 
   .login-layout > div:last-child > a {
@@ -144,6 +289,7 @@
   }
 
   .login-layout > div:last-child > a:hover {
+    transform: translateX(-2px);
     color: var(--color-accent);
   }
 
@@ -201,6 +347,18 @@
     gap: 16px;
   }
 
+  .login-layout #authForms form.hidden {
+    display: none;
+  }
+
+  .login-layout #authForms form:not(.hidden) {
+    animation: loginFormIn 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  .login-layout .is-mode-entering {
+    animation: loginCopyIn 320ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
   .login-layout #authForms form > div {
     min-width: 0;
   }
@@ -227,12 +385,14 @@
     outline: none;
     transition:
       border-color 160ms ease,
-      box-shadow 160ms ease;
+      box-shadow 160ms ease,
+      transform 160ms ease;
   }
 
   .login-input:focus {
     border-color: var(--color-accent);
     box-shadow: var(--shadow-focus);
+    transform: translateY(-1px);
   }
 
   .login-input:focus-visible {
@@ -259,6 +419,7 @@
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
+    transition: color 160ms ease, transform 160ms ease;
   }
 
   .login-layout button:not(.btn):hover {
@@ -291,11 +452,22 @@
     font: inherit;
     font-weight: 700;
     cursor: pointer;
-    transition: background-color 160ms ease;
+    box-shadow: 0 6px 16px rgb(0 106 168 / 0.18);
+    transition:
+      background-color 180ms ease,
+      box-shadow 180ms ease,
+      transform 180ms ease;
   }
 
   .login-layout .btn:hover {
+    box-shadow: 0 10px 22px rgb(0 106 168 / 0.24);
+    transform: translateY(-2px);
     background: var(--color-accent-hover);
+  }
+
+  .login-layout .btn:active {
+    box-shadow: 0 3px 9px rgb(0 106 168 / 0.18);
+    transform: translateY(0) scale(0.99);
   }
 
   .login-layout form > p {
@@ -315,12 +487,8 @@
     line-height: 1.6;
   }
 
-  .login-layout > div:last-child > p:last-child {
-    margin: 28px 0 0;
-    color: var(--color-fg-3);
-    font-size: 11px;
-    line-height: 1.6;
-    text-align: center;
+  .login-layout #authNotice:not([hidden]) {
+    animation: loginNoticeIn 360ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
 
   .login-layout [hidden] {
@@ -384,6 +552,37 @@
 
     .login-layout > div:last-child {
       padding: 26px 18px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .login-layout,
+    .login-visual::before,
+    .login-visual::after,
+    .login-visual > a,
+    .login-visual > div:nth-of-type(1),
+    .login-visual > div:nth-of-type(1) > span span,
+    .login-orbit,
+    .login-orbit > div,
+    .login-layout > div:last-child,
+    .login-layout #authForms form:not(.hidden),
+    .login-layout .is-mode-entering,
+    .login-layout #authNotice:not([hidden]) {
+      animation: none !important;
+    }
+
+    .login-page *,
+    .login-page *::before,
+    .login-page *::after {
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+      transition-delay: 0ms !important;
+    }
+
+    .login-layout > div:last-child > a:hover,
+    .login-layout .btn:hover,
+    .login-input:focus {
+      transform: none;
     }
   }
 }

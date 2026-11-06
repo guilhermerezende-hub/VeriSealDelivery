@@ -188,12 +188,12 @@ import { createVerification } from "./verification.js";
         <p class="text-[12px] font-semibold tracking-[.04em] text-fg-2 uppercase">${esc(kit ? `Kit · ${p.bottles.length} garrafas` : p.brand)}</p>
         <h3 class="mt-0.5 text-[16px] leading-[1.22] font-bold tracking-[-.02em] max-sm:text-[15px]"><a href="produtos/${p.id}/" class="text-left tracking-[inherit] text-inherit hover:text-accent" data-open="${p.id}">${esc(p.name)}</a></h3>
         <p class="mt-[3px] text-[13px] text-fg-2">${esc(
-          kit
-            ? kitGroups(p)
-                .map(([b, n]) => (n > 1 ? n + "× " : "") + b.brand)
-                .join(" · ")
-            : `${p.volume} · ${abv(p)}`,
-        )}</p>
+      kit
+        ? kitGroups(p)
+          .map(([b, n]) => (n > 1 ? n + "× " : "") + b.brand)
+          .join(" · ")
+        : `${p.volume} · ${abv(p)}`,
+    )}</p>
         <div class="mt-auto flex items-end justify-between gap-2 pt-2.5">${priceHTML(p)}${cta(p.id)}</div>
       </div>
     </article>`;
@@ -716,10 +716,9 @@ import { createVerification } from "./verification.js";
       <p class="mt-3.5 mb-0.5 flex items-center gap-2.5 rounded-xl bg-[#e9f5fd] px-3 py-2.5 text-[13px] text-navy">${vsMark("w-[26px] shrink-0")}<span><b>${units} ${units === 1 ? "garrafa lacrada" : "garrafas lacradas"}</b> · cada uma com o próprio lacre VeriSeal</span></p>
       <ul>${[...bag].map(([id, q]) => bagItemHTML(byId[id], q)).join("")}</ul>`;
     bf.innerHTML = `
-      ${
-        address.address
-          ? `<p class="mb-2 flex items-center gap-2 text-[13px] text-fg-2">${icon("pin", "size-4 text-ok")}<span class="min-w-0 flex-1">Entregar em <b class="text-fg">${esc(placeLabel(address.address))}</b> · ${etaText(address.address)}</span><button class="${LINK_BTN}" type="button" data-open-address>Alterar</button></p>`
-          : `<form class="mb-1 flex gap-2" id="bagCepForm" novalidate><input class="h-10 min-w-0 flex-1 rounded-xl border border-line bg-white px-3.5 text-[15px] outline-none focus:border-accent focus:shadow-focus [&.invalid]:border-bad" id="bagCep" inputmode="numeric" placeholder="Consultar CEP" maxlength="9" aria-label="CEP de entrega" autocomplete="postal-code"><button class="btn btn-dark btn-sm" type="submit">OK</button></form><p class="${CEP_INFO}" id="bagCepInfo" aria-live="polite"></p>`
+      ${address.address
+        ? `<p class="mb-2 flex items-center gap-2 text-[13px] text-fg-2">${icon("pin", "size-4 text-ok")}<span class="min-w-0 flex-1">Entregar em <b class="text-fg">${esc(placeLabel(address.address))}</b> · ${etaText(address.address)}</span><button class="${LINK_BTN}" type="button" data-open-address>Alterar</button></p>`
+        : `<form class="mb-1 flex gap-2" id="bagCepForm" novalidate><input class="h-10 min-w-0 flex-1 rounded-xl border border-line bg-white px-3.5 text-[15px] outline-none focus:border-accent focus:shadow-focus [&.invalid]:border-bad" id="bagCep" inputmode="numeric" placeholder="Consultar CEP" maxlength="9" aria-label="CEP de entrega" autocomplete="postal-code"><button class="btn btn-dark btn-sm" type="submit">OK</button></form><p class="${CEP_INFO}" id="bagCepInfo" aria-live="polite"></p>`
       }
       <div class="mt-1 mb-3.5">
         <div class="${ROW}"><span>Subtotal</span><span>${money(sub)}</span></div>
@@ -819,31 +818,29 @@ import { createVerification } from "./verification.js";
       <div class="mt-3.5 flex items-baseline gap-2.5">${p.oldPrice ? `<s class="text-[16px] text-fg-3">${money(p.oldPrice)}</s>` : ""}<b class="text-[28px] font-extrabold tracking-[-.025em]">${money(p.price)}</b></div>
       <p class="mt-0.5 text-[14px] text-fg-2"><strong class="font-bold text-ok">${money(pix(p.price))} no Pix</strong> (${PIX_LABEL} off)${i ? ` · ou ${i.n}x de ${money(i.v)} sem juros` : ""}</p>
       <p class="mt-4 text-[15px] text-fg-2">${esc(p.desc)}</p>
-      ${
-        kit
-          ? `<ul class="mt-4 grid gap-2">${kitGroups(p)
-              .map(
-                ([b, n]) =>
-                  `<li class="flex items-center gap-3 rounded-xl bg-surface px-3 py-2"><span class="flex h-[60px] w-7 shrink-0 items-end justify-center">${shot(b)}</span><span><b class="block text-[15px]">${n > 1 ? n + "× " : ""}${esc(b.brand)} ${esc(b.name)}</b><small class="text-[12px] text-fg-2">${esc(b.volume)} · ${abv(b)} vol. · ${esc(b.origin)}</small></span></li>`,
-              )
-              .join("")}</ul>`
-          : `<div class="mt-[18px] grid grid-cols-3 gap-2">${[
-              ["Volume", esc(p.volume)],
-              ["Teor alcoólico", abv(p)],
-              ["Origem", esc(p.origin)],
-            ]
-              .map(
-                ([k, v]) =>
-                  `<div class="rounded-xl bg-surface px-3 py-2.5"><span class="block text-[11px] text-fg-2">${k}</span><strong class="text-[15px] tracking-[-.01em]">${v}</strong></div>`,
-              )
-              .join("")}</div>`
+      ${kit
+        ? `<ul class="mt-4 grid gap-2">${kitGroups(p)
+          .map(
+            ([b, n]) =>
+              `<li class="flex items-center gap-3 rounded-xl bg-surface px-3 py-2"><span class="flex h-[60px] w-7 shrink-0 items-end justify-center">${shot(b)}</span><span><b class="block text-[15px]">${n > 1 ? n + "× " : ""}${esc(b.brand)} ${esc(b.name)}</b><small class="text-[12px] text-fg-2">${esc(b.volume)} · ${abv(b)} vol. · ${esc(b.origin)}</small></span></li>`,
+          )
+          .join("")}</ul>`
+        : `<div class="mt-[18px] grid grid-cols-3 gap-2">${[
+          ["Volume", esc(p.volume)],
+          ["Teor alcoólico", abv(p)],
+          ["Origem", esc(p.origin)],
+        ]
+          .map(
+            ([k, v]) =>
+              `<div class="rounded-xl bg-surface px-3 py-2.5"><span class="block text-[11px] text-fg-2">${k}</span><strong class="text-[15px] tracking-[-.01em]">${v}</strong></div>`,
+          )
+          .join("")}</div>`
       }
       <div class="mt-3.5 flex flex-wrap gap-1.5">${(p.notes || []).map((n) => `<span class="rounded-full border border-line px-2.5 py-[5px] text-[12px] text-fg-2">${esc(n)}</span>`).join("")}</div>
       <div class="mt-[18px] flex items-start gap-3 rounded-2xl bg-[linear-gradient(135deg,#e6f4fe,#f3f5f9)] px-4 py-3.5">${vsMark("mt-1 w-[34px] shrink-0")}<div><strong class="block text-[14px] text-navy">Lacre VeriSeal${kit ? " em cada garrafa" : ""}</strong><p class="text-[13px] leading-[1.45] text-fg-2">Exemplo visual de lacre inteligente. A verificação desta demonstração usa dados fictícios e não comprova autenticidade.</p></div></div>
-      <p class="mt-3.5 flex items-center gap-2 text-[14px] text-fg-2">${
-        address.address
-          ? `${icon("truck", "size-[18px] text-accent")}<span><b class="text-fg">${etaText(address.address)}</b> em ${esc(placeLabel(address.address))}${shipping(p.price) === 0 ? " · frete grátis" : ""}</span>`
-          : `${icon("pin", "size-[18px] text-accent")}<span><button class="${LINK_BTN}" type="button" data-open-address>Informe seu CEP</button> para consultar o endereço. Cobertura não confirmada.</span>`
+      <p class="mt-3.5 flex items-center gap-2 text-[14px] text-fg-2">${address.address
+        ? `${icon("truck", "size-[18px] text-accent")}<span><b class="text-fg">${etaText(address.address)}</b> em ${esc(placeLabel(address.address))}${shipping(p.price) === 0 ? " · frete grátis" : ""}</span>`
+        : `${icon("pin", "size-[18px] text-accent")}<span><button class="${LINK_BTN}" type="button" data-open-address>Informe seu CEP</button> para consultar o endereço. Cobertura não confirmada.</span>`
       }</p>
       <div class="mt-[22px] flex items-center gap-3 pt-1">
         <div class="inline-flex h-[46px] shrink-0 items-center rounded-full border border-line" role="group" aria-label="Quantidade">

@@ -4,6 +4,25 @@ const title = document.querySelector("#authTitle");
 const description = document.querySelector("#authDescription");
 const eyebrow = document.querySelector("#authEyebrow");
 const notice = document.querySelector("#authNotice");
+const visualPanel = document.querySelector(".login-visual");
+
+if (
+  visualPanel &&
+  window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches
+) {
+  visualPanel.addEventListener("pointermove", (event) => {
+    if (event.pointerType !== "mouse") return;
+
+    const bounds = visualPanel.getBoundingClientRect();
+    visualPanel.style.setProperty("--cursor-x", `${event.clientX - bounds.left}px`);
+    visualPanel.style.setProperty("--cursor-y", `${event.clientY - bounds.top}px`);
+    visualPanel.classList.add("is-cursor-active");
+  });
+
+  visualPanel.addEventListener("pointerleave", () => {
+    visualPanel.classList.remove("is-cursor-active");
+  });
+}
 
 const copy = {
   login: {
@@ -41,7 +60,18 @@ function showMode(mode, restoreFocus = true) {
   description.textContent = content.description;
   notice.hidden = true;
 
-  if (restoreFocus) document.querySelector(content.focus)?.focus();
+  if (restoreFocus) {
+    [eyebrow, title, description].forEach((element) => {
+      element.classList.remove("is-mode-entering");
+    });
+
+    requestAnimationFrame(() => {
+      [eyebrow, title, description].forEach((element) => {
+        element.classList.add("is-mode-entering");
+      });
+      document.querySelector(content.focus)?.focus();
+    });
+  }
 }
 
 modeButtons.forEach((button) => {
