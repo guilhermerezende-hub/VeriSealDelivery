@@ -19,6 +19,7 @@ Abra `http://127.0.0.1:4173`. Os módulos precisam de um servidor HTTP; abrir o 
 | Arquivo | Responsabilidade |
 | --- | --- |
 | `js/app.js` | Integração da interface, navegação, sacola e detalhe dos produtos |
+| `login.html`, `js/login.js`, `styles/login.css` | Tela demonstrativa de entrada, cadastro e recuperação de senha |
 | `js/config.js` | Frete, desconto, limites, horários ilustrativos e dados institucionais |
 | `js/commerce.js` | Totais em centavos, frete, Pix, parcelas e restauração da sacola |
 | `js/storage.js` | Persistência local com tratamento de indisponibilidade e JSON inválido |

@@ -22,7 +22,15 @@ http
         new URL(request.url, "http://localhost").pathname,
       );
       const parts = pathname.split(/[\\/]/).filter(Boolean);
-      const allowed = ["index.html", "sobre.html", "assets", "js", "produtos"];
+      const allowed = [
+        "index.html",
+        "login.html",
+        "sobre.html",
+        "assets",
+        "js",
+        "produtos",
+        "styles",
+      ];
       if (
         parts.some((part) => part.startsWith(".")) ||
         (parts.length && !allowed.includes(parts[0]))
