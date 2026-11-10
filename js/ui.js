@@ -71,75 +71,73 @@ const ACTION_MAIN =
   "btn btn-primary ml-auto max-w-[340px] flex-1 max-sm:max-w-none";
 const VR_IN = "animate-[riseIn_.5s_var(--ease-smooth)_var(--d,0s)_both]";
 
-const SCALLOP =
-  "M28 4.8Q35.82-1.17 39.6 7.91Q49.35 6.65 48.09 16.4Q57.17 20.18 51.2 28Q57.17 35.82 48.09 39.6Q49.35 49.35 39.6 48.09Q35.82 57.17 28 51.2Q20.18 57.17 16.4 48.09Q6.65 49.35 7.91 39.6Q-1.17 35.82 4.8 28Q-1.17 20.18 7.91 16.4Q6.65 6.65 16.4 7.91Q20.18-1.17 28 4.8Z";
-const MEDAL_TINT = {
-  ok: ["#14a64a", "rgba(20,166,74,.42)"],
-  warn: ["#e8930c", "rgba(232,147,12,.42)"],
-  bad: ["#d93025", "rgba(217,48,37,.42)"],
-};
-const MEDAL_TINT_DARK = {
-  ok: ["#22c55e", "rgba(34,197,94,.5)"],
-  warn: ["#f5a524", "rgba(245,165,36,.5)"],
-  bad: ["#ff5b4f", "rgba(255,91,79,.5)"],
-};
-const MEDAL_ANIM = {
-  now: {
-    badge: "animate-[mPop_.75s_var(--ease-spring)_both]",
-    shake: "animate-[mPop_.75s_var(--ease-spring)_both,mShake_.45s_ease_.85s]",
-    glyph: "animate-[draw_.42s_var(--ease-io)_.42s_forwards]",
-    dot: "animate-[mFade_.2s_ease_.8s_forwards]",
-    shock: [
-      "animate-[mShock_1.1s_var(--ease-smooth)_.28s_both]",
-      "animate-[mShock_1.1s_var(--ease-smooth)_.5s_both]",
-    ],
-    halo: "animate-[mHalo_.7s_var(--ease-smooth)_.45s_both,mSpin_9s_linear_.45s_infinite]",
-    glow: "animate-[mGlow_2.6s_ease-in-out_.3s_infinite_both]",
-    spark: "animate-[mSpark_.95s_var(--ease-smooth)_.3s_both]",
+// telas de verificação (o que o NFC abre no navegador), no padrão do site da VeriSeal
+const VERIFY_TONE = {
+  ok: {
+    tone: "20 166 74",
+    light: "#45e083",
+    dark: "#14a64a",
+    title: "text-[#0f8a3c]",
+    btn: "bg-navy",
   },
+  bad: {
+    tone: "217 48 37",
+    light: "#ff7166",
+    dark: "#d93025",
+    title: "text-bad",
+    btn: "bg-bad",
+  },
+};
+// on: toca quando um ancestral ganha .is-on · loop: ciclo de 7 s do cartão do topo
+const BADGE_ANIM = {
   on: {
-    badge: "[.is-on_&]:animate-[mPop_.75s_var(--ease-spring)_both]",
-    shake:
-      "[.is-on_&]:animate-[mPop_.75s_var(--ease-spring)_both,mShake_.45s_ease_.85s]",
-    glyph: "[.is-on_&]:animate-[draw_.42s_var(--ease-io)_.42s_forwards]",
-    dot: "[.is-on_&]:animate-[mFade_.2s_ease_.8s_forwards]",
-    shock: [
-      "[.is-on_&]:animate-[mShock_1.1s_var(--ease-smooth)_.28s_both]",
-      "[.is-on_&]:animate-[mShock_1.1s_var(--ease-smooth)_.5s_both]",
-    ],
-    halo: "[.is-on_&]:animate-[mHalo_.7s_var(--ease-smooth)_.45s_both,mSpin_9s_linear_.45s_infinite]",
-    glow: "[.is-on_&]:animate-[mGlow_2.6s_ease-in-out_.3s_infinite_both]",
-    spark: "[.is-on_&]:animate-[mSpark_.95s_var(--ease-smooth)_.3s_both]",
+    ring: "[.is-on_&]:animate-[badgeStroke_.7s_var(--ease-io)_.3s_both]",
+    fill: "[.is-on_&]:animate-[badgeFill_.4s_cubic-bezier(.3,.7,.4,1)_.85s_both]",
+    glow: "[.is-on_&]:animate-[badgeGlow_.4s_ease_.95s_both]",
+    shadow: "[.is-on_&]:before:animate-[badgeGlow_.4s_ease_.95s_both]",
+    mark: "[.is-on_&]:animate-[badgeStroke_.35s_var(--ease-io)_1.15s_both]",
+    dot: "[.is-on_&]:animate-[badgeStroke_.1s_var(--ease-io)_1.45s_both]",
   },
   loop: {
-    badge: "animate-[vcPop_7s_var(--ease-smooth)_infinite]",
-    glyph: "animate-[vcDraw_7s_linear_infinite]",
-    dot: "",
-    shock: [
-      "animate-[vcShock_7s_var(--ease-smooth)_infinite]",
-      "animate-[vcShock2_7s_var(--ease-smooth)_infinite]",
-    ],
-    halo: "animate-[vcHalo_7s_linear_infinite]",
-    glow: "animate-[vcHalo_7s_linear_infinite]",
-    spark: "animate-[vcSpark_7s_var(--ease-smooth)_infinite]",
+    ring: "animate-[vcBadgeRing_7s_var(--ease-io)_infinite]",
+    fill: "animate-[vcBadgeFill_7s_cubic-bezier(.3,.7,.4,1)_infinite]",
+    glow: "animate-[vcBadgeGlow_7s_ease_infinite]",
+    shadow: "before:animate-[vcBadgeGlow_7s_ease_infinite]",
+    mark: "animate-[vcBadgeMark_7s_var(--ease-io)_infinite]",
+    dot: "animate-[vcBadgeMark_7s_var(--ease-io)_infinite]",
   },
 };
-const medal = (kind = "ok", play = "now", ms = "96px", cls = "") => {
-  const [mc, mg] = (play === "now" ? MEDAL_TINT_DARK : MEDAL_TINT)[kind];
-  const a = MEDAL_ANIM[play];
+let badgeCount = 0;
+// selo do resultado: o traço contorna o círculo, a cor surge de dentro para fora e o símbolo se desenha
+const verifyBadge = (kind = "ok", play = "on", cls = "") => {
+  const t = VERIFY_TONE[kind],
+    a = BADGE_ANIM[play];
+  const grad = `vb-grad-${++badgeCount}`;
+  const stroke = (d, anim) =>
+    `<path class="verify-stroke verify-mark ${anim}" d="${d}" transform="translate(22 22) scale(1.0769)" pathLength="1"/>`;
   const glyph =
-    "fill-none stroke-white stroke-[5.4] [stroke-dasharray:1] [stroke-dashoffset:1] [stroke-linecap:round] [stroke-linejoin:round]";
-  const shock = (k) =>
-    `<i class="size-full rounded-full border-2 border-[var(--mc)] opacity-0 ${a.shock[k]}"></i>`;
-  return `<span class="relative grid size-[var(--ms,96px)] flex-none place-items-center *:[grid-area:1/1] ${cls}" style="--ms:${ms};--mc:${mc};--mg:${mg}" aria-hidden="true">
-      <i class="size-[160%] rounded-full bg-[radial-gradient(closest-side,var(--mg),transparent_72%)] opacity-0 ${a.glow}"></i><i class="size-[134%] rounded-full bg-[conic-gradient(#8fe3ff,#b9a9ff,#ffc4e5,#fff1b0,#b3ffd8,#8fe3ff)] opacity-0 [mask:radial-gradient(closest-side,transparent_83%,#000_85%,#000_96%,transparent_98%)] ${a.halo}"></i>${shock(0)}${shock(1)}
-      <span class="relative size-full">${Array.from({ length: 8 }, (_, k) => `<i class="absolute top-1/2 left-1/2 rounded-full opacity-0 [transform:rotate(var(--a))] ${k % 2 ? "-mt-[2.5%] -ml-[2.5%] size-[5%] bg-[#5fd0ff]" : "-mt-[4%] -ml-[4%] size-[8%] bg-[var(--mc)]"} ${a.spark}" style="--a:${k * 45 + 22}deg"></i>`).join("")}</span>
-      <svg class="relative z-[2] size-full overflow-visible [filter:drop-shadow(0_calc(var(--ms,96px)*.07)_calc(var(--ms,96px)*.14)_var(--mg))] ${kind === "ok" || play === "loop" ? a.badge : a.shake}" viewBox="-2 -2 60 60"><path class="fill-[var(--mc)]" d="${SCALLOP}"/>${
-        kind === "ok"
-          ? `<path class="${glyph} ${a.glyph}" d="M18 28.5l7 7 13.5-14" pathLength="1"/>`
-          : `<path class="${glyph} ${a.glyph}" d="M28 15.5v14.5" pathLength="1"/><circle class="fill-white opacity-0 ${a.dot}" cx="28" cy="38.8" r="2.9"/>`
-      }</svg>
-    </span>`;
+    kind === "ok"
+      ? stroke("M15 27.5l7.5 7.5L37.5 19.5", a.mark)
+      : stroke("M26 14.5v15", a.mark) + stroke("M26 37v.5", a.dot);
+  return `<span class="verify-badge ${a.shadow} ${cls}" style="--tone:${t.tone}" aria-hidden="true"><svg viewBox="0 0 100 100"><defs><radialGradient id="${grad}" gradientUnits="userSpaceOnUse" cx="50" cy="30" r="86"><stop offset="0" stop-color="${t.light}"/><stop offset=".72" stop-color="${t.dark}"/></radialGradient></defs><circle class="verify-glow ${a.glow}" cx="50" cy="50" r="52.94"/><circle class="verify-track" cx="50" cy="50" r="50"/><circle class="verify-fill ${a.fill}" cx="50" cy="50" r="50" fill="url(#${grad})"/><path class="verify-stroke verify-ring ${a.ring}" d="M50 1.2a48.8 48.8 0 1 1 0 97.6a48.8 48.8 0 1 1 0-97.6" pathLength="1"/>${glyph}</svg></span>`;
+};
+// conteúdo da página: medidas em cqi, escala com o contêiner (celular ou painel)
+// product: { thumb, name, detail } · rows: [rótulo, valor, classes] · btn: { label, attrs }
+const verifyScreen = ({ kind, title, sub, product, rows, note, btn }) => {
+  const t = VERIFY_TONE[kind];
+  const prod = product
+    ? `<div class="verify-card verify-prod"><span class="verify-thumb">${product.thumb}</span><div class="min-w-0"><b class="verify-name">${product.name}</b><span class="verify-detail">${product.detail}</span></div></div>`
+    : "";
+  const data = rows
+    .map(
+      ([k, v, cls = ""]) =>
+        `<div><dt>${k}</dt><dd class="${cls}">${v}</dd></div>`,
+    )
+    .join("");
+  const action = btn.attrs
+    ? `<button class="verify-btn ${t.btn} transition-[filter] duration-200 hover:brightness-110" type="button" ${btn.attrs}>${btn.label}</button>`
+    : `<span class="verify-btn ${t.btn}">${btn.label}</span>`;
+  return `<div class="verify">${verifyBadge(kind)}<p class="verify-title ${t.title}">${title}</p><p class="verify-sub">${sub}</p>${prod}<dl class="verify-card verify-data ${product ? "" : "mt-[7cqi]"}">${data}</dl>${note ? `<p class="verify-note">${note}</p>` : ""}${action}</div>`;
 };
 
 export {
@@ -179,9 +177,7 @@ export {
   ACTIONS,
   ACTION_MAIN,
   VR_IN,
-  SCALLOP,
-  MEDAL_TINT,
-  MEDAL_TINT_DARK,
-  MEDAL_ANIM,
-  medal,
+  VERIFY_TONE,
+  verifyBadge,
+  verifyScreen,
 };

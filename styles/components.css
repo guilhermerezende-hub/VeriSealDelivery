@@ -199,3 +199,71 @@
     }
   }
 }
+
+/* telas de verificação (celular do "Como funciona", painel "Verificar garrafa" e cartão do topo):
+   o mesmo padrão do site da VeriSeal. Medidas em cqi: escalam com o contêiner. */
+@layer components {
+  .verify-bar {
+    @apply mx-[4cqi] mt-[.4cqi] flex h-[9.6cqi] items-center justify-center gap-[1.4cqi] rounded-[3cqi] bg-[#eef1f5] text-[3.9cqi] font-medium tracking-normal text-ink [&_.icon]:size-[3.2cqi] [&_.icon]:text-[#5a6377];
+  }
+  .verify-page {
+    @apply border-t-[.3cqi] border-ink/7 bg-[linear-gradient(#f5f8fc,#fff_45%)];
+  }
+  .verify-logo {
+    @apply mx-auto mt-[6cqi] block aspect-wordmark h-[3.7cqi] w-auto;
+  }
+  .verify {
+    @apply flex min-h-full flex-col items-center text-center leading-[1.3] tracking-[-.01em] text-ink;
+  }
+  .verify-badge {
+    @apply relative size-[34cqi] flex-none before:absolute before:inset-0 before:rounded-full before:[box-shadow:0_3cqi_7cqi_rgb(var(--tone)/.3)] [&_svg]:absolute [&_svg]:inset-0 [&_svg]:size-full [&_svg]:overflow-visible;
+  }
+  .verify-glow {
+    @apply fill-none [stroke:rgb(var(--tone)/.13)] [stroke-width:5.88];
+  }
+  .verify-track {
+    @apply [fill:rgb(var(--tone)/.1)];
+  }
+  .verify-fill {
+    @apply origin-center [transform-box:fill-box];
+  }
+  .verify-stroke {
+    @apply fill-none [stroke-dasharray:1_2] [stroke-linecap:round] [stroke-linejoin:round];
+  }
+  .verify-ring {
+    @apply [stroke:rgb(var(--tone))] [stroke-width:2.4];
+  }
+  .verify-mark {
+    @apply stroke-white [stroke-width:5];
+  }
+  .verify-title {
+    @apply mt-[7cqi] text-[9cqi] leading-[1.05] font-extrabold tracking-[-.03em];
+  }
+  .verify-sub {
+    @apply mt-[1.8cqi] text-[4.5cqi] text-[#5a6377];
+  }
+  .verify-card {
+    @apply w-full rounded-[4.5cqi] bg-white text-left shadow-[0_.5cqi_2cqi_rgba(15,26,46,.08),0_0_0_.3cqi_rgba(15,26,46,.05)];
+  }
+  .verify-prod {
+    @apply mt-[7cqi] flex items-center gap-[3.6cqi] p-[2.6cqi];
+  }
+  .verify-thumb {
+    @apply flex h-[19cqi] w-[15cqi] flex-none items-end justify-center overflow-hidden rounded-[3.4cqi] bg-[linear-gradient(#f4f8fd,#e3eaf4)] pt-[1.2cqi] pb-[.8cqi];
+  }
+  .verify-name {
+    @apply block text-[4.6cqi] font-bold tracking-[-.01em];
+  }
+  .verify-detail {
+    @apply mt-[.6cqi] block text-[3.7cqi] text-[#5a6377];
+  }
+  .verify-data {
+    @apply mt-[2.6cqi] px-[4cqi] py-[1cqi] [&_dd]:text-right [&_dd]:font-semibold [&_dt]:text-[#5a6377] [&>div]:flex [&>div]:justify-between [&>div]:gap-[3cqi] [&>div]:border-b-[.3cqi] [&>div]:border-ink/7 [&>div]:py-[2.4cqi] [&>div]:text-[4cqi] [&>div:last-child]:border-b-0;
+  }
+  .verify-note {
+    @apply mt-[3cqi] text-[3.8cqi] leading-[1.35] text-[#5a6377];
+  }
+  .verify-btn {
+    @apply mt-auto w-full rounded-[3.6cqi] p-[3.4cqi] text-center text-[4.2cqi] font-semibold text-white;
+  }
+}
