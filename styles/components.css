@@ -20,6 +20,18 @@
     --icon: url(../icons/bag.svg);
   }
 
+  .icon-bike {
+    --icon: url(../icons/bike.svg);
+  }
+
+  .icon-calendar {
+    --icon: url(../icons/calendar.svg);
+  }
+
+  .icon-car {
+    --icon: url(../icons/car.svg);
+  }
+
   .icon-card {
     --icon: url(../icons/card.svg);
   }
@@ -64,6 +76,10 @@
     --icon: url(../icons/globe.svg);
   }
 
+  .icon-id-card {
+    --icon: url(../icons/id-card.svg);
+  }
+
   .icon-lock {
     --icon: url(../icons/lock.svg);
   }
@@ -82,6 +98,10 @@
 
   .icon-pause {
     --icon: url(../icons/pause.svg);
+  }
+
+  .icon-phone {
+    --icon: url(../icons/phone.svg);
   }
 
   .icon-pin {
@@ -124,6 +144,10 @@
     --icon: url(../icons/user.svg);
   }
 
+  .icon-wallet {
+    --icon: url(../icons/wallet.svg);
+  }
+
   .btn {
     @apply inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full border border-transparent px-[22px] py-[11px] text-[16px] leading-[1.2] font-semibold tracking-[-.01em] whitespace-nowrap no-underline transition-[background-color,color,border-color,transform,opacity,box-shadow] duration-200 active:[transform:scale(.98)] disabled:pointer-events-none disabled:opacity-40 [&_.icon]:size-[18px];
   }
@@ -146,6 +170,39 @@
 
   .btn-sm {
     @apply min-h-9 px-4 py-[7px] text-[14px];
+  }
+
+  /* foto que se funde ao fundo escuro: some à esquerda e embaixo, sem emenda */
+  .photo-fade {
+    -webkit-mask-image:
+      linear-gradient(90deg, transparent, #000 36%),
+      linear-gradient(180deg, transparent, #000 6%, #000 80%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(90deg, transparent, #000 36%),
+      linear-gradient(180deg, transparent, #000 6%, #000 80%, transparent);
+    mask-composite: intersect;
+  }
+
+  /* campos de formulário das páginas (cadastro de entregadores) */
+  .field {
+    @apply flex min-w-0 flex-col gap-1.5;
+  }
+
+  .field-label {
+    @apply text-[13px] font-semibold text-fg;
+  }
+
+  .field-input {
+    @apply h-12 w-full min-w-0 rounded-xl border border-line bg-white px-3.5 text-[16px] text-fg outline-none transition-[border-color,box-shadow] duration-200 placeholder:text-fg-3 focus:border-accent focus:shadow-focus aria-[invalid=true]:border-bad;
+  }
+
+  .field-error {
+    @apply text-[12px] leading-[1.4] font-medium text-bad;
+  }
+
+  .field-hint {
+    @apply text-[12px] leading-[1.4] text-fg-2;
   }
 
   .js .reveal {

@@ -8,14 +8,22 @@ const visualPanel = document.querySelector(".login-visual");
 
 if (
   visualPanel &&
-  window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches
+  window.matchMedia(
+    "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
+  ).matches
 ) {
   visualPanel.addEventListener("pointermove", (event) => {
     if (event.pointerType !== "mouse") return;
 
     const bounds = visualPanel.getBoundingClientRect();
-    visualPanel.style.setProperty("--cursor-x", `${event.clientX - bounds.left}px`);
-    visualPanel.style.setProperty("--cursor-y", `${event.clientY - bounds.top}px`);
+    visualPanel.style.setProperty(
+      "--cursor-x",
+      `${event.clientX - bounds.left}px`,
+    );
+    visualPanel.style.setProperty(
+      "--cursor-y",
+      `${event.clientY - bounds.top}px`,
+    );
     visualPanel.classList.add("is-cursor-active");
   });
 
@@ -24,11 +32,34 @@ if (
   });
 }
 
+// login.html?perfil=entregador: mesma tela, com os textos do portal do entregador
+const courier =
+  new URLSearchParams(location.search).get("perfil") === "entregador";
+
+if (courier) {
+  document.title = "Entrar | Entregadores VeriSeal Delivery";
+  document.querySelector("#visualBadge").lastChild.textContent =
+    " Portal do entregador ";
+  document.querySelector("#visualTitle").innerHTML =
+    'Suas entregas<br class="max-sm:hidden" /> começam aqui.';
+  document.querySelector("#visualText").textContent =
+    "Acompanhe seu cadastro, seus horários e as entregas da sua região.";
+  document.querySelector("#visualFoot").textContent =
+    "VeriSeal Delivery · Entregadores";
+  const backLink = document.querySelector("#backLink");
+  backLink.href = "entregadores.html";
+  backLink.querySelector("span").textContent = "Voltar à área de entregadores";
+  document.querySelector("#registerPrompt").innerHTML =
+    'Ainda não é entregador? <a class="font-bold text-accent hover:text-accent-hover" href="entregadores.html#cadastro">Quero me cadastrar</a>';
+}
+
 const copy = {
   login: {
-    eyebrow: "Sua conta",
+    eyebrow: courier ? "Portal do entregador" : "Sua conta",
     title: "Bem-vindo de volta",
-    description: "Entre com seus dados para continuar.",
+    description: courier
+      ? "Entre para acompanhar seu cadastro e suas entregas."
+      : "Entre com seus dados para continuar.",
     focus: "#loginEmail",
   },
   register: {
@@ -86,7 +117,10 @@ document.querySelectorAll("[data-password-toggle]").forEach((button) => {
     const reveal = input.type === "password";
     input.type = reveal ? "text" : "password";
     button.textContent = reveal ? "Ocultar" : "Mostrar";
-    button.setAttribute("aria-label", `${reveal ? "Ocultar" : "Mostrar"} senha`);
+    button.setAttribute(
+      "aria-label",
+      `${reveal ? "Ocultar" : "Mostrar"} senha`,
+    );
     button.setAttribute("aria-pressed", String(reveal));
   });
 });

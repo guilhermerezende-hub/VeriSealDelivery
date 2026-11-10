@@ -28,12 +28,12 @@
           </a>
 
           <div class="relative z-10 mt-auto max-w-[400px] pb-5 pt-16 max-sm:pt-8 max-sm:pb-0">
-            <span class="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[12px] font-semibold tracking-[.02em] text-[#d9f4ff] backdrop-blur-sm max-sm:mb-3">
+            <span class="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[12px] font-semibold tracking-[.02em] text-[#d9f4ff] backdrop-blur-sm max-sm:mb-3" id="visualBadge">
               <span class="size-1.5 rounded-full bg-cyan"></span>
               Uma experiência VeriSeal
             </span>
-            <p class="text-[clamp(30px,3.4vw,44px)] leading-[1.08] font-extrabold tracking-[-.045em] max-sm:text-[28px]">Sua próxima<br class="max-sm:hidden" /> experiência começa aqui.</p>
-            <p class="mt-4 max-w-[330px] text-[15px] leading-7 text-white/72 max-sm:hidden">Acompanhe seus pedidos e tenha suas escolhas favoritas sempre à mão.</p>
+            <p class="text-[clamp(30px,3.4vw,44px)] leading-[1.08] font-extrabold tracking-[-.045em] max-sm:text-[28px]" id="visualTitle">Sua próxima<br class="max-sm:hidden" /> experiência começa aqui.</p>
+            <p class="mt-4 max-w-[330px] text-[15px] leading-7 text-white/72 max-sm:hidden" id="visualText">Acompanhe seus pedidos e tenha suas escolhas favoritas sempre à mão.</p>
           </div>
 
           <div class="login-orbit absolute right-[-84px] bottom-[118px] size-[300px] rounded-full border border-white/12 max-sm:hidden" aria-hidden="true">
@@ -43,13 +43,13 @@
             <div class="absolute right-[51px] bottom-[45px] size-2 rounded-full bg-white/75"></div>
           </div>
 
-          <p class="relative z-10 mt-auto pt-8 text-[12px] text-white/55 max-sm:hidden">VeriSeal Delivery <span aria-hidden="true">·</span> Sua conta</p>
+          <p class="relative z-10 mt-auto pt-8 text-[12px] text-white/55 max-sm:hidden" id="visualFoot">VeriSeal Delivery <span aria-hidden="true">·</span> Sua conta</p>
         </aside>
 
         <div class="flex min-w-0 flex-col justify-center px-[clamp(32px,6vw,76px)] py-12 max-sm:px-6 max-sm:py-8">
-          <a class="mb-8 inline-flex w-fit items-center gap-1.5 text-[13px] font-semibold text-fg-2 no-underline transition-colors hover:text-accent" href="index.html">
+          <a class="mb-8 inline-flex w-fit items-center gap-1.5 text-[13px] font-semibold text-fg-2 no-underline transition-colors hover:text-accent" href="index.html" id="backLink">
             <i class="icon icon-chev-l size-4" aria-hidden="true"></i>
-            Voltar à loja
+            <span>Voltar à loja</span>
           </a>
 
           <div class="mb-6 rounded-xl border border-[#cfe8f7] bg-[#f1f9fe] px-4 py-3 text-[13px] leading-5 text-navy" role="note">
@@ -77,7 +77,7 @@
               </div>
 
               <button class="btn btn-primary w-full rounded-xl py-3.5" type="submit">Entrar</button>
-              <p class="pt-1 text-center text-[13px] text-fg-2">Ainda não tem uma conta? <button class="font-bold text-accent hover:text-accent-hover" type="button" data-auth-mode="register">Criar conta</button></p>
+              <p class="pt-1 text-center text-[13px] text-fg-2" id="registerPrompt">Ainda não tem uma conta? <button class="font-bold text-accent hover:text-accent-hover" type="button" data-auth-mode="register">Criar conta</button></p>
             </form>
 
             <form class="hidden" data-auth-form="register" method="dialog">

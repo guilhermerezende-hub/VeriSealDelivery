@@ -26,6 +26,7 @@ http
         "index.html",
         "login.html",
         "sobre.html",
+        "entregadores.html",
         "assets",
         "js",
         "produtos",
