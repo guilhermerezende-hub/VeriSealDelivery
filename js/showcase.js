@@ -482,7 +482,7 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
 
     // etapa 3: o celular encosta, o sistema mostra a notificação da etiqueta NFC,
     // o toque nela abre o navegador já no resultado
-    const DUR = [3.6, 4.2, 8.4];
+    const DUR = [2.4, 3, 8.4];
     const DETECT = 0.13,
       TAP = 0.27,
       OPEN = 0.37;
@@ -580,7 +580,7 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
       next.focus();
     });
     function frame(now) {
-      const dt = Math.min(0.05, (now - (last || now)) / 1000);
+      const dt = Math.min(0.1, (now - (last || now)) / 1000);
       last = now;
       if (started && inView && playing) {
         local += dt / DUR[step];
