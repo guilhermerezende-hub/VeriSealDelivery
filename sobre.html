@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sobre o projeto e políticas da demonstração | VeriSeal</title>
+    <meta
+      name="description"
+      content="Entenda o protótipo VeriSeal, seus dados locais, a consulta de CEP e os limites da experiência simulada."
+    />
+    <link rel="icon" href="assets/img/favicon.png" />
+    <link rel="stylesheet" href="assets/css/site.css" />
+  </head>
+  <body class="bg-white font-sans text-fg">
+    <header class="bg-navy px-6 py-4 text-white">
+      <a class="font-bold text-white" href="index.html">VeriSeal Delivery</a>
+    </header>
+    <main class="policy-page mx-auto max-w-3xl px-6 py-8">
+      <a href="index.html">← Voltar à demonstração</a>
+      <h1>Sobre o projeto e políticas da demonstração</h1>
+      <p class="demo-notice">
+        Este é um protótipo. Nenhuma compra, cobrança, entrega ou autenticação
+        real é realizada.
+      </p>
+      <section id="empresa">
+        <h2>Sobre o projeto</h2>
+        <p>
+          A VeriSeal apresenta uma proposta de delivery de bebidas com lacres
+          inteligentes. O catálogo, os valores, as etapas de entrega e os
+          resultados de lacres permitem experimentar a interface.
+        </p>
+        <p id="companyInfo">
+          A razão social e o CNPJ da futura operação ainda não foram informados.
+        </p>
+      </section>
+      <section id="contato">
+        <h2>Contato</h2>
+        <p id="companyContact">
+          O canal comercial oficial ainda não foi divulgado. Esta demonstração
+          não recebe pedidos ou solicitações de atendimento.
+        </p>
+        <p>
+          O código do projeto está disponível no
+          <a href="https://github.com/guilhermerezende-hub/VeriSealDelivery"
+            >repositório da VeriSeal Delivery</a
+          >.
+        </p>
+      </section>
+      <section id="privacidade">
+        <h2>Privacidade nesta demonstração</h2>
+        <p>
+          Use dados fictícios nos formulários. A sacola, a confirmação de idade,
+          o endereço informado, o nome, o telefone, o número e o complemento do
+          checkout, além dos códigos fictícios de lacres, podem ficar salvos no
+          armazenamento local deste navegador. Não são enviados a um servidor de
+          pedidos.
+        </p>
+        <p>
+          Ao consultar um CEP, o navegador envia o CEP ao serviço ViaCEP para
+          buscar o endereço. Isso não verifica cobertura de entrega. A página
+          inicial também carrega fontes do Google Fonts; esses serviços recebem
+          dados técnicos de conexão, como o endereço IP.
+        </p>
+        <p>
+          Para remover os dados da demonstração, limpe os dados deste site nas
+          configurações do navegador ou use o botão abaixo. Ele apaga apenas as
+          entradas da VeriSeal neste navegador.
+        </p>
+        <button class="btn btn-ghost" id="clearDemoData" type="button">
+          Apagar dados locais da demonstração
+        </button>
+        <p id="clearDataStatus" role="status"></p>
+      </section>
+      <section id="termos">
+        <h2>Termos de uso da demonstração</h2>
+        <p>
+          O conteúdo é destinado a maiores de 18 anos. Valores, descontos,
+          parcelamento, frete e horários são ilustrativos. O frete simulado
+          considera o subtotal dos produtos antes do desconto Pix.
+        </p>
+        <p>
+          Concluir o checkout gera somente um exemplo local, com códigos
+          fictícios. Não existe confirmação de pagamento, reserva de estoque,
+          agendamento de entrega ou rastreamento real. O botão de aproximação
+          NFC não lê um lacre físico. Os resultados não comprovam origem,
+          integridade ou segurança de nenhuma bebida.
+        </p>
+        <p>
+          O botão de aviso à marca também é simulado e não envia mensagens. Como
+          não há vendas, o protótipo não executa cancelamentos, trocas ou
+          reembolsos.
+        </p>
+        <p>
+          As informações da empresa, canais de atendimento, cobertura e
+          condições comerciais da operação deverão ser publicadas antes de
+          qualquer venda real.
+        </p>
+      </section>
+    </main>
+    <script type="module" src="js/institutional.js"></script>
+  </body>
+</html>
