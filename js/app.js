@@ -20,7 +20,7 @@ const definir_estado = (elemento, estado) => {
 const icone = (nome, classes = '') =>
   `<i class="icone ${classes}" style="--icone: url(assets/icones/${nome}.svg)" aria-hidden="true"></i>`;
 const simbolo_vs = (classes = '', branco = false) =>
-  `<img class="aspect-simbolo h-auto ${classes}" src="assets/marca/vs-simbolo${branco ? '-branco' : ''}.svg" alt="">`;
+  `<img class="aspect-simbolo h-auto ${classes}" src="assets/marca/logo-curta-fundo-${branco ? 'escuro' : 'claro'}.svg" alt="">`;
 
 const selo_lacre =
   'absolute top-[9px] right-[9px] z-[2] inline-flex items-center gap-[5px] rounded-full bg-marinho py-[3px] pr-2 pl-1.5 text-[11px] font-bold text-white max-celular:pr-[7px] max-celular:pl-[5px] max-celular:text-[10px]';
@@ -49,77 +49,58 @@ const linha_acoes = 'mt-[22px] flex justify-between gap-2.5 max-celular:flex-col
 const acao_principal = 'botao botao-primario ml-auto max-w-[340px] flex-1 max-celular:max-w-none';
 const subir = 'animate-[subir_.5s_var(--ease-suave)_var(--atraso,0s)_both]';
 
-const recorte_medalha =
-  'M28 4.8Q35.82-1.17 39.6 7.91Q49.35 6.65 48.09 16.4Q57.17 20.18 51.2 28Q57.17 35.82 48.09 39.6Q49.35 49.35 39.6 48.09Q35.82 57.17 28 51.2Q20.18 57.17 16.4 48.09Q6.65 49.35 7.91 39.6Q-1.17 35.82 4.8 28Q-1.17 20.18 7.91 16.4Q6.65 6.65 16.4 7.91Q20.18-1.17 28 4.8Z';
-const cores_medalha = {
-  ok: ['#14a64a', 'rgba(20,166,74,.42)'],
-  alerta: ['#e8930c', 'rgba(232,147,12,.42)'],
-  erro: ['#d93025', 'rgba(217,48,37,.42)']
+const tons_verificacao = {
+  ok: { tom: '20 166 74', claro: '#45e083', escuro: '#14a64a', titulo: 'text-[#0f8a3c]', botao: 'bg-marinho' },
+  erro: { tom: '217 48 37', claro: '#ff7166', escuro: '#d93025', titulo: 'text-erro', botao: 'bg-erro' }
 };
-const cores_medalha_escuro = {
-  ok: ['#22c55e', 'rgba(34,197,94,.5)'],
-  alerta: ['#f5a524', 'rgba(245,165,36,.5)'],
-  erro: ['#ff5b4f', 'rgba(255,91,79,.5)']
-};
-const animacoes_medalha = {
-  agora: {
-    selo: 'animate-[medalha-surgir_.75s_var(--ease-mola)_both]',
-    tremer: 'animate-[medalha-surgir_.75s_var(--ease-mola)_both,medalha-tremer_.45s_ease_.85s]',
-    traco: 'animate-[desenhar_.42s_var(--ease-vaivem)_.42s_forwards]',
-    ponto: 'animate-[medalha-aparecer_.2s_ease_.8s_forwards]',
-    onda: [
-      'animate-[medalha-onda_1.1s_var(--ease-suave)_.28s_both]',
-      'animate-[medalha-onda_1.1s_var(--ease-suave)_.5s_both]'
-    ],
-    halo: 'animate-[medalha-halo_.7s_var(--ease-suave)_.45s_both,medalha-girar_9s_linear_.45s_infinite]',
-    brilho: 'animate-[medalha-brilho_2.6s_ease-in-out_.3s_infinite_both]',
-    faisca: 'animate-[medalha-faisca_.95s_var(--ease-suave)_.3s_both]'
-  },
+const animacoes_selo = {
   ligado: {
-    selo: '[.ligado_&]:animate-[medalha-surgir_.75s_var(--ease-mola)_both]',
-    tremer: '[.ligado_&]:animate-[medalha-surgir_.75s_var(--ease-mola)_both,medalha-tremer_.45s_ease_.85s]',
-    traco: '[.ligado_&]:animate-[desenhar_.42s_var(--ease-vaivem)_.42s_forwards]',
-    ponto: '[.ligado_&]:animate-[medalha-aparecer_.2s_ease_.8s_forwards]',
-    onda: [
-      '[.ligado_&]:animate-[medalha-onda_1.1s_var(--ease-suave)_.28s_both]',
-      '[.ligado_&]:animate-[medalha-onda_1.1s_var(--ease-suave)_.5s_both]'
-    ],
-    halo: '[.ligado_&]:animate-[medalha-halo_.7s_var(--ease-suave)_.45s_both,medalha-girar_9s_linear_.45s_infinite]',
-    brilho: '[.ligado_&]:animate-[medalha-brilho_2.6s_ease-in-out_.3s_infinite_both]',
-    faisca: '[.ligado_&]:animate-[medalha-faisca_.95s_var(--ease-suave)_.3s_both]'
+    anel: '[.ligado_&]:animate-[selo-traco_.7s_var(--ease-vaivem)_.3s_both]',
+    encher: '[.ligado_&]:animate-[selo-encher_.4s_cubic-bezier(.3,.7,.4,1)_.85s_both]',
+    aura: '[.ligado_&]:animate-[selo-aura_.4s_ease_.95s_both]',
+    sombra: '[.ligado_&]:before:animate-[selo-aura_.4s_ease_.95s_both]',
+    marca: '[.ligado_&]:animate-[selo-traco_.35s_var(--ease-vaivem)_1.15s_both]',
+    ponto: '[.ligado_&]:animate-[selo-traco_.1s_var(--ease-vaivem)_1.45s_both]'
   },
   repetir: {
-    selo: 'animate-[topo-surgir_7s_var(--ease-suave)_infinite]',
-    traco: 'animate-[topo-desenhar_7s_linear_infinite]',
-    ponto: '',
-    onda: ['animate-[topo-onda_7s_var(--ease-suave)_infinite]', 'animate-[topo-onda-2_7s_var(--ease-suave)_infinite]'],
-    halo: 'animate-[topo-halo_7s_linear_infinite]',
-    brilho: 'animate-[topo-halo_7s_linear_infinite]',
-    faisca: 'animate-[topo-faisca_7s_var(--ease-suave)_infinite]'
+    anel: 'animate-[topo-anel_7s_var(--ease-vaivem)_infinite]',
+    encher: 'animate-[topo-encher_7s_cubic-bezier(.3,.7,.4,1)_infinite]',
+    aura: 'animate-[topo-aura_7s_ease_infinite]',
+    sombra: 'before:animate-[topo-aura_7s_ease_infinite]',
+    marca: 'animate-[topo-marca_7s_var(--ease-vaivem)_infinite]',
+    ponto: 'animate-[topo-marca_7s_var(--ease-vaivem)_infinite]'
   }
 };
-const medalha = (tipo, estilo, tamanho, classes = '') => {
-  const [cor, brilho] = (estilo === 'agora' ? cores_medalha_escuro : cores_medalha)[tipo];
-  const animacao = animacoes_medalha[estilo];
-  const traco =
-    'fill-none stroke-white stroke-[5.4] [stroke-dasharray:1] [stroke-dashoffset:1] [stroke-linecap:round] [stroke-linejoin:round]';
-  const onda = (k) =>
-    `<i class="size-full rounded-full border-2 border-[var(--cor-medalha)] opacity-0 ${animacao.onda[k]}"></i>`;
-  const faiscas = Array.from(
-    { length: 8 },
-    (_, k) =>
-      `<i class="absolute top-1/2 left-1/2 rounded-full opacity-0 [transform:rotate(var(--angulo))] ${k % 2 ? '-mt-[2.5%] -ml-[2.5%] size-[5%] bg-[#5fd0ff]' : '-mt-[4%] -ml-[4%] size-[8%] bg-[var(--cor-medalha)]'} ${animacao.faisca}" style="--angulo:${k * 45 + 22}deg"></i>`
-  ).join('');
+let selos_criados = 0;
+
+// selo do resultado: o traço contorna o círculo, a cor surge de dentro para fora e o símbolo se desenha no centro
+function selo_verificacao(tipo, estilo = 'ligado', classes = '') {
+  const tom = tons_verificacao[tipo];
+  const animacao = animacoes_selo[estilo];
+  const gradiente = `selo-gradiente-${++selos_criados}`;
+  const traco = (d, extra) =>
+    `<path class="verificacao-traco verificacao-marca ${extra}" d="${d}" transform="translate(22 22) scale(1.0769)" pathLength="1"/>`;
   const simbolo =
     tipo === 'ok'
-      ? `<path class="${traco} ${animacao.traco}" d="M18 28.5l7 7 13.5-14" pathLength="1"/>`
-      : `<path class="${traco} ${animacao.traco}" d="M28 15.5v14.5" pathLength="1"/><circle class="fill-white opacity-0 ${animacao.ponto}" cx="28" cy="38.8" r="2.9"/>`;
-  return `<span class="relative grid size-[var(--tamanho-medalha,96px)] flex-none place-items-center *:[grid-area:1/1] ${classes}" style="--tamanho-medalha:${tamanho};--cor-medalha:${cor};--brilho-medalha:${brilho}" aria-hidden="true">
-      <i class="size-[160%] rounded-full bg-[radial-gradient(closest-side,var(--brilho-medalha),transparent_72%)] opacity-0 ${animacao.brilho}"></i><i class="size-[134%] rounded-full bg-[conic-gradient(#8fe3ff,#b9a9ff,#ffc4e5,#fff1b0,#b3ffd8,#8fe3ff)] opacity-0 [mask:radial-gradient(closest-side,transparent_83%,#000_85%,#000_96%,transparent_98%)] ${animacao.halo}"></i>${onda(0)}${onda(1)}
-      <span class="relative size-full">${faiscas}</span>
-      <svg class="relative z-[2] size-full overflow-visible [filter:drop-shadow(0_calc(var(--tamanho-medalha,96px)*.07)_calc(var(--tamanho-medalha,96px)*.14)_var(--brilho-medalha))] ${tipo === 'ok' || estilo === 'repetir' ? animacao.selo : animacao.tremer}" viewBox="-2 -2 60 60"><path class="fill-[var(--cor-medalha)]" d="${recorte_medalha}"/>${simbolo}</svg>
-    </span>`;
-};
+      ? traco('M15 27.5l7.5 7.5L37.5 19.5', animacao.marca)
+      : traco('M26 14.5v15', animacao.marca) + traco('M26 37v.5', animacao.ponto);
+  return `<span class="verificacao-selo ${animacao.sombra} ${classes}" style="--tom:${tom.tom}" aria-hidden="true"><svg viewBox="0 0 100 100"><defs><radialGradient id="${gradiente}" gradientUnits="userSpaceOnUse" cx="50" cy="30" r="86"><stop offset="0" stop-color="${tom.claro}"/><stop offset=".72" stop-color="${tom.escuro}"/></radialGradient></defs><circle class="verificacao-aura ${animacao.aura}" cx="50" cy="50" r="52.94"/><circle class="verificacao-trilho" cx="50" cy="50" r="50"/><circle class="verificacao-preenchimento ${animacao.encher}" cx="50" cy="50" r="50" fill="url(#${gradiente})"/><path class="verificacao-traco verificacao-anel ${animacao.anel}" d="M50 1.2a48.8 48.8 0 1 1 0 97.6a48.8 48.8 0 1 1 0-97.6" pathLength="1"/>${simbolo}</svg></span>`;
+}
+
+// conteúdo da página de verificação (o que o NFC abre no navegador); medidas em cqi, escala com quem a contém
+function tela_verificacao({ tipo, titulo, texto, produto, rompido = false, linhas, nota, botao }) {
+  const tom = tons_verificacao[tipo];
+  const cartao_produto = produto
+    ? `<div class="verificacao-cartao verificacao-produto"><span class="verificacao-miniatura">${foto(produto, { rompido })}</span><div class="min-w-0"><b class="verificacao-nome">${escapar_html(nome_completo(produto))}</b><span class="verificacao-detalhe">${escapar_html(produto.volume)} · ${teor_texto(produto)} vol</span></div></div>`
+    : '';
+  const dados = linhas
+    .map(([rotulo, valor, classes = '']) => `<div><dt>${rotulo}</dt><dd class="${classes}">${valor}</dd></div>`)
+    .join('');
+  const acao = botao.atributos
+    ? `<button class="verificacao-botao ${tom.botao} transition-[filter] duration-200 hover:brightness-110" type="button" ${botao.atributos}>${botao.texto}</button>`
+    : `<span class="verificacao-botao ${tom.botao}">${botao.texto}</span>`;
+  return `<div class="verificacao">${selo_verificacao(tipo)}<p class="verificacao-titulo ${tom.titulo}">${titulo}</p><p class="verificacao-texto">${texto}</p>${cartao_produto}<dl class="verificacao-cartao verificacao-dados ${produto ? '' : 'mt-[7cqi]'}">${dados}</dl>${nota ? `<p class="verificacao-nota">${nota}</p>` : ''}${acao}</div>`;
+}
 
 const armazenamento = {
   ler(chave, padrao) {
@@ -911,6 +892,7 @@ function iniciar_destaques() {
 }
 
 const demo_id = 'jack-7';
+const lacre_demo = 'VS-7K2M-9QXA';
 const topo_id = 'tanqueray';
 
 const cores_apps = [
@@ -936,9 +918,9 @@ function iniciar_cartao_topo() {
         <span class="absolute top-[calc(var(--nfc)*100%)] left-1/2 size-0 animate-[topo-leitura_7s_linear_infinite]">${anel('animate-[anel_1.2s_var(--ease-suave)_infinite]')}${anel('animate-[anel_1.2s_var(--ease-suave)_.4s_infinite]')}${anel('animate-[anel_1.2s_var(--ease-suave)_.8s_infinite]')}</span>
         <span class="absolute top-[calc(var(--nfc)*100%_+_44px)] -left-[6%] z-[2] inline-flex animate-[topo-ok_7s_var(--ease-suave)_infinite] items-center gap-1.5 rounded-full bg-white py-[7px] pr-3 pl-2 text-[12px] font-bold whitespace-nowrap text-ok opacity-0 shadow-[0_12px_28px_rgba(0,0,0,.35)] motion-reduce:opacity-100! motion-reduce:[transform:none]! max-celular:hidden"><span class="rounded-full bg-ok-forte p-0.5 text-white">${icone('certo', 'size-[15px]')}</span>Original · lacre íntegro</span>
       </div>
-      <div class="absolute top-[calc(31%_-_104px)] right-[26px] h-[210px] w-[104px] animate-[topo-celular_7s_var(--ease-suave)_infinite] rounded-[22px] bg-[linear-gradient(145deg,#2b313b,#0b0e13_40%,#1f242c)] p-[5px] shadow-[inset_0_0_0_1.5px_rgba(255,255,255,.14),0_26px_40px_-18px_rgba(0,0,0,.7)] max-tablet:right-[22%] max-celular:right-[22px]"><div class="relative h-full overflow-hidden rounded-[17px] bg-[#f5f8fc] text-grafite before:absolute before:top-1.5 before:left-1/2 before:z-[2] before:h-[9px] before:w-[34%] before:-translate-x-1/2 before:rounded-[9px] before:bg-[#05070a]">
+      <div class="absolute top-[calc(31%_-_104px)] right-[26px] h-[210px] w-[104px] animate-[topo-celular_7s_var(--ease-suave)_infinite] rounded-[22px] bg-[linear-gradient(145deg,#2b313b,#0b0e13_40%,#1f242c)] p-[5px] shadow-[inset_0_0_0_1.5px_rgba(255,255,255,.14),0_26px_40px_-18px_rgba(0,0,0,.7)] max-tablet:right-[22%] max-celular:right-[22px]"><div class="@container relative h-full overflow-hidden rounded-[17px] bg-[#f5f8fc] text-grafite before:absolute before:top-1.5 before:left-1/2 before:z-[2] before:h-[9px] before:w-[34%] before:-translate-x-1/2 before:rounded-[9px] before:bg-[#05070a]">
         <span class="${tela} animate-[topo-inicio_7s_var(--ease-suave)_infinite] bg-[radial-gradient(120%_70%_at_20%_0%,#2f6fd0,transparent_60%),linear-gradient(160deg,#0b2a66,#041330_70%)] pt-[30px] text-white motion-reduce:opacity-0!"><b class="text-[24px] leading-none font-semibold tracking-[-.03em]">${hora(new Date())}</b><span class="mt-4 grid grid-cols-[repeat(4,15px)] gap-[7px]">${cores_apps.map(([a, b]) => `<i class="size-[15px] rounded-[4px]" style="background:linear-gradient(135deg,${a},${b})"></i>`).join('')}</span></span>
-        <span class="${tela} animate-[topo-web_7s_var(--ease-suave)_infinite] gap-[3px] bg-[#f5f8fc] bg-[radial-gradient(90px_70px_at_50%_38%,rgba(20,166,74,.14),transparent_70%)] pt-10 motion-reduce:opacity-100! motion-reduce:[transform:none]!"><span class="absolute inset-x-[7px] top-[19px] flex h-[13px] items-center justify-center gap-[3px] rounded-[5px] bg-[#e6ebf2] text-[7px] font-semibold text-[#3a4250]">${icone('cadeado', 'size-[7px]')}${escapar_html(dominio)}</span>${medalha('ok', 'repetir', '50px', 'mt-2.5 mb-2')}<b class="text-[14px] leading-[1.1] font-extrabold tracking-[-.02em] text-[#0f8a3c]">Autêntico</b><small class="text-[9.5px] text-tinta-2">Nunca aberta</small></span>
+        <span class="${tela} animate-[topo-web_7s_var(--ease-suave)_infinite] bg-white motion-reduce:opacity-100! motion-reduce:[transform:none]!"><span class="absolute inset-x-[7px] top-[19px] flex h-[13px] items-center justify-center gap-[3px] rounded-[5px] bg-[#eef1f5] text-[7px] font-medium text-grafite">${icone('cadeado-fechado', 'size-[6px] text-[#5a6377]')}${escapar_html(dominio)}</span><span class="verificacao-pagina absolute inset-x-0 top-[36px] bottom-0 flex flex-col items-center"><img class="mt-[8px] aspect-logotipo h-[5px] w-auto" src="assets/marca/logo-fundo-claro.svg" alt="">${selo_verificacao('ok', 'repetir', 'mt-[12px] size-[46px]')}<b class="mt-[10px] text-[14px] leading-[1.05] font-extrabold tracking-[-.03em] text-[#0f8a3c]">Autêntico</b><small class="mt-[3px] px-[8px] text-[8.5px] leading-[1.3] text-[#5a6377]">Lacre íntegro · nunca aberto</small></span></span>
       </div></div>`;
   const pausar_fora_da_tela = (entradas) => palco.classList.toggle('pausado', !entradas.at(-1).isIntersecting);
   new IntersectionObserver(pausar_fora_da_tela).observe(palco);
@@ -996,7 +978,7 @@ function iniciar_categorias() {
 function iniciar_trilhos() {
   achar('#trilho-ofertas').innerHTML = produtos
     .filter((p) => p.preco_antigo && !eh_kit(p))
-    .ordem((a, b) => percentual_desconto(b) - percentual_desconto(a))
+    .sort((a, b) => percentual_desconto(b) - percentual_desconto(a))
     .map(cartao_html)
     .join('');
   achar('#trilho-pedidos').innerHTML = produtos
@@ -1115,7 +1097,7 @@ function listar_produtos() {
       (!filtros.busca || combina(p, filtros.busca))
   );
   const ordenador = ordenadores[filtros.ordem];
-  return ordenador ? lista.ordem(ordenador) : lista;
+  return ordenador ? lista.sort(ordenador) : lista;
 }
 
 function mostrar_catalogo() {
@@ -1885,73 +1867,49 @@ function verificar(codigo) {
   }
 }
 
-const resultado_cores = { ok: 'text-[#8ef5b0]', alerta: 'text-[#ffd67a]', erro: 'text-[#ffaaa3]' };
-const mono = 'font-mono text-[14px] tracking-[.02em]';
-
-const resultado_endereco = (codigo) =>
-  `<p class="mx-auto mb-3.5 flex w-fit max-w-full items-center gap-1.5 rounded-full bg-white/8 px-3 py-1.5 font-mono text-[12px] leading-[1.2] font-medium text-[#c3cbd9] shadow-[inset_0_0_0_1px_rgba(255,255,255,.1)] ${subir}">${icone('cadeado', 'size-[13px] text-[#8ef5b0]')}<span>${escapar_html(dominio)}/v/${escapar_html(codigo.slice(3))}</span></p>`;
-
-const resultado_topo = (tipo, titulo, texto) =>
-  `<div class="flex flex-col items-center gap-3 pt-1.5 pb-0.5 text-center">${medalha(tipo, 'agora', '92px')}<div class="${subir}" style="--atraso:.38s"><b class="block text-[clamp(28px,3vw,36px)] leading-none font-extrabold tracking-[-.03em] ${resultado_cores[tipo]}">${titulo}</b><span class="mt-1.5 block text-[14px] text-white/78">${texto}</span></div></div>`;
-
-const resultado_celula = ([rotulo, valor, classes]) =>
-  `<div><dt class="text-[12px] text-[#94a0b8]">${rotulo}</dt><dd class="mt-0.5 font-semibold ${classes || 'text-[15px]'}">${valor}</dd></div>`;
-
-const resultado_grade = (celulas, atraso) =>
-  `<dl class="mt-4 grid grid-cols-2 gap-x-[18px] gap-y-3.5 rounded-2xl bg-white/5 px-4 py-3.5 max-celular:gap-x-3 max-celular:gap-y-2.5 ${subir}" style="--atraso:${atraso}">${celulas.map(resultado_celula).join('')}</dl>`;
-
-const resultado_nota = (texto, atraso) =>
-  `<p class="mt-4 text-[14px] leading-normal text-[#c3cbd9] ${subir}" style="--atraso:${atraso}">${texto}</p>`;
-
-const jornada_entrada = [
-  'animate-[subir_.45s_var(--ease-suave)_calc(var(--atraso,0s)_+_.1s)_both]',
-  'animate-[subir_.45s_var(--ease-suave)_calc(var(--atraso,0s)_+_.2s)_both]',
-  'animate-[subir_.45s_var(--ease-suave)_calc(var(--atraso,0s)_+_.3s)_both]',
-  'animate-[subir_.45s_var(--ease-suave)_calc(var(--atraso,0s)_+_.4s)_both]'
-];
-
-const jornada_etapa = (k, titulo, texto, agora) =>
-  `<li class="relative ${jornada_entrada[k]} pt-1 pb-2.5 [--subida:8px] before:absolute before:top-2 before:-left-6 before:size-2.5 before:rounded-full before:border-2 ${agora ? 'before:border-[#30d158] before:bg-[#30d158] before:shadow-[0_0_0_5px_rgba(48,209,88,.2)]' : 'before:border-[#03adf9] before:bg-noite'}"><b class="block text-[14px]">${titulo}</b><span class="block text-[12px] text-[#94a0b8]">${texto}</span></li>`;
+// a página de verificação como abre no celular, em tamanho de leitura: barra do navegador, logo e o resultado
+const pagina_verificacao = (conteudo) =>
+  `<div class="@container mx-auto w-full max-w-[380px] overflow-hidden rounded-[26px] bg-white pt-[14px] shadow-[0_30px_60px_-24px_rgba(0,0,0,.75)] ${subir}"><div class="verificacao-barra">${icone('cadeado-fechado')}<span>${escapar_html(dominio)}</span></div><div class="verificacao-pagina mt-[3cqi] px-[6cqi] pb-[6cqi]"><img class="verificacao-logo" src="assets/marca/logo-fundo-claro.svg" alt="VeriSeal"><div class="ligado mt-[8.3cqi] [&_.verificacao-botao]:mt-[6cqi]">${conteudo}</div></div></div>`;
 
 function mostrar_resultado(codigo) {
   const lacre = lacres[codigo];
   const p = lacre && por_id[lacre.produto];
+  const codigo_lacre = [lacre ? 'Lacre' : 'Código', escapar_html(codigo), 'font-mono'];
   if (!p) {
     resultado_verificacao.dataset.estado = 'erro';
-    resultado_verificacao.innerHTML = `<div class="w-full">${resultado_endereco(codigo)}
-          ${resultado_topo('erro', 'Não reconhecido', 'Este código não existe na base VeriSeal.')}
-          ${resultado_grade(
-            [
-              ['Código', escapar_html(codigo), mono],
-              ['Situação', 'sem registro', 'text-[15px] text-[#ff8a80]']
-            ],
-            '.5s'
-          )}
-          ${resultado_nota('Pode ser uma garrafa falsificada. Não consuma a bebida e avise a marca. Se a compra foi aqui, recuse a entrega e receba o valor integral.', '.6s')}
-          <button class="botao botao-claro botao-pequeno mt-4 ${subir}" style="--atraso:.7s" type="button" data-avisar>Avisar a marca</button>
-        </div>`;
+    resultado_verificacao.innerHTML = pagina_verificacao(
+      tela_verificacao({
+        tipo: 'erro',
+        titulo: 'Não reconhecido',
+        texto: 'Este código não existe na base VeriSeal',
+        linhas: [codigo_lacre, ['Situação', 'sem registro', 'text-erro']],
+        nota: 'Pode ser uma garrafa falsificada. Não consuma a bebida e avise a marca. Se a compra foi aqui, recuse a entrega e receba o valor integral.',
+        botao: { texto: 'Avisar a marca', atributos: 'data-avisar' }
+      })
+    );
     return;
   }
   lacre.verificacoes = (lacre.verificacoes || 0) + 1;
   salvar_lacre(codigo);
-  const aberta = lacre.situacao === 'aberta';
-  const produto = `<div class="mt-4 flex items-center gap-4 rounded-2xl bg-white/7 px-4 py-3 ${subir}" style="--atraso:.5s"><span class="flex h-[104px] w-[52px] shrink-0 items-end justify-center rounded-xl bg-[linear-gradient(#f4f8fd,#dfe7f2)] px-0.5 pt-1.5 pb-1 text-[13px] text-[#94a0b8]">${foto(p, { rompido: aberta })}</span><div><strong class="block text-[17px] tracking-[-.015em]">${escapar_html(nome_completo(p))}</strong><span class="text-[13px] text-[#94a0b8]">${escapar_html(p.volume)} · ${teor_texto(p)} vol. · ${escapar_html(p.origem)}</span></div></div>`;
-  if (aberta) {
-    resultado_verificacao.dataset.estado = 'alerta';
-    resultado_verificacao.innerHTML = `<div class="w-full">${resultado_endereco(codigo)}
-          ${resultado_topo('alerta', 'Já foi aberta', 'O circuito do lacre está rompido.')}
-          ${produto}
-          ${resultado_grade(
-            [
-              ['Lacre', escapar_html(codigo), mono],
-              ['Lote', escapar_html(lacre.lote)],
-              ['1ª abertura', escapar_html(lacre.aberta_em), 'text-[15px] text-[#ffd67a]'],
-              ['Verificações', lacre.verificacoes]
-            ],
-            '.6s'
-          )}
-          ${resultado_nota('Comprou lacrada? Desconfie da procedência e fale com o vendedor. Nas compras feitas aqui, você pode recusar a entrega sem custo.', '.7s')}
-        </div>`;
+  if (lacre.situacao === 'aberta') {
+    resultado_verificacao.dataset.estado = 'erro';
+    resultado_verificacao.innerHTML = pagina_verificacao(
+      tela_verificacao({
+        tipo: 'erro',
+        titulo: 'Adulterado',
+        texto: 'Esta garrafa já foi aberta',
+        produto: p,
+        rompido: true,
+        linhas: [
+          codigo_lacre,
+          ['Lote', escapar_html(lacre.lote)],
+          ['1ª abertura', escapar_html(lacre.aberta_em)],
+          ['Situação', 'circuito rompido', 'text-erro']
+        ],
+        nota: 'Comprou lacrada? Desconfie da procedência e fale com o vendedor. Nas compras feitas aqui, você pode recusar a entrega sem custo.',
+        botao: { texto: 'Avisar a marca', atributos: 'data-avisar' }
+      })
+    );
     return;
   }
   const enviado =
@@ -1959,25 +1917,22 @@ function mostrar_resultado(codigo) {
       ? 'hoje · ' + hora(new Date(Date.now() - lacre.enviado_ha * 60000))
       : lacre.enviado_em || 'antes do envio';
   resultado_verificacao.dataset.estado = 'ok';
-  resultado_verificacao.innerHTML = `<div class="w-full">${resultado_endereco(codigo)}
-        ${resultado_topo('ok', 'Autêntico', 'Original · lacre íntegro, nunca aberto')}
-        ${produto}
-        ${resultado_grade(
-          [
-            ['Lacre', escapar_html(codigo), mono],
-            ['Lote', escapar_html(lacre.lote)],
-            ['Produção', escapar_html(lacre.producao)],
-            ['Verificações', lacre.verificacoes]
-          ],
-          '.6s'
-        )}
-        <ol class="relative mt-[18px] pl-[26px] before:absolute before:top-2 before:bottom-2 before:left-[7px] before:w-0.5 before:bg-[linear-gradient(#03adf9,#30d158)] ${subir}" style="--atraso:.7s">
-          ${jornada_etapa(0, 'Produção', `${escapar_html(lacre.producao)} · linha de envase`)}
-          ${jornada_etapa(1, 'Distribuidor autorizado', 'origem rastreada')}
-          ${jornada_etapa(2, 'VeriSeal Delivery', `lacre conferido no envio · ${escapar_html(enviado)}`)}
-          ${jornada_etapa(3, 'Você', 'agora · lacre íntegro', true)}
-        </ol>
-      </div>`;
+  resultado_verificacao.innerHTML = pagina_verificacao(
+    tela_verificacao({
+      tipo: 'ok',
+      titulo: 'Autêntico',
+      texto: 'Lacre íntegro · nunca aberto',
+      produto: p,
+      linhas: [
+        codigo_lacre,
+        ['Lote', escapar_html(lacre.lote)],
+        ['Produção', escapar_html(lacre.producao)],
+        ['Conferido no envio', escapar_html(enviado)],
+        ['Verificações', lacre.verificacoes]
+      ],
+      botao: { texto: 'Ver detalhes do produto', atributos: `data-abrir="${p.id}"` }
+    })
+  );
 }
 
 function salvar_lacre(codigo) {
@@ -2020,7 +1975,7 @@ function iniciar_verificacao() {
   });
   achar('#botao-nfc').addEventListener('click', () => {
     const ultimo = armazenamento.ler('ultimo_lacre', null);
-    const codigo = lacres[ultimo] ? ultimo : 'VS-7K2M-9QXA';
+    const codigo = lacres[ultimo] ? ultimo : lacre_demo;
     campo_verificacao.value = codigo;
     verificar(codigo);
   });
@@ -2063,16 +2018,32 @@ function iniciar_como_funciona() {
   achar('#como-foto').innerHTML = `
       <div class="absolute inset-0" style="clip-path:${recorte_corpo}">${foto(demo, { imediato: true, classe_lacre: '[.lendo_&]:[filter:drop-shadow(0_0_7px_rgba(95,208,255,.95))_drop-shadow(0_0_2px_#fff)]' })}<span class="absolute size-0 opacity-0 [transition:opacity_.3s_.4s] [.violado.etapa-2_&]:opacity-100" style="left:${porcentagem(lacre.x)};top:${porcentagem(lacre.y)}"><i class="${ponto} -left-3.5"></i><i class="${ponto} left-[7px]"></i></span></div>
       <div class="absolute inset-0 [transition:transform_.9s_var(--ease-mola)] [.violado.etapa-2_&]:[transform:translate(6%,-3.4%)_rotate(-10deg)]" style="clip-path:${recorte_tampa};transform-origin:${porcentagem(lacre.x + lacre.largura_tira)} ${porcentagem(lacre.y)}">${foto(demo, { imediato: true })}</div>`;
-  for (const caixa of achar_todos('[data-miniatura]', cena)) {
-    caixa.innerHTML = foto(demo, { rompido: caixa.dataset.miniatura === 'erro', classes: 'mt-[.6cqi] h-full' });
-  }
-  for (const caixa of achar_todos('[data-medalha]', cena))
-    caixa.innerHTML = medalha(caixa.dataset.medalha, 'ligado', '26cqi');
-  for (const caixa of achar_todos('[data-pagina]', cena)) caixa.textContent = `${dominio}/${caixa.dataset.pagina}`;
-  for (const caixa of achar_todos('[data-produto]', cena)) {
-    caixa.querySelector('b').textContent = demo.nome;
-    caixa.querySelector('span').textContent = `${demo.marca} · ${demo.volume} · ${teor_texto(demo)}`;
-  }
+  telas.ok.innerHTML = tela_verificacao({
+    tipo: 'ok',
+    titulo: 'Autêntico',
+    texto: 'Lacre íntegro · nunca aberto',
+    produto: demo,
+    linhas: [
+      ['Lacre', lacre_demo, 'font-mono'],
+      ['Conferido no envio', '<span id="demo-enviado">hoje</span>']
+    ],
+    botao: { texto: 'Ver detalhes do produto' }
+  });
+  telas.erro.innerHTML = tela_verificacao({
+    tipo: 'erro',
+    titulo: 'Adulterado',
+    texto: 'Esta garrafa já foi aberta',
+    produto: demo,
+    rompido: true,
+    linhas: [
+      ['1ª abertura', '<span id="demo-rompido">hoje</span>'],
+      ['Situação', 'circuito rompido', 'text-erro']
+    ],
+    nota: 'Não aceite a garrafa: recuse a entrega e receba o valor integral.',
+    botao: { texto: 'Recusar e reembolsar' }
+  });
+  for (const caixa of achar_todos('[data-pagina]', cena))
+    caixa.textContent = [dominio, caixa.dataset.pagina].filter(Boolean).join('/');
   const demo_pedido = [
     [demo_id, 1],
     ['tanqueray', 1]
@@ -2091,8 +2062,11 @@ function iniciar_como_funciona() {
   atualizar_relogio();
   setInterval(atualizar_relogio, 30000);
 
-  const duracoes = [3.6, 4.2, 7.4];
-  const abre_em = 0.3;
+  // passo 3: o celular se aproxima, o sistema mostra a notificação da etiqueta NFC, o toque nela abre a página já no resultado
+  const duracoes = [2.4, 3, 8.4];
+  const detecta_em = 0.13;
+  const toca_em = 0.27;
+  const abre_em = 0.37;
   let etapa = 0;
   let progresso = 0;
   let tocando = !menos_movimento;
@@ -2107,9 +2081,12 @@ function iniciar_como_funciona() {
     cena.classList.toggle('iniciado', iniciado);
     ['etapa-0', 'etapa-1', 'etapa-2'].forEach((nome, i) => cena.classList.toggle(nome, iniciado && etapa === i));
     cena.classList.toggle('escaneado', iniciado && etapa === 1 && progresso > 0.42);
-    cena.classList.toggle('lendo', etapa_resultado && progresso > 0.08 && progresso < abre_em + 0.04);
+    const notificacao = etapa_resultado && progresso < abre_em;
+    cena.classList.toggle('lendo', notificacao && progresso > 0.04);
+    cena.classList.toggle('nfc-detectado', notificacao && progresso >= detecta_em);
+    cena.classList.toggle('nfc-tocado', notificacao && progresso >= toca_em);
     cena.classList.toggle('celular-aberto', etapa_resultado && progresso >= abre_em);
-    cena.classList.toggle('celular-resultado', etapa_resultado && progresso >= abre_em + 0.14);
+    cena.classList.toggle('celular-resultado', etapa_resultado && progresso >= abre_em + 0.1);
     telas.ok.classList.toggle('ligado', etapa_resultado && progresso >= abre_em && !violado);
     telas.erro.classList.toggle('ligado', etapa_resultado && progresso >= abre_em && violado);
     etapas.forEach((item, i) => {
@@ -2175,7 +2152,7 @@ function iniciar_como_funciona() {
   });
 
   function quadro(agora) {
-    const dt = Math.min(0.05, (agora - (ultimo_tempo || agora)) / 1000);
+    const dt = Math.min(0.1, (agora - (ultimo_tempo || agora)) / 1000);
     ultimo_tempo = agora;
     if (iniciado && visivel && tocando) {
       progresso += dt / duracoes[etapa];
@@ -2207,7 +2184,7 @@ function iniciar_como_funciona() {
 }
 
 function iniciar_lacre() {
-  montar_lacre(achar('#lacre-palco'), 'VS-7K2M-9QXA', achar('#lacre-bloco'));
+  montar_lacre(achar('#lacre-palco'), lacre_demo, achar('#lacre-bloco'));
 }
 
 function tratar_clique(e) {
