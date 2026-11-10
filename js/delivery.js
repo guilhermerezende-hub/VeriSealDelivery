@@ -35,7 +35,10 @@ export async function lookupCep(
     if (!response.ok) throw new Error("CEP service unavailable");
     const data = await response.json();
     if (data.erro)
-      return { error: "Não encontramos esse CEP. Confira os números." };
+      return {
+        error: "Não encontramos esse CEP. Confira os números.",
+        notFound: true,
+      };
     if (
       typeof data.localidade !== "string" ||
       !data.localidade ||

@@ -10,7 +10,8 @@ import {
   safe,
   icon,
   vsMark,
-  medal,
+  verifyBadge,
+  verifyScreen,
 } from "./ui.js";
 import { SITE_HOST } from "./config.js";
 import { pix } from "./commerce.js";
@@ -72,10 +73,10 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
         <p class="mt-4 flex flex-wrap items-baseline gap-x-2.5 gap-y-1">${p.oldPrice ? `<s class="text-[15px] text-white/62">${money(p.oldPrice)}</s>` : ""}<b class="text-[32px] leading-none font-extrabold tracking-[-.03em] max-sm:text-[26px]">${money(p.price)}</b><span class="text-[14px] font-semibold text-[#8ef5b0]">${money(pix(p.price))} no Pix</span></p>
         <div class="mt-5 flex flex-wrap items-center gap-3.5">
           <button class="btn btn-light" type="button" data-add="${p.id}" aria-label="Adicionar ${esc(fullName(p))} à sacola">${icon("plus")}Adicionar</button>
-          <button class="inline-flex items-center gap-1 py-2 text-[15px] font-semibold text-white hover:underline" type="button" data-open="${p.id}">Ver detalhes ${icon("chev-r", "size-4 stroke-[2.2]")}</button>
+          <button class="inline-flex items-center gap-1 py-2 text-[15px] font-semibold text-white hover:underline" type="button" data-open="${p.id}">Ver detalhes ${icon("chev-r", "size-4")}</button>
         </div>
       </div>
-      <span class="absolute top-[18px] right-[18px] z-[2] inline-flex items-center gap-[7px] rounded-full bg-navy-ink/50 py-1.5 pr-3 pl-[9px] text-[12px] font-bold shadow-[inset_0_0_0_1px_rgba(255,255,255,.18)] backdrop-blur-[10px] max-sm:top-3 max-sm:right-3 max-sm:text-[11px] ${FADE_OUT}">${vsMark("w-[22px] [--lg-ink:#fff]")}Lacre VeriSeal</span>
+      <span class="absolute top-[18px] right-[18px] z-[2] inline-flex items-center gap-[7px] rounded-full bg-navy-ink/50 py-1.5 pr-3 pl-[9px] text-[12px] font-bold shadow-[inset_0_0_0_1px_rgba(255,255,255,.18)] backdrop-blur-[10px] max-sm:top-3 max-sm:right-3 max-sm:text-[11px] ${FADE_OUT}">${vsMark("w-[22px]", true)}Lacre VeriSeal</span>
     </article>`;
   }
   // curva cubic-bezier do CSS, para animar em JS com a mesma sensação das transições
@@ -375,11 +376,11 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
       <div class="absolute -top-[2%] left-[2%] h-[64%] w-[76%] bg-[radial-gradient(closest-side,rgba(95,208,255,.5),rgba(3,173,249,.16)_58%,transparent)] blur-[8px]"></div>
       <div class="absolute top-[calc(31%_-_var(--nfc)*var(--bh))] left-[14%] aspect-[var(--ar)] h-(--bh) drop-shadow-[0_30px_40px_rgba(0,0,0,.5)] [--bh:560px] max-md:left-[24%] max-sm:left-[9%] max-sm:[--bh:520px]" style="--nfc:${g.nfc.toFixed(4)};--ar:${p.size[0]} / ${p.size[1]}">${shot(p, { eager: true, sealCls: "animate-[vcGlow_7s_var(--ease-smooth)_infinite]" })}
         <span class="absolute top-[calc(var(--nfc)*100%)] left-1/2 size-0 animate-[vcRead_7s_linear_infinite]">${ring("animate-[ring_1.2s_var(--ease-smooth)_infinite]")}${ring("animate-[ring_1.2s_var(--ease-smooth)_.4s_infinite]")}${ring("animate-[ring_1.2s_var(--ease-smooth)_.8s_infinite]")}</span>
-        <span class="absolute top-[calc(var(--nfc)*100%_+_44px)] -left-[6%] z-[2] inline-flex animate-[vcOk_7s_var(--ease-smooth)_infinite] items-center gap-1.5 rounded-full bg-white py-[7px] pr-3 pl-2 text-[12px] font-bold whitespace-nowrap text-ok opacity-0 shadow-[0_12px_28px_rgba(0,0,0,.35)] motion-reduce:opacity-100! motion-reduce:[transform:none]! max-sm:hidden">${icon("check", "box-content size-[15px] rounded-full bg-ok-fill p-0.5 stroke-[2.6] text-white")}Original · lacre íntegro</span>
+        <span class="absolute top-[calc(var(--nfc)*100%_+_44px)] -left-[6%] z-[2] inline-flex animate-[vcOk_7s_var(--ease-smooth)_infinite] items-center gap-1.5 rounded-full bg-white py-[7px] pr-3 pl-2 text-[12px] font-bold whitespace-nowrap text-ok opacity-0 shadow-[0_12px_28px_rgba(0,0,0,.35)] motion-reduce:opacity-100! motion-reduce:[transform:none]! max-sm:hidden"><span class="rounded-full bg-ok-fill p-0.5 text-white">${icon("check", "size-[15px]")}</span>Original · lacre íntegro</span>
       </div>
-      <div class="absolute top-[calc(31%_-_104px)] right-[26px] h-[210px] w-[104px] animate-[vcPhone_7s_var(--ease-smooth)_infinite] rounded-[22px] bg-[linear-gradient(145deg,#2b313b,#0b0e13_40%,#1f242c)] p-[5px] shadow-[inset_0_0_0_1.5px_rgba(255,255,255,.14),0_26px_40px_-18px_rgba(0,0,0,.7)] max-md:right-[22%] max-sm:right-[22px]"><div class="relative h-full overflow-hidden rounded-[17px] bg-[#f5f8fc] text-ink before:absolute before:top-1.5 before:left-1/2 before:z-[2] before:h-[9px] before:w-[34%] before:-translate-x-1/2 before:rounded-[9px] before:bg-[#05070a]">
+      <div class="absolute top-[calc(31%_-_104px)] right-[26px] h-[210px] w-[104px] animate-[vcPhone_7s_var(--ease-smooth)_infinite] rounded-[22px] bg-[linear-gradient(145deg,#2b313b,#0b0e13_40%,#1f242c)] p-[5px] shadow-[inset_0_0_0_1.5px_rgba(255,255,255,.14),0_26px_40px_-18px_rgba(0,0,0,.7)] max-md:right-[22%] max-sm:right-[22px]"><div class="@container relative h-full overflow-hidden rounded-[17px] bg-[#f5f8fc] text-ink before:absolute before:top-1.5 before:left-1/2 before:z-[2] before:h-[9px] before:w-[34%] before:-translate-x-1/2 before:rounded-[9px] before:bg-[#05070a]">
         <span class="${screen} animate-[vcHome_7s_var(--ease-smooth)_infinite] bg-[radial-gradient(120%_70%_at_20%_0%,#2f6fd0,transparent_60%),linear-gradient(160deg,#0b2a66,#041330_70%)] pt-[30px] text-white motion-reduce:opacity-0!"><b class="text-[24px] leading-none font-semibold tracking-[-.03em]">${hhmm(new Date())}</b><span class="mt-4 grid grid-cols-[repeat(4,15px)] gap-[7px]">${APP_TINTS.map(([a, b]) => `<i class="size-[15px] rounded-[4px]" style="background:linear-gradient(135deg,${a},${b})"></i>`).join("")}</span></span>
-        <span class="${screen} animate-[vcWeb_7s_var(--ease-smooth)_infinite] gap-[3px] bg-[#f5f8fc] bg-[radial-gradient(90px_70px_at_50%_38%,rgba(20,166,74,.14),transparent_70%)] pt-10 motion-reduce:opacity-100! motion-reduce:[transform:none]!"><span class="absolute inset-x-[7px] top-[19px] flex h-[13px] items-center justify-center gap-[3px] rounded-[5px] bg-[#e6ebf2] text-[7px] font-semibold text-[#3a4250]">${icon("lock", "size-[7px] stroke-[2.6]")}${esc(SITE_HOST)}</span>${medal("ok", "loop", "50px", "mt-2.5 mb-2")}<b class="text-[14px] leading-[1.1] font-extrabold tracking-[-.02em] text-[#0f8a3c]">Autêntico</b><small class="text-[9.5px] text-fg-2">Nunca aberta</small></span>
+        <span class="${screen} animate-[vcWeb_7s_var(--ease-smooth)_infinite] bg-white motion-reduce:opacity-100! motion-reduce:[transform:none]!"><span class="absolute inset-x-[7px] top-[19px] flex h-[13px] items-center justify-center gap-[3px] rounded-[5px] bg-[#eef1f5] text-[7px] font-medium text-ink">${icon("lock-filled", "size-[6px] text-[#5a6377]")}${esc(SITE_HOST)}</span><span class="verify-page absolute inset-x-0 top-[36px] bottom-0 flex flex-col items-center"><img class="mt-[8px] aspect-wordmark h-[5px] w-auto" src="assets/brand/logo-light-bg.svg" alt="">${verifyBadge("ok", "loop", "mt-[12px] size-[46px]")}<b class="mt-[10px] text-[14px] leading-[1.05] font-extrabold tracking-[-.03em] text-[#0f8a3c]">Autêntico</b><small class="mt-[3px] px-[8px] text-[8.5px] leading-[1.3] text-[#5a6377]">Lacre íntegro · nunca aberto</small></span></span>
       </div></div>`;
     // a animação só roda com o cartão na tela
     new IntersectionObserver(([e]) =>
@@ -420,22 +421,37 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
     $("#hsPhoto").innerHTML = `
       <div class="absolute inset-0" style="clip-path:${bodyClip}">${shot(P, { eager: true, sealCls: "[.is-reading_&]:[filter:drop-shadow(0_0_7px_rgba(95,208,255,.95))_drop-shadow(0_0_2px_#fff)]" })}<span class="absolute size-0 opacity-0 [transition:opacity_.3s_.4s] [.is-bad.st-2_&]:opacity-100" style="left:${pc(g.x)};top:${pc(g.y)}"><i class="${dot} -left-3.5"></i><i class="${dot} left-[7px]"></i></span></div>
       <div class="absolute inset-0 [transition:transform_.9s_var(--ease-spring)] [.is-bad.st-2_&]:[transform:translate(6%,-3.4%)_rotate(-10deg)]" style="clip-path:${capClip};transform-origin:${pc(g.x + g.sw)} ${pc(g.y)}">${shot(P, { eager: true })}</div>`;
-    $$("[data-thumb]", scene).forEach((el) => {
-      el.innerHTML = shot(P, {
-        torn: el.dataset.thumb === "bad",
-        cls: "mt-[.6cqi] h-full",
-      });
+    // telas do resultado no celular, no padrão da página de verificação da VeriSeal
+    const prod = (torn) => ({
+      thumb: shot(P, { torn }),
+      name: esc(fullName(P)),
+      detail: `${esc(P.volume)} · ${abv(P)} vol`,
     });
-    $$("[data-medal]", scene).forEach((el) => {
-      el.innerHTML = medal(el.dataset.medal, "on", "26cqi");
+    scr.ok.innerHTML = verifyScreen({
+      kind: "ok",
+      title: "Exemplo: íntegro",
+      sub: "Resultado fictício · sem validação real",
+      product: prod(false),
+      rows: [
+        ["Lacre", "VS-7K2M-9QXA", "font-mono"],
+        ["Conferido no envio", '<span id="apSent">hoje</span>'],
+      ],
+      btn: { label: "Ver detalhes do produto" },
+    });
+    scr.bad.innerHTML = verifyScreen({
+      kind: "bad",
+      title: "Lacre violado",
+      sub: "Esta garrafa foi aberta depois do envio",
+      product: prod(true),
+      rows: [
+        ["Rompido em", '<span id="apBroken">hoje</span>'],
+        ["Situação", "circuito rompido", "text-bad"],
+      ],
+      note: "Alerta ilustrativo: nenhum lacre físico foi consultado.",
+      btn: { label: "Recusar e reembolsar" },
     });
     $$("[data-url]", scene).forEach((el) => {
-      el.textContent = `${SITE_HOST}/${el.dataset.url}`;
-    });
-    $$("[data-prod]", scene).forEach((el) => {
-      el.querySelector("b").textContent = P.name;
-      el.querySelector("span").textContent =
-        `${P.brand} · ${P.volume} · ${abv(P)}`;
+      el.textContent = [SITE_HOST, el.dataset.url].filter(Boolean).join("/");
     });
     const order = [
       [DEMO, 1],
@@ -464,8 +480,12 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
     clock();
     setInterval(clock, 30000);
 
-    const DUR = [3.6, 4.2, 7.4];
-    const OPEN = 0.3; // na etapa 3, o ponto em que o navegador abre (já no resultado)
+    // etapa 3: o celular encosta, o sistema mostra a notificação da etiqueta NFC,
+    // o toque nela abre o navegador já no resultado
+    const DUR = [2.4, 3, 8.4];
+    const DETECT = 0.13,
+      TAP = 0.27,
+      OPEN = 0.37;
     let step = 0,
       local = 0,
       playing = !reduce,
@@ -482,9 +502,12 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
         scene.classList.toggle(c, started && step === i),
       );
       scene.classList.toggle("is-scanned", started && step === 1 && L > 0.42);
-      scene.classList.toggle("is-reading", s2 && L > 0.08 && L < OPEN + 0.04);
+      const notify = s2 && L < OPEN;
+      scene.classList.toggle("is-reading", notify && L > 0.04);
+      scene.classList.toggle("ph-detect", notify && L >= DETECT);
+      scene.classList.toggle("ph-tapped", notify && L >= TAP);
       scene.classList.toggle("ph-open", s2 && L >= OPEN);
-      scene.classList.toggle("ph-result", s2 && L >= OPEN + 0.14);
+      scene.classList.toggle("ph-result", s2 && L >= OPEN + 0.1);
       scr.ok.classList.toggle("is-on", s2 && L >= OPEN && !bad);
       scr.bad.classList.toggle("is-on", s2 && L >= OPEN && bad);
       steps.forEach((li, i) => {
@@ -557,7 +580,7 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
       next.focus();
     });
     function frame(now) {
-      const dt = Math.min(0.05, (now - (last || now)) / 1000);
+      const dt = Math.min(0.1, (now - (last || now)) / 1000);
       last = now;
       if (started && inView && playing) {
         local += dt / DUR[step];

@@ -6,9 +6,9 @@
    o chip NFC, a antena e o circuito que se rompe ao abrir.
    Seal.mount() monta o lacre com lupa de raio-X que segue o
    ponteiro e "pings" de aproximação saindo do símbolo NFC.
-   A tira que vai no gargalo de cada foto de garrafa fica no
-   sprite como #vs-neck (íntegra) e #vs-neck-torn (rompida).
-   Os logos vêm do sprite (#vs-wordmark, #vs-mark) do index.html.
+   A tira que vai no gargalo de cada foto de garrafa é registrada
+   como #vs-neck (íntegra) e #vs-neck-torn (rompida).
+   Os logos do lacre são os arquivos vs-*.svg de assets/brand/.
    ========================================================= */
 
 window.Seal = (() => {
@@ -107,7 +107,7 @@ window.Seal = (() => {
       <path d="${up}" fill="url(#vsnk-navy)"/>
       <circle cx="20" cy="21" r="12.5" fill="url(#vsnk-holo)"/>
       <path d="${rosette(20, 21, 7.6, 2.4, 7, 4)}" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width=".35"/>
-      <use href="#vs-mark" x="12.5" y="17" width="15" height="8.06" style="--lg-ink:#062a63;--lg-accent:#0a76c4"/>
+      <image href="assets/brand/vs-mark-seal.svg" x="12.5" y="17" width="15" height="8.06"/>
       <circle cx="20" cy="21" r="12.5" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width=".6"/>
       <path d="${up}" fill="url(#vsnk-cyl)"/>
       <path d="${up}" fill="none" stroke="#03adf9" stroke-opacity=".75" stroke-width=".7"/>`;
@@ -198,9 +198,9 @@ window.Seal = (() => {
         <circle class="holo-shine" cx="150" cy="140" r="94" fill="url(#${id}-shine)" opacity=".5"/>
         <circle cx="150" cy="140" r="94" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.5"/>
         <text font-family="${MONO}" font-size="10.5" font-weight="600" letter-spacing="2.1" fill="#062a63" fill-opacity=".72"><textPath href="#${id}-ring">VERISEAL • PRODUTO ORIGINAL • VERISEAL • PRODUTO ORIGINAL •</textPath></text>
-        <use href="#vs-mark" x="104" y="115" width="92" height="49.4" style="--lg-ink:#062a63;--lg-accent:#0a76c4"/>
+        <image href="assets/brand/vs-mark-seal.svg" x="104" y="115" width="92" height="49.4"/>
       </g>
-      <use href="#vs-wordmark" x="290" y="74" width="330" height="54.4" style="--lg-ink:#fff;--lg-accent:#03adf9"/>
+      <image href="assets/brand/vs-wordmark-white.svg" x="290" y="74" width="330" height="54.4"/>
       <rect x="290" y="156" width="40" height="2.5" rx="1" fill="#03adf9"/>
       <text x="290" y="193" font-family="${MONO}" font-size="15" font-weight="500" letter-spacing="3.2" fill="#fff" fill-opacity=".8">PRODUTO ORIGINAL</text>
       <text x="290" y="220" font-family="${MONO}" font-size="12" letter-spacing="2.4" fill="#fff" fill-opacity=".5">LACRE INTELIGENTE · NFC</text>
@@ -230,7 +230,7 @@ window.Seal = (() => {
       <g clip-path="url(#${id}-clip)"><path d="${grid}" stroke="#03adf9" stroke-opacity=".08" stroke-width="1"/></g>
       <path d="${OUTLINE}" fill="none" stroke="#03adf9" stroke-opacity=".45" stroke-width="1.5"/>
       <circle cx="150" cy="140" r="94" fill="none" stroke="#5fd0ff" stroke-opacity=".22" stroke-dasharray="3 5"/>
-      <use href="#vs-wordmark" x="290" y="74" width="330" height="54.4" style="--lg-ink:rgba(95,208,255,.13);--lg-accent:rgba(95,208,255,.2)"/>
+      <image href="assets/brand/vs-wordmark-xray.svg" x="290" y="74" width="330" height="54.4"/>
       <path d="${DIECUTS}" fill="none" stroke="#9fe6ff" stroke-opacity=".12" stroke-width="1.1"/>
       ${loopMarkup()}${tearMarkup(0.5)}${coilMarkup()}${chipMarkup()}
       ${label(70, 66, "CIRCUITO DE RUPTURA")}${label(632, 140, "LINHA DE RUPTURA", true)}${label(796, 130, "ANTENA NFC")}${label(664, 182, "CHIP")}
@@ -449,13 +449,12 @@ window.Seal = (() => {
     return { layout };
   }
 
-  // registra a tira do gargalo no sprite do index.html (#vs-neck e #vs-neck-torn)
+  // registra a tira do gargalo (#vs-neck e #vs-neck-torn) num <svg> oculto no fim da página
   (function defineNeck() {
-    const sprite = document.getElementById("sprite");
-    if (!sprite || document.getElementById("vs-neck")) return;
-    sprite.insertAdjacentHTML(
+    if (document.getElementById("vs-neck")) return;
+    document.body.insertAdjacentHTML(
       "beforeend",
-      `<defs>${neckDefs()}</defs>${neckSymbol("vs-neck", false)}${neckSymbol("vs-neck-torn", true)}`,
+      `<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>${neckDefs()}</defs>${neckSymbol("vs-neck", false)}${neckSymbol("vs-neck-torn", true)}</svg>`,
     );
   })();
 

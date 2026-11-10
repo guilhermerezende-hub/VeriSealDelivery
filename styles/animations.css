@@ -100,9 +100,13 @@
   }
 }
 
-@keyframes draw {
+/* revela um ícone (máscara) da esquerda para a direita, como se fosse desenhado */
+@keyframes drawIn {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
   to {
-    stroke-dashoffset: 0;
+    clip-path: inset(0);
   }
 }
 
@@ -164,21 +168,6 @@
   }
 }
 
-@keyframes wbLoad {
-  0% {
-    opacity: 1;
-    transform: scaleX(0.1);
-  }
-  75% {
-    opacity: 1;
-    transform: scaleX(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scaleX(1);
-  }
-}
-
 @keyframes routeGo {
   to {
     stroke-dashoffset: 0.32;
@@ -188,115 +177,6 @@
 @keyframes homePin {
   50% {
     transform: scale(1.25);
-  }
-}
-
-@keyframes lineGrow {
-  from {
-    transform: scaleX(0);
-  }
-}
-
-@keyframes dotPop {
-  from {
-    transform: scale(0);
-  }
-}
-
-@keyframes mePulse {
-  0% {
-    box-shadow: 0 0 0 0 rgb(20 166 74 / 0.5);
-  }
-  100% {
-    box-shadow: 0 0 0 2.6cqi rgb(20 166 74 / 0);
-  }
-}
-
-@keyframes mPop {
-  0% {
-    transform: scale(0.2) rotate(-40deg);
-    opacity: 0;
-  }
-  55% {
-    transform: scale(1.14) rotate(6deg);
-    opacity: 1;
-  }
-  78% {
-    transform: scale(0.97) rotate(-2deg);
-  }
-  100% {
-    transform: none;
-    opacity: 1;
-  }
-}
-
-@keyframes mShake {
-  20%,
-  60% {
-    transform: translateX(-6%);
-  }
-  40%,
-  80% {
-    transform: translateX(6%);
-  }
-}
-
-@keyframes mFade {
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes mShock {
-  0% {
-    transform: scale(0.75);
-    opacity: 0.85;
-  }
-  100% {
-    transform: scale(2.3);
-    opacity: 0;
-  }
-}
-
-@keyframes mHalo {
-  from {
-    opacity: 0;
-    scale: 0.7;
-  }
-  to {
-    opacity: 0.95;
-    scale: 1;
-  }
-}
-
-@keyframes mSpin {
-  to {
-    rotate: 1turn;
-  }
-}
-
-@keyframes mGlow {
-  0%,
-  100% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes mSpark {
-  0% {
-    opacity: 0;
-    transform: rotate(var(--a)) translateY(0) scale(0.4);
-  }
-  25% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: rotate(var(--a)) translateY(calc(var(--ms, 96px) * -0.95))
-      scale(1);
   }
 }
 
@@ -396,100 +276,66 @@
   }
 }
 
-@keyframes vcPop {
-  0%,
-  36% {
-    transform: scale(0.2) rotate(-40deg);
-    opacity: 0;
-  }
-  40% {
-    transform: scale(1.15) rotate(6deg);
-    opacity: 1;
-  }
-  43%,
-  100% {
-    transform: none;
-    opacity: 1;
+/* selo da verificação: o traço contorna, a cor enche de dentro para fora, a aura acende */
+@keyframes badgeStroke {
+  from {
+    stroke-dashoffset: 1.05;
   }
 }
 
-@keyframes vcDraw {
+@keyframes badgeFill {
+  from {
+    transform: scale(0);
+  }
+}
+
+@keyframes badgeGlow {
+  from {
+    opacity: 0;
+  }
+}
+
+/* o mesmo selo no ciclo de 7 s do cartão do topo (a página aparece entre 37% e 87%) */
+@keyframes vcBadgeRing {
   0%,
   40% {
-    stroke-dashoffset: 1;
+    stroke-dashoffset: 1.05;
   }
-  45%,
+  50%,
   100% {
     stroke-dashoffset: 0;
   }
 }
 
-@keyframes vcShock {
+@keyframes vcBadgeFill {
   0%,
-  37% {
-    transform: scale(0.75);
-    opacity: 0;
+  48% {
+    transform: scale(0);
   }
-  38% {
-    transform: scale(0.75);
-    opacity: 0.85;
-  }
-  52%,
+  54%,
   100% {
-    transform: scale(2.2);
-    opacity: 0;
+    transform: none;
   }
 }
 
-@keyframes vcShock2 {
+@keyframes vcBadgeGlow {
   0%,
-  40% {
-    transform: scale(0.75);
+  50% {
     opacity: 0;
   }
-  41% {
-    transform: scale(0.75);
-    opacity: 0.7;
-  }
-  56%,
+  55%,
   100% {
-    transform: scale(2.4);
-    opacity: 0;
-  }
-}
-
-@keyframes vcHalo {
-  0%,
-  40% {
-    opacity: 0;
-    rotate: 0deg;
-  }
-  45% {
-    opacity: 0.9;
-  }
-  86% {
-    opacity: 0.9;
-    rotate: 150deg;
-  }
-  90%,
-  100% {
-    opacity: 0;
-    rotate: 170deg;
-  }
-}
-
-@keyframes vcSpark {
-  0%,
-  37% {
-    opacity: 0;
-    transform: rotate(var(--a)) translateY(0) scale(0.4);
-  }
-  40% {
     opacity: 1;
   }
-  50%,
+}
+
+@keyframes vcBadgeMark {
+  0%,
+  52% {
+    stroke-dashoffset: 1.05;
+  }
+  57%,
   100% {
-    opacity: 0;
-    transform: rotate(var(--a)) translateY(calc(var(--ms) * -0.95)) scale(1);
+    stroke-dashoffset: 0;
   }
 }

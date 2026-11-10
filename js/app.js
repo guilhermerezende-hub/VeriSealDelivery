@@ -160,13 +160,13 @@ import { createVerification } from "./verification.js";
     const q = bag.get(id) || 0,
       p = byId[id];
     if (!q)
-      return `<button class="grid size-10 place-items-center rounded-xl bg-accent text-white shadow-[0_6px_14px_rgba(0,106,168,.3)] transition-[background-color,scale] duration-200 hover:bg-accent-hover active:scale-90 max-sm:size-9" type="button" data-add="${id}" aria-label="Adicionar ${esc(fullName(p))} à sacola">${icon("plus", "size-5 stroke-[2.5]")}</button>`;
+      return `<button class="grid size-10 place-items-center rounded-xl bg-accent text-white shadow-[0_6px_14px_rgba(0,106,168,.3)] transition-[background-color,scale] duration-200 hover:bg-accent-hover active:scale-90 max-sm:size-9" type="button" data-add="${id}" aria-label="Adicionar ${esc(fullName(p))} à sacola">${icon("plus", "size-5")}</button>`;
     const btn =
       "grid h-10 w-8 place-items-center rounded-xl text-white hover:bg-white/14 max-sm:h-9 max-sm:w-7";
     return `<div class="inline-flex h-10 animate-[qtyIn_.35s_var(--ease-spring)] items-center rounded-xl bg-accent text-white shadow-[0_6px_14px_rgba(0,106,168,.3)] max-sm:h-9" role="group" aria-label="${esc(fullName(p))} na sacola">
-      <button class="${btn}" type="button" data-dec="${id}" aria-label="Remover uma unidade">${icon(q === 1 ? "close" : "minus", "size-4 stroke-[2.4]")}</button>
+      <button class="${btn}" type="button" data-dec="${id}" aria-label="Remover uma unidade">${icon(q === 1 ? "close" : "minus", "size-4")}</button>
       <span class="min-w-4 text-center text-[15px] font-extrabold" aria-live="polite">${q}</span>
-      <button class="${btn}" type="button" data-inc="${id}" aria-label="Adicionar uma unidade">${icon("plus", "size-4 stroke-[2.4]")}</button>
+      <button class="${btn}" type="button" data-inc="${id}" aria-label="Adicionar uma unidade">${icon("plus", "size-4")}</button>
     </div>`;
   }
   const cta = (id) =>
@@ -181,7 +181,7 @@ import { createVerification } from "./verification.js";
     return `<article class="group/card relative flex min-w-0 animate-[cardIn_.5s_var(--ease-smooth)_calc(var(--i,0)*26ms)_both] cursor-pointer flex-col rounded-[18px] border border-surface-2 bg-white px-2 pt-2 pb-3.5 transition-[box-shadow,translate,border-color] duration-300 ease-smooth hover:-translate-y-0.5 hover:border-transparent hover:shadow-lift max-sm:rounded-2xl max-sm:px-1.5 max-sm:pt-1.5 max-sm:pb-3" data-card style="--i:${Math.min(i, 12)}">
       <div class="relative h-[232px] overflow-hidden rounded-[13px] ${MEDIA_BG} px-2.5 pt-[30px] pb-3 max-sm:h-[190px] max-sm:px-1.5 max-sm:pb-2.5">
         ${badgeHTML(p)}
-        <span class="${SEAL_PILL}">${vsMark(SEAL_PILL_MARK)}${kit ? p.bottles.length + " lacres" : "Lacrado"}</span>
+        <span class="${SEAL_PILL}">${vsMark(SEAL_PILL_MARK, true)}${kit ? p.bottles.length + " lacres" : "Lacrado"}</span>
         <div class="flex h-full items-end justify-center transition-transform duration-[450ms] ease-smooth group-hover/card:-translate-y-1 group-hover/card:scale-[1.035]">${visual(p)}</div>
       </div>
       <div class="flex flex-1 flex-col px-1.5 pt-3 max-sm:px-1 max-sm:pt-2.5">
@@ -472,7 +472,7 @@ import { createVerification } from "./verification.js";
         go: "ofertas",
         name: "Ofertas",
         cls: "flex-col items-center justify-center gap-0.5 bg-[linear-gradient(150deg,#ff5a4e,#d6191f)] text-white",
-        html: `<span>${icon("tag", "inline size-[34px] align-baseline stroke-[1.8]")}</span><span class="text-[20px] font-extrabold tracking-[-.03em]">-${Math.max(...PRODUCTS.map(pct))}%</span>`,
+        html: `<span>${icon("tag", "inline-block size-[34px] align-baseline")}</span><span class="text-[20px] font-extrabold tracking-[-.03em]">-${Math.max(...PRODUCTS.map(pct))}%</span>`,
       },
       ...CATS.map((c) => {
         const p = byId[c.icon];
@@ -490,7 +490,7 @@ import { createVerification } from "./verification.js";
         go: "verificar",
         name: "Verificar lacre",
         cls: "flex-col items-center justify-center gap-1.5 bg-[radial-gradient(ellipse_at_70%_20%,#0c4a99,var(--color-navy)_50%,var(--color-navy-ink))] text-cyan",
-        html: `<span>${icon("contactless", "inline size-[38px] align-baseline stroke-[1.8]")}</span>${vsMark("w-[34px] [--lg-ink:#fff]")}`,
+        html: `<span>${icon("contactless", "inline-block size-[38px] align-baseline")}</span>${vsMark("w-[34px]", true)}`,
       },
     ];
     $("#catRow").innerHTML = tiles
@@ -580,7 +580,7 @@ import { createVerification } from "./verification.js";
         (
           p,
         ) => `<article class="group/card relative grid cursor-pointer grid-cols-[minmax(0,.95fr)_minmax(0,1.05fr)] gap-1 overflow-hidden rounded-[20px] border border-surface-2 bg-white p-2 transition-[box-shadow,translate,border-color] duration-300 ease-smooth hover:-translate-y-0.5 hover:border-transparent hover:shadow-lift max-sm:grid-cols-[1fr_1.1fr] max-xs:grid-cols-1" data-card>
-        <div class="relative h-[250px] overflow-hidden rounded-[14px] bg-[radial-gradient(ellipse_60%_9%_at_50%_93%,rgba(4,37,85,.2),transparent_72%),linear-gradient(180deg,#f6f8fb,#e9eef5)] px-2 pt-[34px] pb-3 max-sm:h-[220px]">${badgeHTML(p)}<span class="${SEAL_PILL}">${vsMark(SEAL_PILL_MARK)}${p.bottles.length} lacres</span><div class="flex h-full items-end justify-center transition-transform duration-[450ms] ease-smooth group-hover/card:-translate-y-1 group-hover/card:scale-[1.03]">${visual(p)}</div></div>
+        <div class="relative h-[250px] overflow-hidden rounded-[14px] bg-[radial-gradient(ellipse_60%_9%_at_50%_93%,rgba(4,37,85,.2),transparent_72%),linear-gradient(180deg,#f6f8fb,#e9eef5)] px-2 pt-[34px] pb-3 max-sm:h-[220px]">${badgeHTML(p)}<span class="${SEAL_PILL}">${vsMark(SEAL_PILL_MARK, true)}${p.bottles.length} lacres</span><div class="flex h-full items-end justify-center transition-transform duration-[450ms] ease-smooth group-hover/card:-translate-y-1 group-hover/card:scale-[1.03]">${visual(p)}</div></div>
         <div class="flex min-w-0 flex-col pt-3 pr-2.5 pb-2 pl-3">
           <p class="text-[12px] font-bold text-badge">${esc(p.badge || "Kit")}</p>
           <h3 class="mt-0.5 text-[20px] leading-[1.15] font-extrabold tracking-[-.025em] max-sm:text-[18px]"><a href="produtos/${p.id}/" class="text-left tracking-[inherit] text-inherit hover:text-accent" data-open="${p.id}">${esc(p.name)}</a></h3>
@@ -695,7 +695,7 @@ import { createVerification } from "./verification.js";
     const bb = $("#bagBody"),
       bf = $("#bagFoot");
     if (!bag.size) {
-      bb.innerHTML = `<div class="px-2.5 py-[60px] text-center text-fg-2">${icon("bag", "mx-auto mb-3.5 block size-[52px] stroke-[1.2] text-fg-3")}<p class="mb-[18px]">Sua sacola está vazia.</p><a class="btn btn-primary" href="#ofertas" data-close>Ver ofertas</a></div>`;
+      bb.innerHTML = `<div class="px-2.5 py-[60px] text-center text-fg-2">${icon("bag", "mx-auto mb-3.5 block size-[52px] text-fg-3")}<p class="mb-[18px]">Sua sacola está vazia.</p><a class="btn btn-primary" href="#ofertas" data-close>Ver ofertas</a></div>`;
       bf.innerHTML = "";
       bf.hidden = true;
       return;

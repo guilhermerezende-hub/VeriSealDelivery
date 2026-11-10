@@ -1,10 +1,155 @@
 @layer components {
+  /* ícones: arquivos em assets/icons/, pintados com a cor do texto.
+     uso: <i class="icon icon-pin size-5 text-accent"></i>. O caminho fica aqui no CSS
+     (relativo a assets/css/site.css) para valer em qualquer página. */
   .icon {
-    @apply size-[1em] shrink-0 fill-none stroke-current stroke-[1.7] [stroke-linecap:round] [stroke-linejoin:round];
+    @apply block size-[1em] shrink-0 bg-current;
+    -webkit-mask: var(--icon) center / contain no-repeat;
+    mask: var(--icon) center / contain no-repeat;
+  }
+
+  .icon-alert {
+    --icon: url(../icons/alert.svg);
+  }
+
+  .icon-arrow-r {
+    --icon: url(../icons/arrow-r.svg);
+  }
+
+  .icon-bag {
+    --icon: url(../icons/bag.svg);
+  }
+
+  .icon-bike {
+    --icon: url(../icons/bike.svg);
+  }
+
+  .icon-calendar {
+    --icon: url(../icons/calendar.svg);
+  }
+
+  .icon-car {
+    --icon: url(../icons/car.svg);
+  }
+
+  .icon-card {
+    --icon: url(../icons/card.svg);
+  }
+
+  .icon-cash {
+    --icon: url(../icons/cash.svg);
+  }
+
+  .icon-check {
+    --icon: url(../icons/check.svg);
+  }
+
+  .icon-chev-d {
+    --icon: url(../icons/chev-d.svg);
+  }
+
+  .icon-chev-l {
+    --icon: url(../icons/chev-l.svg);
+  }
+
+  .icon-chev-r {
+    --icon: url(../icons/chev-r.svg);
+  }
+
+  .icon-clock {
+    --icon: url(../icons/clock.svg);
+  }
+
+  .icon-close {
+    --icon: url(../icons/close.svg);
+  }
+
+  .icon-contactless {
+    --icon: url(../icons/contactless.svg);
+  }
+
+  .icon-gift {
+    --icon: url(../icons/gift.svg);
+  }
+
+  .icon-globe {
+    --icon: url(../icons/globe.svg);
+  }
+
+  .icon-id-card {
+    --icon: url(../icons/id-card.svg);
+  }
+
+  .icon-lock {
+    --icon: url(../icons/lock.svg);
+  }
+
+  .icon-lock-filled {
+    --icon: url(../icons/lock-filled.svg);
+  }
+
+  .icon-minus {
+    --icon: url(../icons/minus.svg);
+  }
+
+  .icon-moto {
+    --icon: url(../icons/moto.svg);
+  }
+
+  .icon-pause {
+    --icon: url(../icons/pause.svg);
+  }
+
+  .icon-phone {
+    --icon: url(../icons/phone.svg);
+  }
+
+  .icon-pin {
+    --icon: url(../icons/pin.svg);
+  }
+
+  .icon-pix {
+    --icon: url(../icons/pix.svg);
+  }
+
+  .icon-play {
+    --icon: url(../icons/play.svg);
+  }
+
+  .icon-plus {
+    --icon: url(../icons/plus.svg);
+  }
+
+  .icon-refund {
+    --icon: url(../icons/refund.svg);
+  }
+
+  .icon-search {
+    --icon: url(../icons/search.svg);
+  }
+
+  .icon-shield {
+    --icon: url(../icons/shield.svg);
+  }
+
+  .icon-tag {
+    --icon: url(../icons/tag.svg);
+  }
+
+  .icon-truck {
+    --icon: url(../icons/truck.svg);
+  }
+
+  .icon-user {
+    --icon: url(../icons/user.svg);
+  }
+
+  .icon-wallet {
+    --icon: url(../icons/wallet.svg);
   }
 
   .btn {
-    @apply inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full border border-transparent px-[22px] py-[11px] text-[16px] leading-[1.2] font-semibold tracking-[-.01em] whitespace-nowrap no-underline transition-[background-color,color,border-color,transform,opacity,box-shadow] duration-200 active:[transform:scale(.98)] disabled:pointer-events-none disabled:opacity-40 [&_.icon]:size-[18px] [&_.icon]:stroke-[2.2];
+    @apply inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full border border-transparent px-[22px] py-[11px] text-[16px] leading-[1.2] font-semibold tracking-[-.01em] whitespace-nowrap no-underline transition-[background-color,color,border-color,transform,opacity,box-shadow] duration-200 active:[transform:scale(.98)] disabled:pointer-events-none disabled:opacity-40 [&_.icon]:size-[18px];
   }
 
   .btn-primary {
@@ -25,6 +170,39 @@
 
   .btn-sm {
     @apply min-h-9 px-4 py-[7px] text-[14px];
+  }
+
+  /* foto que se funde ao fundo escuro: some à esquerda e embaixo, sem emenda */
+  .photo-fade {
+    -webkit-mask-image:
+      linear-gradient(90deg, transparent, #000 36%),
+      linear-gradient(180deg, transparent, #000 6%, #000 80%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(90deg, transparent, #000 36%),
+      linear-gradient(180deg, transparent, #000 6%, #000 80%, transparent);
+    mask-composite: intersect;
+  }
+
+  /* campos de formulário das páginas (cadastro de entregadores) */
+  .field {
+    @apply flex min-w-0 flex-col gap-1.5;
+  }
+
+  .field-label {
+    @apply text-[13px] font-semibold text-fg;
+  }
+
+  .field-input {
+    @apply h-12 w-full min-w-0 rounded-xl border border-line bg-white px-3.5 text-[16px] text-fg outline-none transition-[border-color,box-shadow] duration-200 placeholder:text-fg-3 focus:border-accent focus:shadow-focus aria-[invalid=true]:border-bad;
+  }
+
+  .field-error {
+    @apply text-[12px] leading-[1.4] font-medium text-bad;
+  }
+
+  .field-hint {
+    @apply text-[12px] leading-[1.4] text-fg-2;
   }
 
   .js .reveal {
@@ -76,5 +254,73 @@
     section {
       scroll-margin-top: 1rem;
     }
+  }
+}
+
+/* telas de verificação (celular do "Como funciona", painel "Verificar garrafa" e cartão do topo):
+   o mesmo padrão do site da VeriSeal. Medidas em cqi: escalam com o contêiner. */
+@layer components {
+  .verify-bar {
+    @apply mx-[4cqi] mt-[.4cqi] flex h-[9.6cqi] items-center justify-center gap-[1.4cqi] rounded-[3cqi] bg-[#eef1f5] text-[3.9cqi] font-medium tracking-normal text-ink [&_.icon]:size-[3.2cqi] [&_.icon]:text-[#5a6377];
+  }
+  .verify-page {
+    @apply border-t-[.3cqi] border-ink/7 bg-[linear-gradient(#f5f8fc,#fff_45%)];
+  }
+  .verify-logo {
+    @apply mx-auto mt-[6cqi] block aspect-wordmark h-[3.7cqi] w-auto;
+  }
+  .verify {
+    @apply flex min-h-full flex-col items-center text-center leading-[1.3] tracking-[-.01em] text-ink;
+  }
+  .verify-badge {
+    @apply relative size-[34cqi] flex-none before:absolute before:inset-0 before:rounded-full before:[box-shadow:0_3cqi_7cqi_rgb(var(--tone)/.3)] [&_svg]:absolute [&_svg]:inset-0 [&_svg]:size-full [&_svg]:overflow-visible;
+  }
+  .verify-glow {
+    @apply fill-none [stroke:rgb(var(--tone)/.13)] [stroke-width:5.88];
+  }
+  .verify-track {
+    @apply [fill:rgb(var(--tone)/.1)];
+  }
+  .verify-fill {
+    @apply origin-center [transform-box:fill-box];
+  }
+  .verify-stroke {
+    @apply fill-none [stroke-dasharray:1_2] [stroke-linecap:round] [stroke-linejoin:round];
+  }
+  .verify-ring {
+    @apply [stroke:rgb(var(--tone))] [stroke-width:2.4];
+  }
+  .verify-mark {
+    @apply stroke-white [stroke-width:5];
+  }
+  .verify-title {
+    @apply mt-[7cqi] text-[9cqi] leading-[1.05] font-extrabold tracking-[-.03em];
+  }
+  .verify-sub {
+    @apply mt-[1.8cqi] text-[4.5cqi] text-[#5a6377];
+  }
+  .verify-card {
+    @apply w-full rounded-[4.5cqi] bg-white text-left shadow-[0_.5cqi_2cqi_rgba(15,26,46,.08),0_0_0_.3cqi_rgba(15,26,46,.05)];
+  }
+  .verify-prod {
+    @apply mt-[7cqi] flex items-center gap-[3.6cqi] p-[2.6cqi];
+  }
+  .verify-thumb {
+    @apply flex h-[19cqi] w-[15cqi] flex-none items-end justify-center overflow-hidden rounded-[3.4cqi] bg-[linear-gradient(#f4f8fd,#e3eaf4)] pt-[1.2cqi] pb-[.8cqi];
+  }
+  .verify-name {
+    @apply block text-[4.6cqi] font-bold tracking-[-.01em];
+  }
+  .verify-detail {
+    @apply mt-[.6cqi] block text-[3.7cqi] text-[#5a6377];
+  }
+  .verify-data {
+    @apply mt-[2.6cqi] px-[4cqi] py-[1cqi] [&_dd]:text-right [&_dd]:font-semibold [&_dt]:text-[#5a6377] [&>div]:flex [&>div]:justify-between [&>div]:gap-[3cqi] [&>div]:border-b-[.3cqi] [&>div]:border-ink/7 [&>div]:py-[2.4cqi] [&>div]:text-[4cqi] [&>div:last-child]:border-b-0;
+  }
+  .verify-note {
+    @apply mt-[3cqi] text-[3.8cqi] leading-[1.35] text-[#5a6377];
+  }
+  .verify-btn {
+    @apply mt-auto w-full rounded-[3.6cqi] p-[3.4cqi] text-center text-[4.2cqi] font-semibold text-white;
   }
 }
