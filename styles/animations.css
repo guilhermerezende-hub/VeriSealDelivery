@@ -106,6 +106,16 @@
   }
 }
 
+/* revela um ícone (máscara) da esquerda para a direita, como se fosse desenhado */
+@keyframes drawIn {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
 @keyframes dotFill {
   from {
     transform: scaleX(0);

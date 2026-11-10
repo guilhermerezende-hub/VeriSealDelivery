@@ -61,7 +61,9 @@ for (const product of products) {
   <meta name="twitter:description" content="${esc(description)}">
   ${canonical ? `<link rel="canonical" href="${esc(canonical)}"><meta property="og:url" content="${esc(canonical)}">` : ""}
   ${shareImage ? `<meta property="og:image" content="${esc(shareImage)}"><meta property="og:image:alt" content="${esc(name)}"><meta name="twitter:image" content="${esc(shareImage)}">` : ""}
-  <link rel="icon" href="../../assets/img/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon-32.png">
+  <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.png">
   <link rel="stylesheet" href="../../assets/css/site.css">
 </head>
 <body class="bg-white font-sans text-fg">

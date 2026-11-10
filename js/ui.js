@@ -32,13 +32,14 @@ const setState = (el, s) => {
   else delete el.dataset.state;
 };
 const icon = (name, cls = "") =>
-  `<svg class="icon ${cls}" aria-hidden="true"><use href="#i-${name}"/></svg>`;
-const vsMark = (cls = "") =>
-  `<svg class="aspect-mark h-auto ${cls}" viewBox="0 0 668 359" aria-hidden="true"><use href="#vs-mark"/></svg>`;
+  `<i class="icon icon-${name} ${cls}" aria-hidden="true"></i>`;
+// logo curta (VS): a versão de fundo escuro é branca com a pontinha ciano
+const vsMark = (cls = "", dark = false) =>
+  `<img class="aspect-mark h-auto ${cls}" src="assets/brand/logo-short-${dark ? "dark" : "light"}-bg.svg" alt="">`;
 
 const SEAL_PILL =
   "absolute top-[9px] right-[9px] z-[2] inline-flex items-center gap-[5px] rounded-full bg-navy py-[3px] pr-2 pl-1.5 text-[11px] font-bold text-white max-sm:pr-[7px] max-sm:pl-[5px] max-sm:text-[10px]";
-const SEAL_PILL_MARK = "w-[18px] [--lg-ink:#fff] max-sm:w-[15px]";
+const SEAL_PILL_MARK = "w-[18px] max-sm:w-[15px]";
 const MEDIA_BG =
   "bg-[radial-gradient(ellipse_52%_9%_at_50%_93%,rgba(4,37,85,.2),transparent_72%),linear-gradient(180deg,#f6f8fb,#e9eef5)]";
 const LINK_BTN = "text-accent hover:underline";

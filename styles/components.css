@@ -1,10 +1,131 @@
 @layer components {
+  /* ícones: arquivos em assets/icons/, pintados com a cor do texto.
+     uso: <i class="icon icon-pin size-5 text-accent"></i>. O caminho fica aqui no CSS
+     (relativo a assets/css/site.css) para valer em qualquer página. */
   .icon {
-    @apply size-[1em] shrink-0 fill-none stroke-current stroke-[1.7] [stroke-linecap:round] [stroke-linejoin:round];
+    @apply block size-[1em] shrink-0 bg-current;
+    -webkit-mask: var(--icon) center / contain no-repeat;
+    mask: var(--icon) center / contain no-repeat;
+  }
+
+  .icon-alert {
+    --icon: url(../icons/alert.svg);
+  }
+
+  .icon-arrow-r {
+    --icon: url(../icons/arrow-r.svg);
+  }
+
+  .icon-bag {
+    --icon: url(../icons/bag.svg);
+  }
+
+  .icon-card {
+    --icon: url(../icons/card.svg);
+  }
+
+  .icon-cash {
+    --icon: url(../icons/cash.svg);
+  }
+
+  .icon-check {
+    --icon: url(../icons/check.svg);
+  }
+
+  .icon-chev-d {
+    --icon: url(../icons/chev-d.svg);
+  }
+
+  .icon-chev-l {
+    --icon: url(../icons/chev-l.svg);
+  }
+
+  .icon-chev-r {
+    --icon: url(../icons/chev-r.svg);
+  }
+
+  .icon-clock {
+    --icon: url(../icons/clock.svg);
+  }
+
+  .icon-close {
+    --icon: url(../icons/close.svg);
+  }
+
+  .icon-contactless {
+    --icon: url(../icons/contactless.svg);
+  }
+
+  .icon-gift {
+    --icon: url(../icons/gift.svg);
+  }
+
+  .icon-globe {
+    --icon: url(../icons/globe.svg);
+  }
+
+  .icon-lock {
+    --icon: url(../icons/lock.svg);
+  }
+
+  .icon-lock-filled {
+    --icon: url(../icons/lock-filled.svg);
+  }
+
+  .icon-minus {
+    --icon: url(../icons/minus.svg);
+  }
+
+  .icon-moto {
+    --icon: url(../icons/moto.svg);
+  }
+
+  .icon-pause {
+    --icon: url(../icons/pause.svg);
+  }
+
+  .icon-pin {
+    --icon: url(../icons/pin.svg);
+  }
+
+  .icon-pix {
+    --icon: url(../icons/pix.svg);
+  }
+
+  .icon-play {
+    --icon: url(../icons/play.svg);
+  }
+
+  .icon-plus {
+    --icon: url(../icons/plus.svg);
+  }
+
+  .icon-refund {
+    --icon: url(../icons/refund.svg);
+  }
+
+  .icon-search {
+    --icon: url(../icons/search.svg);
+  }
+
+  .icon-shield {
+    --icon: url(../icons/shield.svg);
+  }
+
+  .icon-tag {
+    --icon: url(../icons/tag.svg);
+  }
+
+  .icon-truck {
+    --icon: url(../icons/truck.svg);
+  }
+
+  .icon-user {
+    --icon: url(../icons/user.svg);
   }
 
   .btn {
-    @apply inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full border border-transparent px-[22px] py-[11px] text-[16px] leading-[1.2] font-semibold tracking-[-.01em] whitespace-nowrap no-underline transition-[background-color,color,border-color,transform,opacity,box-shadow] duration-200 active:[transform:scale(.98)] disabled:pointer-events-none disabled:opacity-40 [&_.icon]:size-[18px] [&_.icon]:stroke-[2.2];
+    @apply inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full border border-transparent px-[22px] py-[11px] text-[16px] leading-[1.2] font-semibold tracking-[-.01em] whitespace-nowrap no-underline transition-[background-color,color,border-color,transform,opacity,box-shadow] duration-200 active:[transform:scale(.98)] disabled:pointer-events-none disabled:opacity-40 [&_.icon]:size-[18px];
   }
 
   .btn-primary {

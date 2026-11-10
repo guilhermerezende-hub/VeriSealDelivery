@@ -40,7 +40,7 @@ export function createVerification({
     bad: "text-[#ffaaa3]",
   };
   const vrUrl = (code) =>
-    `<p class="mx-auto mb-3.5 flex w-fit max-w-full items-center gap-1.5 rounded-full bg-white/8 px-3 py-1.5 font-mono text-[12px] leading-[1.2] font-medium text-[#c3cbd9] shadow-[inset_0_0_0_1px_rgba(255,255,255,.1)] ${VR_IN}">${icon("lock", "size-[13px] stroke-[2.2] text-[#8ef5b0]")}<span>${esc(SITE_HOST)}/v/${esc(code.slice(3))}</span></p>`;
+    `<p class="mx-auto mb-3.5 flex w-fit max-w-full items-center gap-1.5 rounded-full bg-white/8 px-3 py-1.5 font-mono text-[12px] leading-[1.2] font-medium text-[#c3cbd9] shadow-[inset_0_0_0_1px_rgba(255,255,255,.1)] ${VR_IN}">${icon("lock", "size-[13px] text-[#8ef5b0]")}<span>${esc(SITE_HOST)}/v/${esc(code.slice(3))}</span></p>`;
   const vrHead = (kind, title, sub) =>
     `<div class="flex flex-col items-center gap-3 pt-1.5 pb-0.5 text-center">${medal(kind, "now", "92px")}<div class="${VR_IN}" style="--d:.38s"><b class="block text-[clamp(28px,3vw,36px)] leading-none font-extrabold tracking-[-.03em] ${VR_HEAD[kind]}">${title}</b><span class="mt-1.5 block text-[14px] text-white/78">${sub}</span></div></div>`;
   // cls troca o tamanho/cor padrão do valor (text-[15px])
