@@ -109,8 +109,8 @@ test("a loja e o login levam à área de entregadores", async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem("vsd:age", "true"));
   await page.goto("/");
   await expect(
-    page.locator('#catnav a[href="entregadores.html"]'),
-  ).toBeAttached();
+    page.locator('#appbar a[href="entregadores.html"]'),
+  ).toBeVisible();
   await page
     .locator("#entregadores")
     .getByRole("link", { name: "Quero ser entregador" })

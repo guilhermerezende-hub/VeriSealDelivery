@@ -2,7 +2,6 @@ import { $, esc, safe, setState } from "./ui.js";
 import { store } from "./storage.js";
 import {
   fmtCep,
-  etaText,
   placeLabel,
   lookupCep,
   deliveryMsg,
@@ -24,7 +23,7 @@ export function createAddressController({
   }
   function updateAddrUI() {
     $("#locText").innerHTML = addr
-      ? `Entregar em <b class="text-fg">${esc(placeLabel(addr))}</b> · ${etaText(addr)}`
+      ? `Entregar em <b class="text-fg">${esc(placeLabel(addr))}</b>`
       : "Consultar endereço";
     $("#heroCepForm").classList.toggle("has-cep", !!addr);
     $("#helpEta").textContent = "Sob consulta";

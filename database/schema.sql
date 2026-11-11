@@ -14,7 +14,7 @@ CREATE TABLE produtos (
   categoria_id  VARCHAR(20) NOT NULL,
   marca         VARCHAR(60) NOT NULL,
   nome          VARCHAR(100) NOT NULL,
-  volume        VARCHAR(20),
+  volume        VARCHAR(20), 
   teor_alcool   DECIMAL(4,1),
   origem        VARCHAR(60),
   preco         DECIMAL(10,2) NOT NULL,
