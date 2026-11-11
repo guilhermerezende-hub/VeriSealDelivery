@@ -32,7 +32,6 @@ if (
   });
 }
 
-// login.html?perfil=entregador: mesma tela, com os textos do portal do entregador
 const courier =
   new URLSearchParams(location.search).get("perfil") === "entregador";
 

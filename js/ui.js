@@ -33,7 +33,7 @@ const setState = (el, s) => {
 };
 const icon = (name, cls = "") =>
   `<i class="icon icon-${name} ${cls}" aria-hidden="true"></i>`;
-// logo curta (VS): a versão de fundo escuro é branca com a pontinha ciano
+
 const vsMark = (cls = "", dark = false) =>
   `<img class="aspect-mark h-auto ${cls}" src="assets/brand/logo-short-${dark ? "dark" : "light"}-bg.svg" alt="">`;
 
@@ -71,7 +71,6 @@ const ACTION_MAIN =
   "btn btn-primary ml-auto max-w-[340px] flex-1 max-sm:max-w-none";
 const VR_IN = "animate-[riseIn_.5s_var(--ease-smooth)_var(--d,0s)_both]";
 
-// telas de verificação (o que o NFC abre no navegador), no padrão do site da VeriSeal
 const VERIFY_TONE = {
   ok: {
     tone: "20 166 74",
@@ -88,7 +87,7 @@ const VERIFY_TONE = {
     btn: "bg-bad",
   },
 };
-// on: toca quando um ancestral ganha .is-on · loop: ciclo de 7 s do cartão do topo
+
 const BADGE_ANIM = {
   on: {
     ring: "[.is-on_&]:animate-[badgeStroke_.7s_var(--ease-io)_.3s_both]",
@@ -108,7 +107,7 @@ const BADGE_ANIM = {
   },
 };
 let badgeCount = 0;
-// selo do resultado: o traço contorna o círculo, a cor surge de dentro para fora e o símbolo se desenha
+
 const verifyBadge = (kind = "ok", play = "on", cls = "") => {
   const t = VERIFY_TONE[kind],
     a = BADGE_ANIM[play];
@@ -121,8 +120,7 @@ const verifyBadge = (kind = "ok", play = "on", cls = "") => {
       : stroke("M26 14.5v15", a.mark) + stroke("M26 37v.5", a.dot);
   return `<span class="verify-badge ${a.shadow} ${cls}" style="--tone:${t.tone}" aria-hidden="true"><svg viewBox="0 0 100 100"><defs><radialGradient id="${grad}" gradientUnits="userSpaceOnUse" cx="50" cy="30" r="86"><stop offset="0" stop-color="${t.light}"/><stop offset=".72" stop-color="${t.dark}"/></radialGradient></defs><circle class="verify-glow ${a.glow}" cx="50" cy="50" r="52.94"/><circle class="verify-track" cx="50" cy="50" r="50"/><circle class="verify-fill ${a.fill}" cx="50" cy="50" r="50" fill="url(#${grad})"/><path class="verify-stroke verify-ring ${a.ring}" d="M50 1.2a48.8 48.8 0 1 1 0 97.6a48.8 48.8 0 1 1 0-97.6" pathLength="1"/>${glyph}</svg></span>`;
 };
-// conteúdo da página: medidas em cqi, escala com o contêiner (celular ou painel)
-// product: { thumb, name, detail } · rows: [rótulo, valor, classes] · btn: { label, attrs }
+
 const verifyScreen = ({ kind, title, sub, product, rows, note, btn }) => {
   const t = VERIFY_TONE[kind];
   const prod = product

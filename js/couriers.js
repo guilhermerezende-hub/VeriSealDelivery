@@ -1,5 +1,3 @@
-// Página de entregadores: cadastro em três etapas. Demonstração: os dados são
-// conferidos no navegador e descartados; somente o CEP é consultado no ViaCEP.
 import { $, $$, esc, icon, reduce, safe } from "./ui.js";
 import { fmtCep, lookupCep, validCep } from "./delivery.js";
 import {
@@ -30,7 +28,7 @@ const cepInfo = $("#cCep-info");
 const license = $("#licenseFields");
 
 let step = 0;
-// última consulta de CEP: evita repetir a busca e descarta respostas antigas
+
 let cep = { digits: "", city: "", uf: "", bairro: "", notFound: false };
 let cepRequest = 0;
 
@@ -73,7 +71,6 @@ function checkField(field) {
   setError(field, validateStep(step, readData())[field] || "");
 }
 
-// CPFs fictícios da demonstração: o botão preenche só o CPF; a data é digitada
 $("#cpfSamples").innerHTML = Object.entries(DEMO_CPFS)
   .map(
     ([cpf, { birth, label }]) =>
@@ -111,7 +108,6 @@ function go(to, focus = true) {
   }
 }
 
-// ao trocar de etapa no celular, o topo do cartão pode ter ficado acima da tela
 function showCard() {
   const card = $("#cadastro");
   if (card.getBoundingClientRect().top < 0)
@@ -202,7 +198,6 @@ async function checkCep() {
   }
 }
 
-// máscaras: mantêm o cursor depois do mesmo número de dígitos
 const MASKS = {
   cpf: fmtCpf,
   date: fmtDate,
@@ -239,7 +234,7 @@ form.addEventListener("input", (event) => {
   } else if (input.name && hasError(input.name)) {
     checkField(input.name);
   }
-  // a data é conferida com o CPF: trocar o CPF reavalia a data já marcada
+
   if (input.name === "cpf" && hasError("birth")) checkField("birth");
 });
 
@@ -254,7 +249,6 @@ form.addEventListener("change", (event) => {
     checkField(name);
 });
 
-// confere o campo ao sair dele, quando já foi preenchido
 form.addEventListener("focusout", (event) => {
   const input = event.target;
   if (!STEP_FIELDS[step].includes(input.name)) return;
@@ -270,7 +264,7 @@ form.addEventListener("focusout", (event) => {
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   const data = readData();
-  // a etapa atual e as anteriores precisam estar válidas antes de avançar
+
   for (let index = 0; index <= step; index++) {
     const errors = validateStep(index, data);
     const fields = STEP_FIELDS[index];
@@ -302,7 +296,6 @@ function resetForm() {
   review.replaceChildren();
 }
 
-// nada é enviado: os dados são descartados assim que a confirmação aparece
 function finish(data) {
   $("[data-done-name]", done).textContent = firstName(data.name);
   resetForm();

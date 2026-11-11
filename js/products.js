@@ -1,22 +1,3 @@
-/* =========================================================
-   VeriSeal Delivery — catálogo (dados estáticos do frontend)
-   Só entram aqui garrafas com foto real em assets/products/
-   (recortadas, com fundo transparente).
-
-   img / size  → arquivo e tamanho em px da foto recortada
-   seal        → onde o lacre VeriSeal cruza a garrafa:
-                 y = borda de baixo da tampa, medida em cada foto
-                     (fração da altura) — a linha de ruptura do
-                     lacre fica exatamente aí, para romper ao abrir;
-                 w = largura da tira (fração da largura da foto),
-                     estreita o bastante para a parte de cima da
-                     tira caber inteira na tampa
-   oldPrice    → preço "de" (oferta da semana)
-   Preços conferidos em lojas brasileiras (Pão de Açúcar, Magalu,
-   Amazon, Tenda) em outubro de 2026.
-   gallery     → fotos extras mostradas no detalhe do produto
-   ========================================================= */
-
 window.VSD_CATEGORIES = [
   { id: "whisky", name: "Whisky", icon: "jw-black", tint: "#fbf1e4" },
   { id: "vodka", name: "Vodka", icon: "absolut-1l", tint: "#eaf2fd" },
@@ -29,7 +10,6 @@ window.VSD_CATEGORIES = [
   const P = "assets/products/";
 
   window.VSD_PRODUCTS = [
-    /* ---------------- Whisky ---------------- */
     {
       id: "jw-black",
       brand: "Johnnie Walker",
@@ -103,7 +83,6 @@ window.VSD_CATEGORIES = [
       notes: ["Canela", "Especiarias", "Final quente"],
     },
 
-    /* ---------------- Vodka ---------------- */
     {
       id: "absolut-1l",
       brand: "Absolut",
@@ -205,7 +184,6 @@ window.VSD_CATEGORIES = [
       notes: ["Leve", "5x destilada", "Caipiroska"],
     },
 
-    /* ---------------- Gin ---------------- */
     {
       id: "tanqueray",
       brand: "Tanqueray",
@@ -288,7 +266,6 @@ window.VSD_CATEGORIES = [
       notes: ["Melancia", "Doce", "Frutado"],
     },
 
-    /* ---------------- Cachaça ---------------- */
     {
       id: "cachaca-51",
       brand: "Cachaça 51",
@@ -306,7 +283,6 @@ window.VSD_CATEGORIES = [
       notes: ["Caipirinha", "Cana", "Brasileira"],
     },
 
-    /* ---------------- Kits ---------------- */
     {
       id: "kit-jack-trio",
       brand: "Jack Daniel's",
@@ -366,7 +342,6 @@ window.VSD_CATEGORIES = [
   ];
 }
 
-/* lacres de exemplo (os checkouts simulados geram códigos fictícios locais) */
 window.VSD_SEALS = {
   "VS-7K2M-9QXA": {
     product: "jack-7",

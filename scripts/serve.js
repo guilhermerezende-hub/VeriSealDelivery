@@ -14,7 +14,6 @@ const types = {
   ".svg": "image/svg+xml",
 };
 
-// Servidor local de desenvolvimento. Expõe somente os arquivos públicos do site.
 http
   .createServer(async (request, response) => {
     try {

@@ -125,7 +125,7 @@ export function createCheckout({
     renderCheckout();
     openLayer($("#checkoutSheet"));
   }
-  // cls: o flex do campo na linha (direto na linha ou dentro de uma coluna de largura fixa)
+
   function field(
     id,
     label,
@@ -186,7 +186,6 @@ export function createCheckout({
         if (r.street) $("#coStreet").value = r.street;
         if (r.bairro) $("#coBairro").value = r.bairro;
         if (r.city) $("#coCity").value = cityUf(r);
-        // Não desloca o foco após uma resposta assíncrona.
       });
       f.addEventListener("change", (e) => {
         if (e.target.name === "when")
@@ -344,7 +343,6 @@ export function createCheckout({
       return;
     }
 
-    // pedido confirmado
     const o = co.order;
     const tl = (state, title, sub) =>
       `<li class="${state} relative flex gap-3.5 pb-[18px] before:absolute before:top-[26px] before:bottom-0.5 before:left-[11px] before:w-0.5 before:bg-surface-2 last:pb-0 last:before:hidden [&.done]:before:bg-accent"><span class="relative z-[1] grid size-6 shrink-0 place-items-center rounded-full border-2 border-line bg-white transition-all duration-[400ms] [.current_&]:border-accent [.current_&]:shadow-[0_0_0_5px_rgb(0_106_168/.1)] [.done_&]:border-accent [.done_&]:bg-accent">${icon("check", "size-[13px] text-white opacity-0 [.done_&]:opacity-100")}</span><div><strong class="block text-[15px] tracking-[-.01em] [li:not(.done):not(.current)_&]:text-fg-3">${title}</strong><small class="text-[13px] text-fg-2">${sub}</small></div></li>`;

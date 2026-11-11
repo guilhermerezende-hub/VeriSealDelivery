@@ -1,4 +1,3 @@
-// O namespace existente mantém sacolas e preferências já salvas.
 export function createStore(getStorage = () => globalThis.localStorage) {
   return {
     get(key, fallback) {

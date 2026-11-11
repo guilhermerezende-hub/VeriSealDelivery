@@ -23,17 +23,10 @@ export function createAddressController({
     updateAddrUI();
   }
   function updateAddrUI() {
-    // no celular aparece só o bairro (ou "Seu CEP"); o prazo fica no bloco de entrega
     $("#locText").innerHTML = addr
-      ? `<span>${esc(placeLabel(addr))}</span><span class="max-sm:hidden"> · ${etaText(addr)}</span>`
-      : `<span class="max-sm:hidden">Informe seu CEP</span><span class="hidden max-sm:inline">Seu CEP</span>`;
-    $("#locBtn").classList.toggle("has-cep", !!addr);
-    $("#locBtn").setAttribute(
-      "aria-label",
-      addr
-        ? `Endereço informado: ${placeLabel(addr)}. Cobertura não confirmada. Alterar endereço`
-        : "Informar CEP de entrega",
-    );
+      ? `Entregar em <b class="text-fg">${esc(placeLabel(addr))}</b> · ${etaText(addr)}`
+      : "Consultar endereço";
+    $("#heroCepForm").classList.toggle("has-cep", !!addr);
     $("#helpEta").textContent = "Sob consulta";
     const info = $("#heroCepInfo");
     if (addr) {

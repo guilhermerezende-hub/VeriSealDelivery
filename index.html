@@ -93,7 +93,7 @@
         class="mx-auto flex h-[68px] max-w-[1248px] items-center gap-3.5 px-6 max-sm:h-auto max-sm:flex-wrap max-sm:gap-x-2.5 max-sm:gap-y-2 max-sm:px-4 max-sm:py-2.5"
       >
         <a
-          class="flex shrink-0 items-center gap-2 no-underline"
+          class="flex shrink-0 items-center gap-2 no-underline max-sm:mr-auto"
           href="#inicio"
           aria-label="VeriSeal Delivery — início"
         >
@@ -108,33 +108,6 @@
             Delivery
           </span>
         </a>
-
-        <button
-          class="flex h-[46px] max-w-[250px] shrink-0 items-center gap-2 rounded-xl border border-line bg-white pr-3 pl-2.5 text-left transition-[border-color,background-color] duration-200 hover:border-fg-3 max-sm:order-2 max-sm:h-10 max-sm:max-w-none max-sm:min-w-0 max-sm:flex-1 max-sm:border-0 max-sm:bg-transparent max-sm:px-1"
-          id="locBtn"
-          type="button"
-          data-open-address
-          aria-label="Informar CEP de entrega"
-        >
-          <i
-            class="icon icon-pin size-5 text-accent [.has-cep_&]:text-ok"
-            aria-hidden="true"
-          ></i>
-          <span class="flex min-w-0 flex-col leading-[1.15]">
-            <small class="text-[11px] text-fg-2 max-sm:hidden"
-              >Entregar em</small
-            >
-            <b
-              class="truncate text-[14px] font-bold max-sm:text-[13px]"
-              id="locText"
-              >Informe seu CEP</b
-            >
-          </span>
-          <i
-            class="icon icon-chev-d size-4 text-fg-2 max-sm:hidden"
-            aria-hidden="true"
-          ></i>
-        </button>
 
         <div
           class="relative min-w-0 flex-1 max-sm:order-5 max-sm:basis-full"
@@ -177,12 +150,22 @@
         <a
           class="inline-flex h-[46px] shrink-0 items-center gap-2 rounded-xl bg-[#e7f5fe] px-3.5 text-[14px] font-bold text-navy no-underline transition-colors duration-200 hover:bg-[#d4edfc] max-lg:px-[13px] max-sm:order-3 max-sm:h-10 max-sm:px-2.5 max-xs:hidden"
           href="#verificar"
+          title="Como verificar?"
         >
           <i
             class="icon icon-contactless size-5 text-accent"
             aria-hidden="true"
           ></i>
-          <span class="max-lg:hidden">Como verificar?</span>
+          <span class="max-lg:sr-only">Como verificar?</span>
+        </a>
+
+        <a
+          class="inline-flex h-[46px] shrink-0 items-center gap-2 rounded-xl bg-[#e7f5fe] px-3.5 text-[14px] font-bold text-navy no-underline transition-colors duration-200 hover:bg-[#d4edfc] max-lg:px-[13px] max-sm:order-3 max-sm:h-10 max-sm:px-2.5"
+          href="entregadores.html"
+          title="Seja entregador"
+        >
+          <i class="icon icon-moto size-5 text-accent" aria-hidden="true"></i>
+          <span class="max-lg:sr-only">Seja entregador</span>
         </a>
 
         <a
@@ -194,14 +177,15 @@
         </a>
 
         <button
-          class="inline-flex h-[46px] shrink-0 items-center gap-2.5 rounded-xl bg-navy pr-4 pl-3 text-[14px] font-bold text-white transition-colors duration-200 hover:bg-navy-2 max-sm:order-4 max-sm:h-10 max-sm:px-3"
+          class="grid size-[46px] shrink-0 place-items-center rounded-xl bg-navy text-white transition-colors duration-200 hover:bg-navy-2 max-sm:order-4 max-sm:size-10"
           id="bagBtn"
           type="button"
           data-open-bag
           aria-label="Sacola de compras"
+          title="Sacola de compras"
         >
           <span class="relative grid place-items-center">
-            <i class="icon icon-bag size-[22px]" aria-hidden="true"></i>
+            <i class="icon icon-cart size-[22px]" aria-hidden="true"></i>
             <span
               class="absolute -top-[7px] -right-2 h-[18px] min-w-[18px] rounded-[9px] border-2 border-navy bg-cyan px-[5px] text-center text-[11px] leading-[18px] font-extrabold text-navy-ink [&.bump]:animate-[bump_.4s_var(--ease-smooth)]"
               id="bagCount"
@@ -210,11 +194,6 @@
               0
             </span>
           </span>
-          <span
-            class="whitespace-nowrap tabular-nums max-sm:hidden"
-            id="bagTotal"
-            >Sacola</span
-          >
         </button>
       </div>
     </header>
@@ -284,16 +263,6 @@
             alt=""
           />
           Lacre VeriSeal
-        </a>
-        <a
-          class="ml-auto inline-flex h-[34px] shrink-0 items-center gap-1.5 rounded-full border border-line px-3 text-[14px] font-semibold text-navy no-underline transition-colors duration-200 hover:border-accent hover:bg-surface"
-          href="entregadores.html"
-        >
-          <i
-            class="icon icon-moto size-[18px] text-accent"
-            aria-hidden="true"
-          ></i>
-          Seja entregador
         </a>
       </div>
     </nav>
@@ -394,17 +363,20 @@
             novalidate
           >
             <span
-              class="row-span-2 grid size-11 place-items-center rounded-xl bg-white text-accent shadow-card max-sm:row-span-1"
+              class="row-span-2 grid size-11 place-items-center rounded-xl bg-white text-accent shadow-card max-sm:row-span-1 [.has-cep_&]:text-ok"
             >
               <i class="icon icon-pin size-[22px]" aria-hidden="true"></i>
             </span>
             <label class="flex min-w-0 flex-col" for="heroCep">
-              <span class="text-[12px] font-semibold text-fg-2"
+              <span
+                class="truncate text-[12px] font-semibold text-fg-2"
+                id="locText"
                 >Consultar endereço</span
               >
               <input
                 class="h-[26px] min-w-0 bg-transparent p-0 text-[17px] font-bold tracking-[.01em] outline-none placeholder:font-medium placeholder:text-fg-3 [&.invalid]:text-bad"
                 id="heroCep"
+                aria-label="CEP de entrega"
                 inputmode="numeric"
                 placeholder="Digite seu CEP"
                 maxlength="9"
@@ -1782,8 +1754,8 @@
                 class="photo-fade absolute top-0 right-0 h-full w-auto max-w-none"
                 src="assets/photos/entregador.webp"
                 alt="Entregador de capacete, de costas, com a mochila térmica da VeriSeal Delivery"
-                width="850"
-                height="1725"
+                width="1086"
+                height="1448"
                 loading="lazy"
                 decoding="async"
               />
