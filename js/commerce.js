@@ -11,7 +11,6 @@ export const cents = (value) =>
   Math.round((Number(value) + Number.EPSILON) * 100);
 export const roundMoney = (value) => cents(value) / 100;
 
-// O frete considera o subtotal dos produtos ANTES do desconto da forma de pagamento.
 export function shipping(subtotal) {
   const amount = cents(subtotal);
   return amount <= 0 || amount >= cents(FREE_SHIP) ? 0 : SHIP_FEE;

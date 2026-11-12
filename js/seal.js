@@ -1,16 +1,3 @@
-/* =========================================================
-   VeriSeal Delivery — o lacre inteligente em SVG
-   Mesma arte da landing da VeriSeal: faixa azul-marinho com
-   guilhoché, holograma com o monograma, linha de ruptura,
-   símbolo de aproximação e número de série. Por dentro (raio-X),
-   o chip NFC, a antena e o circuito que se rompe ao abrir.
-   Seal.mount() monta o lacre com lupa de raio-X que segue o
-   ponteiro e "pings" de aproximação saindo do símbolo NFC.
-   A tira que vai no gargalo de cada foto de garrafa é registrada
-   como #vs-neck (íntegra) e #vs-neck-torn (rompida).
-   Os logos do lacre são os arquivos vs-*.svg de assets/brand/.
-   ========================================================= */
-
 window.Seal = (() => {
   const SW = 1000,
     SH = 280,
@@ -20,10 +7,9 @@ window.Seal = (() => {
   const SANS = `Inter, -apple-system, 'Segoe UI', Roboto, sans-serif`;
   const MONO = `'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace`;
   const NFC_U = 0.706,
-    NFC_V = 0.336; // posição do símbolo de aproximação na faixa (frações)
+    NFC_V = 0.336;
   let uid = 0;
 
-  // guilhoché: ondas sobrepostas, como na impressão de segurança de documentos
   function guilloche(n, amp, f1, f2, ph0) {
     let d = "";
     for (let i = 0; i < n; i++) {
@@ -55,7 +41,7 @@ window.Seal = (() => {
     }
     return d;
   }
-  // símbolo de aproximação (quatro arcos)
+
   function contactless(x, y, s, stroke, w) {
     let d = "";
     [0.22, 0.47, 0.72, 0.97].forEach((f) => {
@@ -65,11 +51,7 @@ window.Seal = (() => {
     });
     return `<path d="${d}" fill="none" stroke="${stroke}" stroke-width="${w}" stroke-linecap="round"/>`;
   }
-  /* ---------- tira do lacre no gargalo (desenhada por cima das fotos) ----------
-     viewBox 0 0 40 110. A junção tampa/gargalo — a linha de ruptura — fica em
-     y = 44: em cima, holograma com o monograma (na tampa); embaixo, guilhoché,
-     símbolo de aproximação e "VERISEAL" (no vidro). Na versão rompida a metade
-     de cima sai com a tampa e os contatos do circuito ficam expostos. */
+
   const NJ = 44;
   function neckDefs() {
     return `
@@ -129,7 +111,6 @@ window.Seal = (() => {
       <g transform="translate(4 -10) rotate(-13 40 ${NJ})">${upper}</g></symbol>`;
   }
 
-  // antena: espiral retangular em volta da zona do celular
   function spiral(x0, y0, x1, y1, n, p) {
     const mid = (y0 + y1) / 2;
     let d = `M${x0} ${mid}`;
@@ -171,7 +152,6 @@ window.Seal = (() => {
   const tearMarkup = (op) =>
     `<path d="M${NX} 18V262" stroke="#fff" stroke-opacity="${op}" stroke-width="1.6" stroke-dasharray="5 6"/>`;
 
-  // a face do lacre
   function printSVG(serial = "A7F3K9B21") {
     const id = "sl" + ++uid;
     return `<svg class="absolute inset-0 size-full overflow-visible" viewBox="0 0 ${SW} ${SH}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
@@ -216,7 +196,6 @@ window.Seal = (() => {
     </svg>`;
   }
 
-  // o que a lupa de raio-x mostra: o interior do lacre, com anotações
   function xraySVG() {
     const id = "xr" + ++uid;
     let grid = "";
@@ -238,7 +217,6 @@ window.Seal = (() => {
     </svg>`;
   }
 
-  // embaralha os caracteres até revelar o número de série
   function scramble(el, final, ms = 900) {
     const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789",
       t0 = performance.now();
@@ -257,7 +235,6 @@ window.Seal = (() => {
     requestAnimationFrame(step);
   }
 
-  // onda de aproximação saindo do símbolo do celular
   function ping(host) {
     const p = document.createElement("i");
     p.className =
@@ -275,7 +252,6 @@ window.Seal = (() => {
     a.onfinish = () => p.remove();
   }
 
-  /* ---------- lacre interativo: inclinação, holograma, lupa de raio-x e pings ---------- */
   function mount(host, opts = {}) {
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -386,7 +362,6 @@ window.Seal = (() => {
           (0.35 + 0.3 * Math.abs(Math.sin(tiltY * 0.25 + t * 0.3))).toFixed(3),
         );
 
-      // lupa: segue o ponteiro; parada, passeia sozinha pelo lacre
       const active = hover || now - lastInput < 2200;
       if (!active) {
         if (reduce) {
@@ -405,7 +380,6 @@ window.Seal = (() => {
       loupe.style.setProperty("--ly", y.toFixed(1) + "px");
       xsvg.style.transform = `translate(${(ld / 2 - x * zoom).toFixed(1)}px,${(ld / 2 - y * zoom).toFixed(1)}px)`;
 
-      // pings: de tempos em tempos e sempre que a lupa passa pelo símbolo do celular
       if (!reduce) {
         nextPing -= dt;
         const nearNfc =
@@ -449,7 +423,6 @@ window.Seal = (() => {
     return { layout };
   }
 
-  // registra a tira do gargalo (#vs-neck e #vs-neck-torn) num <svg> oculto no fim da página
   (function defineNeck() {
     if (document.getElementById("vs-neck")) return;
     document.body.insertAdjacentHTML(
@@ -458,7 +431,6 @@ window.Seal = (() => {
     );
   })();
 
-  // proporções da tira: largura 40, altura 110, linha de ruptura em 44, símbolo NFC em 63
   const NECK = { W: 40, H: 110, J: NJ, NFC: 63 };
 
   return { printSVG, xraySVG, mount, ping, scramble, NFC_U, NFC_V, NECK };

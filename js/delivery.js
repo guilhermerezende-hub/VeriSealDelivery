@@ -18,7 +18,6 @@ export const cityUf = (address) =>
   address.city ? address.city + (address.uf ? "/" + address.uf : "") : "";
 export const etaText = () => "prazo não disponível";
 
-// ViaCEP identifica o endereço. Ele não confirma área de entrega, frete ou prazo.
 export async function lookupCep(
   value,
   fetcher = globalThis.fetch,

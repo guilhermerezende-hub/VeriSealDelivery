@@ -37,14 +37,14 @@ export function createVerification({
     verifyError.hidden = true;
     verifyInput.classList.remove("invalid");
     showResult(code);
-    // no celular o resultado fica abaixo do formulário: rola até ele
+
     if (verifyResult.getBoundingClientRect().top > innerHeight - 120)
       verifyResult.scrollIntoView({
         behavior: reduce ? "auto" : "smooth",
         block: "start",
       });
   }
-  // a página de verificação como abre no celular, em tamanho de leitura: barra do navegador, logo e resultado
+
   const DEMO_LINE =
     '<p class="mb-3 text-center text-[13px] text-white/78">Demonstração com dados fictícios · sem leitura NFC real</p>';
   const verifyPage = (content) =>

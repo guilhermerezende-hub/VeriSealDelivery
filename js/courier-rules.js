@@ -1,5 +1,3 @@
-// Regras do cadastro de entregadores. Demonstração: os dados são validados no
-// navegador e nada é enviado ou armazenado.
 import { validCep } from "./delivery.js";
 
 export const digits = (value) => String(value ?? "").replace(/\D/g, "");
@@ -17,7 +15,6 @@ export const SHIFTS = Object.freeze({
   fds: "Fins de semana",
 });
 
-// campos validados em cada etapa: 0 seus dados · 1 veículo e região · 2 revisão
 export const STEP_FIELDS = [
   ["name", "cpf", "birth", "phone", "email"],
   ["vehicle", "cep", "cnh", "plate", "shifts"],
@@ -27,18 +24,12 @@ export const STEP_FIELDS = [
 export const needsLicense = (vehicle) =>
   vehicle === "moto" || vehicle === "car";
 
-// O número do CPF não contém a data de nascimento: conferir os dois exige consultar
-// um cadastro. Na operação real, essa consulta é feita pelo servidor junto à Receita
-// Federal (por exemplo, a API Consulta CPF do Serpro), nunca no navegador. Nesta
-// demonstração, uma base fictícia faz esse papel, como os códigos de exemplo dos lacres.
 export const DEMO_CPFS = Object.freeze({
   52998224725: { birth: "15/04/1995", label: "maior de idade" },
   39053344705: { birth: "22/08/1988", label: "maior de idade" },
   12345678909: { birth: "03/11/2010", label: "menor de idade" },
 });
 
-// "ok" quando a data confere com o CPF, "mismatch" quando não confere e
-// "unknown" quando o CPF não está na base consultada
 export function cpfBirthCheck(cpf, birth, registry = DEMO_CPFS) {
   const record = registry[digits(cpf)];
   if (!record) return "unknown";
@@ -75,7 +66,6 @@ export function fmtPhone(value) {
   return `(${d.slice(0, 2)}) ${rest.length > 5 ? rest.slice(0, 5) + "-" + rest.slice(5) : rest}`;
 }
 
-// celular com DDD: os DDDs brasileiros não têm o dígito zero
 export const validPhone = (value) => /^[1-9]{2}9\d{8}$/.test(digits(value));
 
 export const validEmail = (value) =>
@@ -110,7 +100,6 @@ export const validCnh = (value) => {
   return d.length === 11 && !/^(\d)\1{10}$/.test(d);
 };
 
-// placa antiga (ABC1234) ou Mercosul (ABC1D23)
 export const fmtPlate = (value) =>
   String(value)
     .toUpperCase()
@@ -133,7 +122,7 @@ const RULES = {
       ? "CPF não encontrado na base da demonstração. Use um CPF de exemplo."
       : "";
   },
-  // a data digitada precisa ser a do CPF; só então a idade mínima é conferida
+
   birth: ({ birth = "", cpf = "" }, today) => {
     if (!String(birth).trim()) return "Informe sua data de nascimento.";
     const date = parseBirth(birth);
@@ -180,7 +169,6 @@ const RULES = {
     terms ? "" : "Para enviar, confirme que leu e aceita os termos.",
 };
 
-// devolve somente os campos com erro: { campo: mensagem }
 export function validateStep(step, data, today = new Date()) {
   return Object.fromEntries(
     (STEP_FIELDS[step] || [])

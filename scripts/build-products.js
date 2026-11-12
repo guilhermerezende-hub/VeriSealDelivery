@@ -25,7 +25,7 @@ const money = (value) =>
   new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
     value,
   );
-// URLs absolutas de compartilhamento dependem do domínio real de publicação.
+
 const siteUrl = process.env.SITE_URL ? new URL(process.env.SITE_URL) : null;
 if (siteUrl && !["http:", "https:"].includes(siteUrl.protocol))
   throw new Error("SITE_URL deve usar HTTP ou HTTPS");
@@ -91,6 +91,9 @@ for (const product of products) {
 `;
   const directory = new URL(`produtos/${product.id}/`, root);
   await mkdir(directory, { recursive: true });
-  await writeFile(new URL("index.html", directory), document.replace(/[\t ]+$/gm, ""));
+  await writeFile(
+    new URL("index.html", directory),
+    document.replace(/[\t ]+$/gm, ""),
+  );
 }
 console.log(`${products.length} páginas de produtos geradas.`);

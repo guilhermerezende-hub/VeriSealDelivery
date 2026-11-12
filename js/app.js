@@ -47,7 +47,7 @@ import { createVerification } from "./verification.js";
   PRODUCTS.forEach((p) => {
     if (!p.items) return;
     p.bottles = p.items.map((id) => byId[id]).filter(Boolean);
-    p.oldPrice = p.bottles.reduce((s, b) => s + b.price, 0); // kit: "de" = soma das garrafas
+    p.oldPrice = p.bottles.reduce((s, b) => s + b.price, 0);
   });
   const seals = Object.assign(
     {},
@@ -63,7 +63,7 @@ import { createVerification } from "./verification.js";
     isKit(p)
       ? `${p.bottles.length} garrafas · ${p.bottles.length} lacres VeriSeal`
       : `${p.volume} · ${abv(p)} vol.`;
-  // mesma marca e nome (ex.: Absolut Vodka 1 L e 750 ml): o volume entra no nome completo
+
   const twins = new Set(
     PRODUCTS.filter(
       (p, _, a) =>
@@ -79,13 +79,13 @@ import { createVerification } from "./verification.js";
     isKit(p)
       ? `Kit ${p.name}`
       : `${p.name}${twins.has(p.id) ? " " + p.volume : ""}`;
-  // garrafas repetidas num kit aparecem como "3× Tanqueray London Dry"
+
   const kitGroups = (p) => {
     const m = new Map();
     p.bottles.forEach((b) => m.set(b, (m.get(b) || 0) + 1));
     return [...m];
   };
-  // cada termo precisa casar com o início de uma palavra ("gin" não acha "original")
+
   const matches = (p, q) => {
     const words = norm(
       [
@@ -104,15 +104,12 @@ import { createVerification } from "./verification.js";
       .every((t) => words.some((w) => w.startsWith(t)));
   };
 
-  /* ============================================================
-     FOTOS COM LACRE — a tira VeriSeal vai na junção tampa/gargalo
-     ============================================================ */
-  const NECK = window.Seal.NECK; // tira 40 × 110, ruptura em 44, símbolo NFC em 63
+  const NECK = window.Seal.NECK;
   function sealGeo(p) {
     const [w, h] = p.size,
       s = p.seal || { y: 0.15 };
-    const sw = s.w || 0.145; // largura da tira (fração da largura da foto)
-    const sh = sw * (w / h) * (NECK.H / NECK.W); // altura da tira (fração da altura da foto)
+    const sw = s.w || 0.145;
+    const sh = sw * (w / h) * (NECK.H / NECK.W);
     return {
       x: s.x || 0.5,
       y: s.y,
@@ -122,7 +119,7 @@ import { createVerification } from "./verification.js";
       nfc: s.y + (sh * (NECK.NFC - NECK.J)) / NECK.H,
     };
   }
-  // o.cls troca a altura padrão (h-full) da foto; o.sealCls vai na tira do lacre
+
   function shot(p, o = {}) {
     const g = sealGeo(p);
     const seal =
@@ -131,7 +128,7 @@ import { createVerification } from "./verification.js";
         : `<svg class="pointer-events-none absolute -translate-x-1/2 overflow-visible drop-shadow-[0_.6px_1px_rgba(0,0,0,.45)] ${o.sealCls || ""}" viewBox="0 0 40 110" preserveAspectRatio="none" aria-hidden="true" focusable="false" style="left:${pc(g.x)};top:${pc(g.top)};width:${pc(g.sw)};height:${pc(g.sh)}"><use href="#vs-neck${o.torn ? "-torn" : ""}"/></svg>`;
     return `<span class="relative block aspect-[var(--ar)] shrink-0 ${o.cls || "h-full"}" style="--ar:${p.size[0]} / ${p.size[1]}"><img class="block size-full object-contain select-none [-webkit-user-drag:none]" src="${esc(p.img)}" alt="${esc(o.alt || "")}" width="${p.size[0]}" height="${p.size[1]}" loading="${o.eager ? "eager" : "lazy"}" decoding="async" draggable="false">${seal}</span>`;
   }
-  // kit: as garrafas lado a lado, a do meio maior e na frente
+
   function visual(p, o = {}) {
     if (!isKit(p)) return shot(p, o);
     const n = p.bottles.length;
@@ -154,7 +151,6 @@ import { createVerification } from "./verification.js";
       <span class="text-[12px] font-semibold text-ok max-sm:text-[11px]">${money(pix(p.price))} no Pix</span>
     </div>`;
 
-  /* ---------- botão + / seletor de quantidade (estilo apps de delivery) ---------- */
   const bag = restoreBag(store.get("bag", {}), byId);
   function ctaInner(id) {
     const q = bag.get(id) || 0,
@@ -188,18 +184,17 @@ import { createVerification } from "./verification.js";
         <p class="text-[12px] font-semibold tracking-[.04em] text-fg-2 uppercase">${esc(kit ? `Kit · ${p.bottles.length} garrafas` : p.brand)}</p>
         <h3 class="mt-0.5 text-[16px] leading-[1.22] font-bold tracking-[-.02em] max-sm:text-[15px]"><a href="produtos/${p.id}/" class="text-left tracking-[inherit] text-inherit hover:text-accent" data-open="${p.id}">${esc(p.name)}</a></h3>
         <p class="mt-[3px] text-[13px] text-fg-2">${esc(
-      kit
-        ? kitGroups(p)
-          .map(([b, n]) => (n > 1 ? n + "× " : "") + b.brand)
-          .join(" · ")
-        : `${p.volume} · ${abv(p)}`,
-    )}</p>
+          kit
+            ? kitGroups(p)
+                .map(([b, n]) => (n > 1 ? n + "× " : "") + b.brand)
+                .join(" · ")
+            : `${p.volume} · ${abv(p)}`,
+        )}</p>
         <div class="mt-auto flex items-end justify-between gap-2 pt-2.5">${priceHTML(p)}${cta(p.id)}</div>
       </div>
     </article>`;
   }
 
-  /* ---------- camadas (sheets, sacola, checkout) ---------- */
   const stack = [];
   const body = document.body;
   function openLayer(el, focusEl) {
@@ -246,7 +241,7 @@ import { createVerification } from "./verification.js";
     const layer = c.closest("[data-layer]");
     if (layer) closeLayer(layer);
   });
-  // mantém o foco dentro da camada aberta
+
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Tab" || !stack.length) return;
     const el = stack[stack.length - 1].el;
@@ -266,7 +261,6 @@ import { createVerification } from "./verification.js";
     }
   });
 
-  /* ---------- toast ---------- */
   const toastEl = $("#toast");
   let toastT = 0;
   function hideToast() {
@@ -289,7 +283,6 @@ import { createVerification } from "./verification.js";
     toastT = setTimeout(hideToast, 3800);
   }
 
-  /* ---------- reveal ao rolar ---------- */
   safe("reveal", () => {
     const io = new IntersectionObserver(
       (es) =>
@@ -312,7 +305,6 @@ import { createVerification } from "./verification.js";
     });
   });
 
-  /* ---------- verificação de idade ---------- */
   safe("age", () => {
     const gate = $("#ageGate");
     if (store.get("age", false)) return;
@@ -336,9 +328,6 @@ import { createVerification } from "./verification.js";
     });
   });
 
-  /* ============================================================
-     ENDEREÇO / CEP — consulta de endereço, sem cobertura confirmada
-     ============================================================ */
   const address = createAddressController({
     isBagOpen: () => stack.some((s) => s.el.id === "bagDrawer"),
     renderBag,
@@ -347,9 +336,6 @@ import { createVerification } from "./verification.js";
   });
   const { openAddress } = address;
 
-  /* ============================================================
-     BUSCA NA BARRA DO APP — resultados enquanto digita
-     ============================================================ */
   const searchBox = $("#search"),
     searchInput = $("#searchInput"),
     searchPanel = $("#searchPanel");
@@ -433,7 +419,7 @@ import { createVerification } from "./verification.js";
       const all = e.target.closest("[data-search-all]");
       if (all) searchAll(all.dataset.searchAll);
     });
-    // fecha ao clicar fora ou quando o foco sai da busca
+
     document.addEventListener("pointerdown", (e) => {
       if (!searchPanel.hidden && !e.target.closest("#search")) setSearch(false);
     });
@@ -454,14 +440,8 @@ import { createVerification } from "./verification.js";
     });
   });
 
-  /* ============================================================
-     DESTAQUES — carrossel com as fotos de ambiente
-     ============================================================ */
   initShowcase({ byId, fullName, sealGeo, shot, pct, abv });
 
-  /* ============================================================
-     CATEGORIAS, OFERTAS, MAIS PEDIDOS E KITS
-     ============================================================ */
   safe("categories", () => {
     const photo =
       "items-start justify-center bg-[radial-gradient(ellipse_60%_30%_at_50%_100%,rgba(0,0,0,.08),transparent_70%)] bg-(--tint)";
@@ -545,7 +525,6 @@ import { createVerification } from "./verification.js";
       update(r);
     });
 
-    // contagem regressiva das ofertas até domingo 23:59:59
     const end = (() => {
       const d = new Date();
       const e = new Date(
@@ -601,9 +580,6 @@ import { createVerification } from "./verification.js";
         `Kit Tanqueray 3 garrafas · ${money(k.price)}`;
   });
 
-  /* ============================================================
-     CATÁLOGO — categorias, marcas, busca e ordenação
-     ============================================================ */
   const { setFilter } = createCatalog({
     CATS,
     PRODUCTS,
@@ -614,9 +590,6 @@ import { createVerification } from "./verification.js";
     cardHTML,
   });
 
-  /* ============================================================
-     SACOLA
-     ============================================================ */
   const bagCount = () => [...bag.values()].reduce((a, b) => a + b, 0);
   const subtotal = () => bagSubtotal(bag, byId);
   const saveBag = () => store.set("bag", Object.fromEntries(bag));
@@ -653,7 +626,6 @@ import { createVerification } from "./verification.js";
       c = $("#bagCount");
     c.hidden = !n;
     c.textContent = n;
-    $("#bagTotal").textContent = n ? money(subtotal()) : "Sacola";
     $("#bagBtn").classList.toggle("has-items", n > 0);
     $("#bagBtn").setAttribute(
       "aria-label",
@@ -716,9 +688,10 @@ import { createVerification } from "./verification.js";
       <p class="mt-3.5 mb-0.5 flex items-center gap-2.5 rounded-xl bg-[#e9f5fd] px-3 py-2.5 text-[13px] text-navy">${vsMark("w-[26px] shrink-0")}<span><b>${units} ${units === 1 ? "garrafa lacrada" : "garrafas lacradas"}</b> · cada uma com o próprio lacre VeriSeal</span></p>
       <ul>${[...bag].map(([id, q]) => bagItemHTML(byId[id], q)).join("")}</ul>`;
     bf.innerHTML = `
-      ${address.address
-        ? `<p class="mb-2 flex items-center gap-2 text-[13px] text-fg-2">${icon("pin", "size-4 text-ok")}<span class="min-w-0 flex-1">Entregar em <b class="text-fg">${esc(placeLabel(address.address))}</b> · ${etaText(address.address)}</span><button class="${LINK_BTN}" type="button" data-open-address>Alterar</button></p>`
-        : `<form class="mb-1 flex gap-2" id="bagCepForm" novalidate><input class="h-10 min-w-0 flex-1 rounded-xl border border-line bg-white px-3.5 text-[15px] outline-none focus:border-accent focus:shadow-focus [&.invalid]:border-bad" id="bagCep" inputmode="numeric" placeholder="Consultar CEP" maxlength="9" aria-label="CEP de entrega" autocomplete="postal-code"><button class="btn btn-dark btn-sm" type="submit">OK</button></form><p class="${CEP_INFO}" id="bagCepInfo" aria-live="polite"></p>`
+      ${
+        address.address
+          ? `<p class="mb-2 flex items-center gap-2 text-[13px] text-fg-2">${icon("pin", "size-4 text-ok")}<span class="min-w-0 flex-1">Entregar em <b class="text-fg">${esc(placeLabel(address.address))}</b> · ${etaText(address.address)}</span><button class="${LINK_BTN}" type="button" data-open-address>Alterar</button></p>`
+          : `<form class="mb-1 flex gap-2" id="bagCepForm" novalidate><input class="h-10 min-w-0 flex-1 rounded-xl border border-line bg-white px-3.5 text-[15px] outline-none focus:border-accent focus:shadow-focus [&.invalid]:border-bad" id="bagCep" inputmode="numeric" placeholder="Consultar CEP" maxlength="9" aria-label="CEP de entrega" autocomplete="postal-code"><button class="btn btn-dark btn-sm" type="submit">OK</button></form><p class="${CEP_INFO}" id="bagCepInfo" aria-live="polite"></p>`
       }
       <div class="mt-1 mb-3.5">
         <div class="${ROW}"><span>Subtotal</span><span>${money(sub)}</span></div>
@@ -745,7 +718,6 @@ import { createVerification } from "./verification.js";
     openLayer($("#bagDrawer"), $("#bagDrawer button[data-close]"));
   }
 
-  // devolve o foco ao controle equivalente depois que a lista é redesenhada
   function refocus(prev) {
     if (!prev) return;
     const attr = ["data-inc", "data-dec", "data-add"].find((a) =>
@@ -766,9 +738,6 @@ import { createVerification } from "./verification.js";
     });
   }
 
-  /* ============================================================
-     DETALHE DO PRODUTO — foto com o lacre em destaque + galeria
-     ============================================================ */
   function openProduct(id) {
     const p = byId[id];
     if (!p) return;
@@ -780,7 +749,7 @@ import { createVerification } from "./verification.js";
       media.innerHTML = `<div class="h-[400px] w-full max-w-[400px] max-md:h-[280px]">${visual(p, { eager: true })}</div><p class="${NOTE_MARK}">${vsMark("w-[22px]")}${p.bottles.length} garrafas, cada uma com o próprio lacre</p>`;
     } else {
       const g = sealGeo(p);
-      // anéis NFC saindo do lacre e a etiqueta apontando para ele
+
       const ring = (anim) =>
         `<span class="absolute -top-8 -left-8 size-16 rounded-full border-2 border-cyan opacity-0 ${anim}"></span>`;
       const views = [
@@ -818,29 +787,31 @@ import { createVerification } from "./verification.js";
       <div class="mt-3.5 flex items-baseline gap-2.5">${p.oldPrice ? `<s class="text-[16px] text-fg-3">${money(p.oldPrice)}</s>` : ""}<b class="text-[28px] font-extrabold tracking-[-.025em]">${money(p.price)}</b></div>
       <p class="mt-0.5 text-[14px] text-fg-2"><strong class="font-bold text-ok">${money(pix(p.price))} no Pix</strong> (${PIX_LABEL} off)${i ? ` · ou ${i.n}x de ${money(i.v)} sem juros` : ""}</p>
       <p class="mt-4 text-[15px] text-fg-2">${esc(p.desc)}</p>
-      ${kit
-        ? `<ul class="mt-4 grid gap-2">${kitGroups(p)
-          .map(
-            ([b, n]) =>
-              `<li class="flex items-center gap-3 rounded-xl bg-surface px-3 py-2"><span class="flex h-[60px] w-7 shrink-0 items-end justify-center">${shot(b)}</span><span><b class="block text-[15px]">${n > 1 ? n + "× " : ""}${esc(b.brand)} ${esc(b.name)}</b><small class="text-[12px] text-fg-2">${esc(b.volume)} · ${abv(b)} vol. · ${esc(b.origin)}</small></span></li>`,
-          )
-          .join("")}</ul>`
-        : `<div class="mt-[18px] grid grid-cols-3 gap-2">${[
-          ["Volume", esc(p.volume)],
-          ["Teor alcoólico", abv(p)],
-          ["Origem", esc(p.origin)],
-        ]
-          .map(
-            ([k, v]) =>
-              `<div class="rounded-xl bg-surface px-3 py-2.5"><span class="block text-[11px] text-fg-2">${k}</span><strong class="text-[15px] tracking-[-.01em]">${v}</strong></div>`,
-          )
-          .join("")}</div>`
+      ${
+        kit
+          ? `<ul class="mt-4 grid gap-2">${kitGroups(p)
+              .map(
+                ([b, n]) =>
+                  `<li class="flex items-center gap-3 rounded-xl bg-surface px-3 py-2"><span class="flex h-[60px] w-7 shrink-0 items-end justify-center">${shot(b)}</span><span><b class="block text-[15px]">${n > 1 ? n + "× " : ""}${esc(b.brand)} ${esc(b.name)}</b><small class="text-[12px] text-fg-2">${esc(b.volume)} · ${abv(b)} vol. · ${esc(b.origin)}</small></span></li>`,
+              )
+              .join("")}</ul>`
+          : `<div class="mt-[18px] grid grid-cols-3 gap-2">${[
+              ["Volume", esc(p.volume)],
+              ["Teor alcoólico", abv(p)],
+              ["Origem", esc(p.origin)],
+            ]
+              .map(
+                ([k, v]) =>
+                  `<div class="rounded-xl bg-surface px-3 py-2.5"><span class="block text-[11px] text-fg-2">${k}</span><strong class="text-[15px] tracking-[-.01em]">${v}</strong></div>`,
+              )
+              .join("")}</div>`
       }
       <div class="mt-3.5 flex flex-wrap gap-1.5">${(p.notes || []).map((n) => `<span class="rounded-full border border-line px-2.5 py-[5px] text-[12px] text-fg-2">${esc(n)}</span>`).join("")}</div>
       <div class="mt-[18px] flex items-start gap-3 rounded-2xl bg-[linear-gradient(135deg,#e6f4fe,#f3f5f9)] px-4 py-3.5">${vsMark("mt-1 w-[34px] shrink-0")}<div><strong class="block text-[14px] text-navy">Lacre VeriSeal${kit ? " em cada garrafa" : ""}</strong><p class="text-[13px] leading-[1.45] text-fg-2">Exemplo visual de lacre inteligente. A verificação desta demonstração usa dados fictícios e não comprova autenticidade.</p></div></div>
-      <p class="mt-3.5 flex items-center gap-2 text-[14px] text-fg-2">${address.address
-        ? `${icon("truck", "size-[18px] text-accent")}<span><b class="text-fg">${etaText(address.address)}</b> em ${esc(placeLabel(address.address))}${shipping(p.price) === 0 ? " · frete grátis" : ""}</span>`
-        : `${icon("pin", "size-[18px] text-accent")}<span><button class="${LINK_BTN}" type="button" data-open-address>Informe seu CEP</button> para consultar o endereço. Cobertura não confirmada.</span>`
+      <p class="mt-3.5 flex items-center gap-2 text-[14px] text-fg-2">${
+        address.address
+          ? `${icon("truck", "size-[18px] text-accent")}<span><b class="text-fg">${etaText(address.address)}</b> em ${esc(placeLabel(address.address))}${shipping(p.price) === 0 ? " · frete grátis" : ""}</span>`
+          : `${icon("pin", "size-[18px] text-accent")}<span><button class="${LINK_BTN}" type="button" data-open-address>Informe seu CEP</button> para consultar o endereço. Cobertura não confirmada.</span>`
       }</p>
       <div class="mt-[22px] flex items-center gap-3 pt-1">
         <div class="inline-flex h-[46px] shrink-0 items-center rounded-full border border-line" role="group" aria-label="Quantidade">
@@ -871,9 +842,6 @@ import { createVerification } from "./verification.js";
     $("#productPanel").scrollTop = 0;
   }
 
-  /* ============================================================
-     CHECKOUT — experiência de compra simulada
-     ============================================================ */
   const checkout = createCheckout({
     bag,
     byId,
@@ -894,9 +862,6 @@ import { createVerification } from "./verification.js";
   });
   const openCheckout = checkout.open;
 
-  /* ============================================================
-     VERIFICAR GARRAFA — código digitado ou aproximação (NFC)
-     ============================================================ */
   const { verifyCode } = createVerification({
     seals,
     byId,
@@ -906,15 +871,6 @@ import { createVerification } from "./verification.js";
     toast,
   });
 
-  /* ============================================================
-     COMO FUNCIONA — pedido → entrega → encosta o celular → resultado na web
-     A foto do Jack Daniel's vira duas camadas: tampa (com a metade de
-     cima do lacre) e garrafa. No modo "violado" a tampa gira e sobe,
-     rompendo o lacre na linha de ruptura.
-     ============================================================ */
-  /* ============================================================
-     CLIQUES DELEGADOS (sacola, produtos, endereço, categorias)
-     ============================================================ */
   document.addEventListener("click", (e) => {
     const t = e.target;
     let el;

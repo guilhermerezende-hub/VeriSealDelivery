@@ -24,6 +24,10 @@
     --icon: url(../icons/bike.svg);
   }
 
+  .icon-cart {
+    --icon: url(../icons/cart.svg);
+  }
+
   .icon-calendar {
     --icon: url(../icons/calendar.svg);
   }

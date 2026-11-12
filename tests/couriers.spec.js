@@ -38,7 +38,6 @@ test("cadastro de entregador valida cada etapa e descarta os dados no fim", asyn
   );
   const next = page.locator("#courierNext");
 
-  // etapa 1: erros aparecem no campo e o foco vai para o primeiro
   await next.click();
   await expect(page.locator("#cName-err")).toBeVisible();
   await expect(page.locator("#cName")).toBeFocused();
@@ -56,7 +55,6 @@ test("cadastro de entregador valida cada etapa e descarta os dados no fim", asyn
   await expect(page.locator("#cBirth-err")).toBeHidden();
   await next.click();
 
-  // etapa 2: CNH e placa só aparecem para moto e carro
   await expect(page.locator('[data-step="1"]')).toBeVisible();
   await expect(page.locator('[data-step-item="1"]')).toHaveAttribute(
     "aria-current",
@@ -81,7 +79,6 @@ test("cadastro de entregador valida cada etapa e descarta os dados no fim", asyn
   await expect(page.locator("#cPlate")).toHaveValue("ABC1D23");
   await next.click();
 
-  // etapa 3: revisão e aceite
   const review = page.locator("#courierReview");
   for (const text of ["Maria Souza", "Moto", "ABC1D23", "Belo Horizonte/MG"])
     await expect(review).toContainText(text);
@@ -112,8 +109,8 @@ test("a loja e o login levam à área de entregadores", async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem("vsd:age", "true"));
   await page.goto("/");
   await expect(
-    page.locator('#catnav a[href="entregadores.html"]'),
-  ).toBeAttached();
+    page.locator('#appbar a[href="entregadores.html"]'),
+  ).toBeVisible();
   await page
     .locator("#entregadores")
     .getByRole("link", { name: "Quero ser entregador" })

@@ -1,4 +1,3 @@
-// Regras da demonstração. A operação real depende de integrações de servidor.
 export const PIX_OFF = 0.05;
 export const PIX_LABEL = new Intl.NumberFormat("pt-BR", {
   style: "percent",
@@ -14,7 +13,6 @@ export const SITE_HOST = "demo.veriseal.example";
 export const DEMO_NOTICE =
   "Demonstração: nenhum pedido, pagamento ou envio real é realizado.";
 
-// Preencher somente com informações confirmadas pelo responsável pelo projeto.
 export const COMPANY = Object.freeze({
   legalName: "",
   cnpj: "",

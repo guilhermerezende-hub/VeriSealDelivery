@@ -17,7 +17,6 @@ import { SITE_HOST } from "./config.js";
 import { pix } from "./commerce.js";
 
 export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
-  // bg: fundo do slide · img: recorte da foto · shade: sombra que garante a leitura do texto
   const SLIDES = [
     {
       id: "absolut-1l",
@@ -55,14 +54,14 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
         "after:bg-[linear-gradient(90deg,rgba(23,10,3,.85)_0%,rgba(23,10,3,.5)_38%,transparent_60%)] max-sm:after:bg-[linear-gradient(180deg,transparent_40%,rgba(23,10,3,.85)_64%)]",
     },
   ];
-  // --o e --a vêm do JS: o slide anda o banner inteiro, a foto anda menos (parallax) e o texto some antes
+
   const PARALLAX =
     "[translate:calc(var(--o,0)*var(--pw)*-.42)_0] [scale:calc(1_+_var(--a,0)*.07)] will-change-transform";
   const FADE_OUT =
     "[translate:calc(var(--o,0)*var(--pw)*.14)_0] opacity-[calc(1_-_var(--a,0)*1.6)] will-change-[transform,opacity]";
   function slideHTML(s, i, n) {
     const p = byId[s.id];
-    // sem loading="lazy": os slides ficam fora da tela até a troca, e a foto não pode chegar atrasada
+
     return `<article class="relative col-start-1 row-start-1 flex min-w-0 items-center overflow-hidden text-white backface-hidden will-change-transform [transform:translate3d(calc(var(--o,0)*100%),0,0)] before:pointer-events-none before:absolute before:inset-0 before:z-[3] before:bg-[#01050d] before:opacity-[calc(var(--a,0)*.5)] before:will-change-[opacity] after:pointer-events-none after:absolute after:inset-0 after:z-[1] max-sm:items-end ${s.bg} ${s.shade}" role="group" aria-roledescription="slide" aria-label="${i + 1} de ${n}">
       ${s.photo ? `<img class="absolute inset-0 left-auto h-full object-cover [-webkit-user-drag:none] max-sm:h-[58%] max-sm:w-full max-sm:[mask-image:linear-gradient(180deg,#000_60%,transparent)] ${PARALLAX} ${s.img}" src="${s.photo}" alt="${esc(s.alt)}" fetchpriority="${i ? "low" : "high"}" decoding="async" draggable="false">` : ""}
       ${s.bottles ? `<div class="absolute right-[6%] -bottom-[4%] z-[1] flex h-[92%] items-end max-sm:top-[5%] max-sm:right-1/2 max-sm:bottom-auto max-sm:h-[46%] max-sm:[transform:translateX(50%)] ${PARALLAX}" aria-hidden="true">${s.bottles.map((id, k) => shot(byId[id], { eager: true, cls: (k === 1 ? "z-[1] h-full" : "h-[88%]") + " -mx-[1.6%] drop-shadow-[0_24px_30px_rgba(0,0,0,.55)]" })).join("")}</div>` : ""}
@@ -79,7 +78,7 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
       <span class="absolute top-[18px] right-[18px] z-[2] inline-flex items-center gap-[7px] rounded-full bg-navy-ink/50 py-1.5 pr-3 pl-[9px] text-[12px] font-bold shadow-[inset_0_0_0_1px_rgba(255,255,255,.18)] backdrop-blur-[10px] max-sm:top-3 max-sm:right-3 max-sm:text-[11px] ${FADE_OUT}">${vsMark("w-[22px]", true)}Lacre VeriSeal</span>
     </article>`;
   }
-  // curva cubic-bezier do CSS, para animar em JS com a mesma sensação das transições
+
   function bezier(x1, y1, x2, y2) {
     const cx = 3 * x1,
       bx = 3 * (x2 - x1) - cx,
@@ -99,7 +98,6 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
         t -= e / d;
       }
       if (Math.abs(fx(t) - x) > 1e-4) {
-        // Newton não convergiu: bissecção
         let lo = 0,
           hi = 1;
         t = x;
@@ -112,27 +110,23 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
       return ((ay * t + by) * t + cy) * t;
     };
   }
-  /* Carrossel circular movido por transform (GPU), sem rolagem nativa: do último destaque segue para o
-     primeiro sem rebobinar. Cada slide recebe --o, a distância até a posição atual (-1 saindo pela
-     esquerda, 1 entrando pela direita), e --a = |o|; o CSS desliza o slide e faz o parallax da foto e do
-     texto. O dedo (ou o mouse) arrasta 1:1 e, ao soltar, a velocidade do gesto decide o destino. A barrinha
-     do ponto ativo mostra o tempo até o próximo destaque e para quando o mouse ou o foco está no banner. */
+
   safe("promo", () => {
     const promo = $("#promo"),
       track = $("#promoTrack"),
       dotsEl = $("#promoDots");
     const N = SLIDES.length;
     track.innerHTML = SLIDES.map((s, i) => slideHTML(s, i, N)).join("");
-    // a barrinha do ponto ativo enche no tempo do destaque (dotFill); quando termina, o JS passa para o próximo
+
     dotsEl.innerHTML = SLIDES.map(
       (s, i) =>
         `<button class="group grid h-[30px] place-items-center px-2" type="button" data-dot="${i}" aria-label="Ver destaque ${i + 1}"><i class="relative block size-2 overflow-hidden rounded-[99px] bg-white/45 [transition:width_.5s_var(--ease-smooth),background-color_.3s] after:absolute after:inset-0 after:origin-left after:bg-white after:[transform:scaleX(0)] group-hover:bg-white/70 group-aria-[current=true]:w-[30px] group-aria-[current=true]:bg-white/30 group-aria-[current=true]:after:[transform:none] [.is-auto_[aria-current=true]_&]:after:animate-[dotFill_6.5s_linear_both] [.is-held_&]:after:[animation-play-state:paused]"></i></button>`,
     ).join("");
     const slides = [...track.children],
       dots = $$("[data-dot]", dotsEl);
-    $$("img", track).forEach((img) => img.decode?.().catch(() => {})); // já decodificadas na primeira troca
+    $$("img", track).forEach((img) => img.decode?.().catch(() => {}));
 
-    const wrap = (d) => (((d % N) + N * 1.5) % N) - N / 2; // distância circular, em [-N/2, N/2)
+    const wrap = (d) => (((d % N) + N * 1.5) % N) - N / 2;
     const idx = (g) => ((g % N) + N) % N;
     const easeAuto = bezier(0.65, 0, 0.3, 1),
       easeTap = bezier(0.25, 0.8, 0.25, 1),
@@ -160,12 +154,12 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
         else {
           raf = 0;
           pos = goal = idx(goal);
-        } // normaliza: a posição não cresce sem fim
+        }
         paint();
       };
       raf = requestAnimationFrame(tick);
     }
-    // how: 'auto' (tempo esgotado), 'tap' (setas, pontos, teclado) ou 'fling' (soltou o arraste, v em px/ms)
+
     function go(g, how = "tap", v = 0) {
       goal = g;
       setCurrent(idx(g), how);
@@ -192,7 +186,6 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
     const step = (d, how) => go(goal + d, how);
     const show = (i) => go(goal + wrap(i - idx(goal)));
 
-    /* ---- tempo de cada destaque: a animação da barrinha do ponto ativo (6,5 s) ---- */
     const auto = !reduce;
     const holds = new Set();
     const hold = (why, on) => {
@@ -220,7 +213,6 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
       restartClock();
     }
 
-    /* ---- arrastar com o dedo ou o mouse ---- */
     let drag = null,
       dragged = false;
     promo.addEventListener("pointerdown", (e) => {
@@ -248,17 +240,15 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
         if (Math.abs(dy) > Math.abs(dx)) {
           drag = null;
           return;
-        } // gesto vertical: é a página rolando
+        }
         drag.on = true;
         drag.x = e.clientX;
-        drag.p0 = pos; // segue o dedo daqui em diante, sem salto
+        drag.p0 = pos;
         cancelAnimationFrame(raf);
         raf = 0;
         try {
           promo.setPointerCapture(e.pointerId);
-        } catch {
-          /* ponteiro já liberado */
-        }
+        } catch {}
         promo.classList.add("is-dragging");
         hold("drag", true);
       }
@@ -277,8 +267,8 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
       dragged = true;
       setTimeout(() => {
         dragged = false;
-      }, 60); // o clique que vem junto com o soltar não vale
-      // velocidade dos últimos ~100 ms (se o dedo parou antes de soltar, é zero)
+      }, 60);
+
       const s = d.s.filter(([t]) => e.timeStamp - t < 100);
       const v =
         s.length > 1
@@ -307,7 +297,6 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
     );
     promo.addEventListener("dragstart", (e) => e.preventDefault());
 
-    /* ---- setas, pontos e teclado ---- */
     $$("[data-promo]", promo).forEach((b) =>
       b.addEventListener("click", () => step(+b.dataset.promo)),
     );
@@ -321,7 +310,6 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
       step(e.key === "ArrowRight" ? 1 : -1);
     });
 
-    /* ---- pausa: mouse em cima, foco do teclado, fora da tela ou aba escondida ---- */
     promo.addEventListener("pointerenter", (e) => {
       if (e.pointerType === "mouse") hold("hover", true);
     });
@@ -340,7 +328,7 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
     document.addEventListener("visibilitychange", () =>
       hold("tab", document.hidden),
     );
-    // largura do banner em px, para o parallax andar na mesma escala em qualquer tela
+
     new ResizeObserver(() =>
       promo.style.setProperty("--pw", promo.clientWidth + "px"),
     ).observe(promo);
@@ -349,11 +337,9 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
     setCurrent(0, "auto");
   });
 
-  // garrafas das animações de verificação: fotos com bordas limpas, que ficam bem no fundo escuro
   const DEMO = "jack-7",
     CARD = "tanqueray";
 
-  /* ---------- cartão VeriSeal do topo: encostou o celular, o navegador já mostra o resultado ---------- */
   const APP_TINTS = [
     ["#9ad7ff", "#2f8cff"],
     ["#7ee7c7", "#2bb67d"],
@@ -382,7 +368,7 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
         <span class="${screen} animate-[vcHome_7s_var(--ease-smooth)_infinite] bg-[radial-gradient(120%_70%_at_20%_0%,#2f6fd0,transparent_60%),linear-gradient(160deg,#0b2a66,#041330_70%)] pt-[30px] text-white motion-reduce:opacity-0!"><b class="text-[24px] leading-none font-semibold tracking-[-.03em]">${hhmm(new Date())}</b><span class="mt-4 grid grid-cols-[repeat(4,15px)] gap-[7px]">${APP_TINTS.map(([a, b]) => `<i class="size-[15px] rounded-[4px]" style="background:linear-gradient(135deg,${a},${b})"></i>`).join("")}</span></span>
         <span class="${screen} animate-[vcWeb_7s_var(--ease-smooth)_infinite] bg-white motion-reduce:opacity-100! motion-reduce:[transform:none]!"><span class="absolute inset-x-[7px] top-[19px] flex h-[13px] items-center justify-center gap-[3px] rounded-[5px] bg-[#eef1f5] text-[7px] font-medium text-ink">${icon("lock-filled", "size-[6px] text-[#5a6377]")}${esc(SITE_HOST)}</span><span class="verify-page absolute inset-x-0 top-[36px] bottom-0 flex flex-col items-center"><img class="mt-[8px] aspect-wordmark h-[5px] w-auto" src="assets/brand/logo-light-bg.svg" alt="">${verifyBadge("ok", "loop", "mt-[12px] size-[46px]")}<b class="mt-[10px] text-[14px] leading-[1.05] font-extrabold tracking-[-.03em] text-[#0f8a3c]">Autêntico</b><small class="mt-[3px] px-[8px] text-[8.5px] leading-[1.3] text-[#5a6377]">Lacre íntegro · nunca aberto</small></span></span>
       </div></div>`;
-    // a animação só roda com o cartão na tela
+
     new IntersectionObserver(([e]) =>
       stage.classList.toggle("is-paused", !e.isIntersecting),
     ).observe(stage);
@@ -403,9 +389,9 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
       g = sealGeo(P);
     const hsBottle = $("#hsBottle");
     hsBottle.style.setProperty("--ar", `${P.size[0]} / ${P.size[1]}`);
-    hsBottle.style.setProperty("--seal", g.nfc.toFixed(4)); // ondas e etiquetas saem do símbolo NFC
-    hsBottle.style.setProperty("--seal-top", g.top.toFixed(4)); // o scanner desce a partir do topo da tira
-    // recortes complementares: o da tampa invade 0,4% para baixo e esconde a emenda
+    hsBottle.style.setProperty("--seal", g.nfc.toFixed(4));
+    hsBottle.style.setProperty("--seal-top", g.top.toFixed(4));
+
     const zig = [];
     for (let k = 0; k <= 8; k++)
       zig.push([
@@ -421,7 +407,7 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
     $("#hsPhoto").innerHTML = `
       <div class="absolute inset-0" style="clip-path:${bodyClip}">${shot(P, { eager: true, sealCls: "[.is-reading_&]:[filter:drop-shadow(0_0_7px_rgba(95,208,255,.95))_drop-shadow(0_0_2px_#fff)]" })}<span class="absolute size-0 opacity-0 [transition:opacity_.3s_.4s] [.is-bad.st-2_&]:opacity-100" style="left:${pc(g.x)};top:${pc(g.y)}"><i class="${dot} -left-3.5"></i><i class="${dot} left-[7px]"></i></span></div>
       <div class="absolute inset-0 [transition:transform_.9s_var(--ease-spring)] [.is-bad.st-2_&]:[transform:translate(6%,-3.4%)_rotate(-10deg)]" style="clip-path:${capClip};transform-origin:${pc(g.x + g.sw)} ${pc(g.y)}">${shot(P, { eager: true })}</div>`;
-    // telas do resultado no celular, no padrão da página de verificação da VeriSeal
+
     const prod = (torn) => ({
       thumb: shot(P, { torn }),
       name: esc(fullName(P)),
@@ -466,7 +452,7 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
     $("#dpTotal").textContent = money(
       pix(order.reduce((s, [id, q]) => s + byId[id].price * q, 0)),
     );
-    // horários do celular sempre relativos à hora atual
+
     const clock = () => {
       const now = Date.now(),
         at = (min) => hhmm(new Date(now + min * 60000));
@@ -480,8 +466,6 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
     clock();
     setInterval(clock, 30000);
 
-    // etapa 3: o celular encosta, o sistema mostra a notificação da etiqueta NFC,
-    // o toque nela abre o navegador já no resultado
     const DUR = [2.4, 3, 8.4];
     const DETECT = 0.13,
       TAP = 0.27,
@@ -548,7 +532,7 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
       seg.classList.toggle("is-bad", v);
       scene.classList.toggle("is-bad", v);
     }
-    // reinicia a animação do resultado mesmo quando a mesma tela já está aberta
+
     const replay = () => {
       scr.ok.classList.remove("is-on");
       scr.bad.classList.remove("is-on");
@@ -611,7 +595,6 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
     render();
   });
 
-  /* ---------- lacre interativo (raio-X) ---------- */
   safe("sealTile", () => {
     window.Seal.mount($("#tileSeal"), {
       serial: "VS-7K2M-9QXA",
