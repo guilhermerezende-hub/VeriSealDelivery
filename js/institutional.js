@@ -3,10 +3,8 @@ import { COMPANY } from "./config.js";
 const info = document.querySelector("#companyInfo");
 if (COMPANY.legalName) {
   info.textContent =
-    COMPANY.legalName +
-    (COMPANY.cnpj
-      ? ` · CNPJ: ${COMPANY.cnpj}`
-      : " · CNPJ ainda não informado.");
+    COMPANY.legalName + (COMPANY.cnpj ? ` · CNPJ: ${COMPANY.cnpj}` : "");
+  info.hidden = false;
 }
 const contacts = [];
 if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(COMPANY.email))
@@ -27,14 +25,14 @@ if (contacts.length) {
   });
 }
 
-document.querySelector("#clearDemoData").addEventListener("click", () => {
+document.querySelector("#clearLocalData").addEventListener("click", () => {
   const status = document.querySelector("#clearDataStatus");
   try {
     Object.keys(localStorage)
       .filter((key) => key.startsWith("vsd:"))
       .forEach((key) => localStorage.removeItem(key));
     status.textContent =
-      "Dados locais da demonstração apagados. Atualize outras abas abertas para carregar o estado vazio.";
+      "Seus dados foram apagados deste navegador. Atualize outras abas abertas da loja.";
   } catch {
     status.textContent =
       "O navegador bloqueou o acesso ao armazenamento. Limpe os dados do site nas configurações do navegador.";

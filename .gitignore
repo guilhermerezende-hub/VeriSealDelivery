@@ -3,3 +3,5 @@ Landing VeriSeal
 node_modules/
 test-results/
 playwright-report/
+
+database/

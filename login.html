@@ -43,10 +43,6 @@
             <span>Voltar à loja</span>
           </a>
 
-          <div class="mb-6 rounded-xl border border-[#cfe8f7] bg-[#f1f9fe] px-4 py-3 text-[13px] leading-5 text-navy" role="note">
-            <strong class="font-bold">O acesso ainda não está ativo.</strong> Nenhum dado será enviado ou armazenado.
-          </div>
-
           <p class="mb-2 text-[12px] font-bold tracking-[.13em] text-accent uppercase" id="authEyebrow">Sua conta</p>
           <h1 class="text-[32px] leading-tight font-extrabold tracking-[-.04em] text-navy max-sm:text-[28px]" id="authTitle">Bem-vindo de volta</h1>
           <p class="mt-2 text-[14px] leading-6 text-fg-2" id="authDescription">Entre com seus dados para continuar.</p>
@@ -54,7 +50,7 @@
           <div class="mt-7" id="authForms">
             <form data-auth-form="login" method="dialog">
               <label class="block text-[13px] font-semibold text-fg" for="loginEmail">E-mail</label>
-              <input class="login-input mt-2 w-full rounded-xl border border-line bg-white px-4 py-3 text-[15px] text-fg placeholder:text-fg-3" id="loginEmail" name="email" type="email" placeholder="voce@exemplo.com" autocomplete="email" required />
+              <input class="login-input mt-2 w-full rounded-xl border border-line bg-white px-4 py-3 text-[15px] text-fg placeholder:text-fg-3" id="loginEmail" name="email" type="email" placeholder="seu@email.com" autocomplete="email" required />
 
               <div>
                 <div class="flex items-center justify-between gap-3">
@@ -78,7 +74,7 @@
               </div>
               <div>
                 <label class="block text-[13px] font-semibold text-fg" for="registerEmail">E-mail</label>
-                <input class="login-input mt-2 w-full rounded-xl border border-line bg-white px-4 py-3 text-[15px] text-fg placeholder:text-fg-3" id="registerEmail" name="email" type="email" placeholder="voce@exemplo.com" autocomplete="email" required />
+                <input class="login-input mt-2 w-full rounded-xl border border-line bg-white px-4 py-3 text-[15px] text-fg placeholder:text-fg-3" id="registerEmail" name="email" type="email" placeholder="seu@email.com" autocomplete="email" required />
               </div>
               <div>
                 <label class="block text-[13px] font-semibold text-fg" for="registerPassword">Crie uma senha</label>
@@ -94,14 +90,14 @@
             <form class="hidden" data-auth-form="recover" method="dialog">
               <div>
                 <label class="block text-[13px] font-semibold text-fg" for="recoverEmail">E-mail da sua conta</label>
-                <input class="login-input mt-2 w-full rounded-xl border border-line bg-white px-4 py-3 text-[15px] text-fg placeholder:text-fg-3" id="recoverEmail" name="email" type="email" placeholder="voce@exemplo.com" autocomplete="email" required />
+                <input class="login-input mt-2 w-full rounded-xl border border-line bg-white px-4 py-3 text-[15px] text-fg placeholder:text-fg-3" id="recoverEmail" name="email" type="email" placeholder="seu@email.com" autocomplete="email" required />
               </div>
               <button class="btn btn-primary w-full rounded-xl py-3.5" type="submit">Continuar</button>
               <p class="pt-1 text-center text-[13px] text-fg-2">Lembrou sua senha? <button class="font-bold text-accent hover:text-accent-hover" type="button" data-auth-mode="login">Voltar ao login</button></p>
             </form>
           </div>
 
-          <p class="mt-5 rounded-xl bg-surface px-4 py-3 text-[12px] leading-5 text-fg-2" id="authNotice" role="status" aria-live="polite" hidden>Este recurso ainda não está ativo. Nenhum dado foi enviado ou armazenado.</p>
+          <p class="mt-5 rounded-xl bg-surface px-4 py-3 text-[12px] leading-5 text-fg-2" id="authNotice" role="status" aria-live="polite" hidden>Pronto! Se houver uma conta com esse e-mail, você vai receber um link para criar uma nova senha.</p>
         </div>
       </section>
     </main>

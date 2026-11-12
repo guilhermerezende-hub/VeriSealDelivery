@@ -682,7 +682,7 @@ import { createVerification } from "./verification.js";
     );
     bb.innerHTML = `
       <div class="mt-1.5 mb-2.5">
-        <p class="mb-1.5 text-[13px] text-fg-2">${left > 0 ? `Faltam <strong class="text-fg">${money(left)}</strong> para o frete grátis.` : `<strong class="text-fg">Frete grátis</strong> nesta simulação.`}</p>
+        <p class="mb-1.5 text-[13px] text-fg-2">${left > 0 ? `Faltam <strong class="text-fg">${money(left)}</strong> para o frete grátis.` : `<strong class="text-fg">Frete grátis</strong> neste pedido.`}</p>
         <div class="h-[5px] overflow-hidden rounded-[3px] bg-surface-2"><i class="block h-full rounded-[3px] bg-[linear-gradient(90deg,var(--color-navy),var(--color-cyan))] transition-[width] duration-500 ease-smooth" style="width:${Math.min(100, (sub / FREE_SHIP) * 100).toFixed(1)}%"></i></div>
       </div>
       <p class="mt-3.5 mb-0.5 flex items-center gap-2.5 rounded-xl bg-[#e9f5fd] px-3 py-2.5 text-[13px] text-navy">${vsMark("w-[26px] shrink-0")}<span><b>${units} ${units === 1 ? "garrafa lacrada" : "garrafas lacradas"}</b> · cada uma com o próprio lacre VeriSeal</span></p>
@@ -699,8 +699,7 @@ import { createVerification } from "./verification.js";
         <div class="${GRAND}"><span>Total</span><span>${money(sub + ship)}</span></div>
         <div class="flex justify-end pb-[3px] text-[13px] font-semibold text-ok"><span>ou ${money(pix(sub) + ship)} no Pix</span></div>
       </div>
-      <button class="btn btn-primary w-full" type="button" id="goCheckout"${storeOpen() ? "" : " data-closed"}>Simular checkout</button>
-      <p class="mt-3 flex items-center gap-2.5 text-[12px] text-fg-2">${vsMark("w-[26px] shrink-0")}<span>Demonstração com preços e lacres fictícios. Nenhum pedido ou pagamento real é realizado.</span></p>`;
+      <button class="btn btn-primary w-full" type="button" id="goCheckout"${storeOpen() ? "" : " data-closed"}>Finalizar pedido</button>`;
     const form = $("#bagCepForm");
     if (form) {
       const input = $("#bagCep");
@@ -766,7 +765,7 @@ import { createVerification } from "./verification.js";
       ];
       media.innerHTML = `<div class="relative h-[450px] max-h-[60vh] w-full max-md:h-[340px] max-sm:h-[300px]">${views.map((v, k) => `<div class="invisible absolute inset-0 flex items-end justify-center opacity-0 [transition:opacity_.35s_ease,visibility_.35s] [&.is-on]:visible [&.is-on]:opacity-100${k ? "" : " is-on"}" data-view="${k}">${v.html}</div>`).join("")}</div>
         ${views.length > 1 ? `<div class="flex gap-2" role="group" aria-label="Fotos do produto">${views.map((v, k) => `<button class="h-16 w-[54px] overflow-hidden rounded-xl border-2 border-transparent bg-white p-1 shadow-card aria-pressed:border-accent" type="button" data-view-btn="${k}" aria-pressed="${!k}" aria-label="${esc(v.label)}"><img class="size-full object-contain" src="${esc(v.thumb)}" alt=""></button>`).join("")}</div>` : ""}
-        <p class="${NOTE_MARK}">${vsMark("w-[22px]")}Demonstração do lacre VeriSeal</p>`;
+        <p class="${NOTE_MARK}">${vsMark("w-[22px]")}Lacre VeriSeal com NFC</p>`;
       $$("[data-view-btn]", media).forEach((b) =>
         b.addEventListener("click", () => {
           $$("[data-view]", media).forEach((v) =>
@@ -807,11 +806,11 @@ import { createVerification } from "./verification.js";
               .join("")}</div>`
       }
       <div class="mt-3.5 flex flex-wrap gap-1.5">${(p.notes || []).map((n) => `<span class="rounded-full border border-line px-2.5 py-[5px] text-[12px] text-fg-2">${esc(n)}</span>`).join("")}</div>
-      <div class="mt-[18px] flex items-start gap-3 rounded-2xl bg-[linear-gradient(135deg,#e6f4fe,#f3f5f9)] px-4 py-3.5">${vsMark("mt-1 w-[34px] shrink-0")}<div><strong class="block text-[14px] text-navy">Lacre VeriSeal${kit ? " em cada garrafa" : ""}</strong><p class="text-[13px] leading-[1.45] text-fg-2">Exemplo visual de lacre inteligente. A verificação desta demonstração usa dados fictícios e não comprova autenticidade.</p></div></div>
+      <div class="mt-[18px] flex items-start gap-3 rounded-2xl bg-[linear-gradient(135deg,#e6f4fe,#f3f5f9)] px-4 py-3.5">${vsMark("mt-1 w-[34px] shrink-0")}<div><strong class="block text-[14px] text-navy">Lacre VeriSeal${kit ? " em cada garrafa" : ""}</strong><p class="text-[13px] leading-[1.45] text-fg-2">Lacre inteligente com NFC. Na entrega, aproxime o celular e confira se a garrafa é original e nunca foi aberta.</p></div></div>
       <p class="mt-3.5 flex items-center gap-2 text-[14px] text-fg-2">${
         address.address
-          ? `${icon("truck", "size-[18px] text-accent")}<span><b class="text-fg">${etaText(address.address)}</b> em ${esc(placeLabel(address.address))}${shipping(p.price) === 0 ? " · frete grátis" : ""}</span>`
-          : `${icon("pin", "size-[18px] text-accent")}<span><button class="${LINK_BTN}" type="button" data-open-address>Informe seu CEP</button> para consultar o endereço. Cobertura não confirmada.</span>`
+          ? `${icon("truck", "size-[18px] text-accent")}<span>Chega em <b class="text-fg">${etaText(address.address)}</b> · ${esc(placeLabel(address.address))}${shipping(p.price) === 0 ? " · frete grátis" : ""}</span>`
+          : `${icon("pin", "size-[18px] text-accent")}<span><button class="${LINK_BTN}" type="button" data-open-address>Informe seu CEP</button> para ver o prazo de entrega.</span>`
       }</p>
       <div class="mt-[22px] flex items-center gap-3 pt-1">
         <div class="inline-flex h-[46px] shrink-0 items-center rounded-full border border-line" role="group" aria-label="Quantidade">

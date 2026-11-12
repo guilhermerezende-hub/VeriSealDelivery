@@ -37,9 +37,7 @@ test("busca, categorias e sacola persistem sem alterar o layout responsivo", asy
   page,
 }, testInfo) => {
   await openShop(page);
-  await expect(page.locator("body")).toContainText(
-    "compras, pagamentos e lacres são simulados",
-  );
+  await expect(page.locator("body")).not.toContainText(/demonstra|simulad|fictíci/i);
   await page.locator("#catalogSearch").fill("tanqueray");
   await expect(page.locator("#productGrid [data-card]")).toHaveCount(3);
   await page.locator("#catalogSearch").fill("produto inexistente");
@@ -52,7 +50,7 @@ test("busca, categorias e sacola persistem sem alterar o layout responsivo", asy
   await page.reload();
   await expect(page.locator("#bagCount")).toHaveText("1");
   await page.locator("#bagBtn").click();
-  await expect(page.locator("#bagDrawer")).toContainText("Simular checkout");
+  await expect(page.locator("#bagDrawer")).toContainText("Finalizar pedido");
   await page.keyboard.press("Escape");
   await expect(page.locator("#bagDrawer")).toBeHidden();
   expect(
@@ -67,7 +65,7 @@ test("busca, categorias e sacola persistem sem alterar o layout responsivo", asy
   });
 });
 
-test("checkout calcula frete antes do Pix e termina como simulação", async ({
+test("checkout calcula frete antes do Pix e confirma o pedido", async ({
   page,
 }, testInfo) => {
   await openShop(page);
@@ -75,9 +73,7 @@ test("checkout calcula frete antes do Pix e termina como simulação", async ({
   await page.locator("#bagBtn").click();
   await expect(page.locator("#bagDrawer")).toContainText("Grátis");
   await page.locator("#goCheckout").click();
-  await expect(page.locator("#checkoutContent")).toContainText(
-    "Use dados fictícios",
-  );
+  await expect(page.locator("#checkoutContent h2")).toHaveText("Entrega");
   await page.locator("#coName").fill("Pessoa de Teste");
   await page.locator("#coPhone").fill("11999999999");
   await page.locator("#coCep").fill("01310930");
@@ -93,31 +89,28 @@ test("checkout calcula frete antes do Pix e termina como simulação", async ({
   await page.locator("#coAge").check();
   await page.locator("#coConfirm").click();
   await expect(page.locator("#checkoutContent h2")).toHaveText(
-    "Simulação concluída!",
+    "Pedido confirmado!",
   );
-  await expect(page.locator("#checkoutContent")).toContainText("Pix simulado");
   await expect(page.locator("#checkoutContent")).toContainText(
-    "sem rastreamento real",
+    "Pix · você economizou",
   );
   await expect(page.locator("#checkoutContent [data-verify-code]")).toHaveCount(
     2,
   );
   await page.screenshot({ path: testInfo.outputPath("checkout.png") });
   await page.locator("#checkoutContent [data-verify-code]").first().click();
-  await expect(page.locator("#verifyResult")).toContainText(
-    "Exemplo: lacre íntegro",
-  );
+  await expect(page.locator("#verifyResult")).toContainText("Lacre íntegro");
   await expect(page.locator("#bagCount")).toHaveText("0");
 });
 
-test("CEP consultado não promete cobertura e falhas ficam explícitas", async ({
+test("CEP consultado mostra o prazo e falhas ficam explícitas", async ({
   page,
 }) => {
   await openShop(page);
   await page.locator("#heroCep").fill("01310930");
   await page.locator("#heroCepForm button").click();
   await expect(page.locator("#heroCepInfo")).toContainText(
-    "Cobertura e prazo não confirmados",
+    "Entregamos em Centro, São Paulo/SP",
   );
   await page.route("https://viacep.com.br/**", (route) =>
     route.fulfill({ json: { erro: true } }),
@@ -129,26 +122,24 @@ test("CEP consultado não promete cobertura e falhas ficam explícitas", async (
   );
 });
 
-test("lacres e aviso à marca são explicitamente fictícios", async ({
+test("verificação mostra lacre íntegro, violado e não encontrado", async ({
   page,
 }) => {
   await openShop(page);
-  await page.locator('#sampleCodes [data-code="VS-7K2M-9QXA"]').click();
+  const verify = async (code) => {
+    await page.locator("#verifyInput").fill(code);
+    await page.locator('#verifyForm button[type="submit"]').click();
+  };
+  await verify("VS-7K2M-9QXA");
+  await expect(page.locator("#verifyResult")).toContainText("Lacre íntegro");
+  await verify("VS-4HZP-1LCE");
+  await expect(page.locator("#verifyResult")).toContainText("Lacre violado");
+  await verify("VS-9XRT-0NDW");
   await expect(page.locator("#verifyResult")).toContainText(
-    "não comprova origem ou autenticidade",
-  );
-  await page.locator('#sampleCodes [data-code="VS-4HZP-1LCE"]').click();
-  await expect(page.locator("#verifyResult")).toContainText(
-    "Exemplo: lacre aberto",
-  );
-  await page.locator('#sampleCodes [data-code="VS-9XRT-0NDW"]').click();
-  await expect(page.locator("#verifyResult")).toContainText(
-    "Exemplo não encontrado",
+    "Lacre não encontrado",
   );
   await page.locator("[data-report]").click();
-  await expect(page.locator("#toast")).toContainText(
-    "Nenhuma mensagem foi enviada",
-  );
+  await expect(page.locator("#toast")).toContainText("Aviso enviado");
 });
 
 test("página de produto abre direto e retorna ao detalhe na loja", async ({
@@ -160,7 +151,7 @@ test("página de produto abre direto e retorna ao detalhe na loja", async ({
     "content",
     /Tanqueray/,
   );
-  await page.getByRole("link", { name: "Ver na demonstração" }).click();
+  await page.getByRole("link", { name: "Comprar agora" }).click();
   await expect(page.locator("#productSheet")).toBeVisible();
   await expect(page.locator("#productSheet")).toContainText("Tanqueray");
 });
@@ -173,7 +164,7 @@ test("políticas permitem apagar só os dados locais do projeto", async ({
     localStorage.setItem("vsd:bag", "{}");
     localStorage.setItem("outro-app", "preservar");
   });
-  await page.locator("#clearDemoData").click();
+  await page.locator("#clearLocalData").click();
   await expect(page.locator("#clearDataStatus")).toContainText("apagados");
   expect(await page.evaluate(() => localStorage.getItem("vsd:bag"))).toBeNull();
   expect(await page.evaluate(() => localStorage.getItem("outro-app"))).toBe(

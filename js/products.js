@@ -368,9 +368,3 @@ window.VSD_SEALS = {
     openedAt: "02/10/2026 · 21:42",
   },
 };
-
-window.VSD_SAMPLE_CODES = [
-  { code: "VS-7K2M-9QXA", label: "Exemplo íntegro" },
-  { code: "VS-4HZP-1LCE", label: "Exemplo aberto" },
-  { code: "VS-9XRT-0NDW", label: "Não reconhecido" },
-];

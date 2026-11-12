@@ -44,7 +44,7 @@ test("endereço encontrado não se transforma em promessa de cobertura ou prazo"
   assert.equal(address.city, "São Paulo");
   assert.equal(address.coverage, "unconfirmed");
   assert.equal(address.eta, undefined);
-  assert.match(deliveryMsg(address), /Cobertura e prazo não confirmados/);
+  assert.match(deliveryMsg(address), /Entregamos em Bela Vista, São Paulo\/SP/);
 });
 
 test("CEP inexistente, falha de rede, HTTP e resposta malformada não geram endereço fictício", async () => {

@@ -24,20 +24,6 @@ export const STEP_FIELDS = [
 export const needsLicense = (vehicle) =>
   vehicle === "moto" || vehicle === "car";
 
-export const DEMO_CPFS = Object.freeze({
-  52998224725: { birth: "15/04/1995", label: "maior de idade" },
-  39053344705: { birth: "22/08/1988", label: "maior de idade" },
-  12345678909: { birth: "03/11/2010", label: "menor de idade" },
-});
-
-export function cpfBirthCheck(cpf, birth, registry = DEMO_CPFS) {
-  const record = registry[digits(cpf)];
-  if (!record) return "unknown";
-  const a = parseBirth(birth),
-    b = parseBirth(record.birth);
-  return a && b && a.getTime() === b.getTime() ? "ok" : "mismatch";
-}
-
 export function fmtCpf(value) {
   const d = digits(value).slice(0, 11);
   const head = [d.slice(0, 3), d.slice(3, 6), d.slice(6, 9)]
@@ -117,20 +103,15 @@ const RULES = {
       : "Informe nome e sobrenome.",
   cpf: ({ cpf = "" }) => {
     if (!digits(cpf)) return "Informe seu CPF.";
-    if (!validCpf(cpf)) return "CPF inválido. Confira os números.";
-    return cpfBirthCheck(cpf, "") === "unknown"
-      ? "CPF não encontrado na base da demonstração. Use um CPF de exemplo."
-      : "";
+    return validCpf(cpf) ? "" : "CPF inválido. Confira os números.";
   },
 
-  birth: ({ birth = "", cpf = "" }, today) => {
+  birth: ({ birth = "" }, today) => {
     if (!String(birth).trim()) return "Informe sua data de nascimento.";
     const date = parseBirth(birth);
     if (!date) return "Digite uma data válida no formato DD/MM/AAAA.";
     const age = ageOn(date, today);
     if (age < 0 || age > 100) return "Confira o ano de nascimento.";
-    if (validCpf(cpf) && cpfBirthCheck(cpf, birth) === "mismatch")
-      return "A data de nascimento não confere com a do CPF informado.";
     return age < 18 ? "É preciso ter 18 anos ou mais para se cadastrar." : "";
   },
   phone: ({ phone = "" }) =>
@@ -144,7 +125,7 @@ const RULES = {
       ? "Informe seu e-mail."
       : validEmail(email)
         ? ""
-        : "Digite um e-mail válido, como voce@exemplo.com.",
+        : "Digite um e-mail válido, como seu@email.com.",
   vehicle: ({ vehicle }) =>
     VEHICLES[vehicle] ? "" : "Escolha como você vai entregar.",
   cep: ({ cep = "", cepNotFound }) =>

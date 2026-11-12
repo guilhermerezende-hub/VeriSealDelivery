@@ -229,16 +229,6 @@
 }
 
 @layer components {
-  .demo-notice {
-    margin-block: 1rem;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--color-line);
-    border-radius: 0.75rem;
-    background: #eef7fd;
-    color: var(--color-navy);
-    font-size: 0.875rem;
-    line-height: 1.5;
-  }
   .policy-page {
     line-height: 1.7;
     h1 {

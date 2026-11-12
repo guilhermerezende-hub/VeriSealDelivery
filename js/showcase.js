@@ -24,7 +24,7 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
       alt: "Garrafa de Absolut Vodka numa mesa de festa, entre um gin tônica e um espresso martini",
       eyebrow: "Oferta da semana",
       title: "Sexta pede Absolut.",
-      sub: "Absolut Vodka 1 L no catálogo demonstrativo. Explore a experiência de compra.",
+      sub: "Absolut Vodka 1 L com lacre VeriSeal, entregue na sua porta.",
       bg: "bg-[radial-gradient(ellipse_70%_90%_at_15%_30%,#16336e_0%,#0a1b40_55%,#050d22_100%)]",
       img: "w-[64%] object-[50%_42%] [mask-image:linear-gradient(90deg,transparent_0,#000_30%)] max-sm:object-[50%_36%]",
       shade:
@@ -36,7 +36,7 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
       alt: "Garrafa de Tanqueray London Dry ao lado de uma taça de gin tônica com limão",
       eyebrow: "Gin tônica perfeito",
       title: (p) => `Tanqueray com ${pct(p)}% off.`,
-      sub: "O London Dry do gin tônica clássico, com uma demonstração do lacre VeriSeal.",
+      sub: "O London Dry do gin tônica clássico, com lacre VeriSeal.",
       bg: "bg-[radial-gradient(ellipse_60%_90%_at_20%_40%,#0f5a38_0%,#073522_60%,#04231a_100%)]",
       img: "w-[60%] object-[34%_50%] [mask-image:linear-gradient(90deg,transparent_0,#000_26%)] max-sm:object-[30%_40%]",
       shade:
@@ -415,8 +415,8 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
     });
     scr.ok.innerHTML = verifyScreen({
       kind: "ok",
-      title: "Exemplo: íntegro",
-      sub: "Resultado fictício · sem validação real",
+      title: "Lacre íntegro",
+      sub: "Garrafa original · nunca aberta",
       product: prod(false),
       rows: [
         ["Lacre", "VS-7K2M-9QXA", "font-mono"],
@@ -433,7 +433,6 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
         ["Rompido em", '<span id="apBroken">hoje</span>'],
         ["Situação", "circuito rompido", "text-bad"],
       ],
-      note: "Alerta ilustrativo: nenhum lacre físico foi consultado.",
       btn: { label: "Recusar e reembolsar" },
     });
     $$("[data-url]", scene).forEach((el) => {
@@ -518,7 +517,7 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
       playBtn.classList.toggle("is-playing", v);
       playBtn.setAttribute(
         "aria-label",
-        v ? "Pausar demonstração" : "Reproduzir demonstração",
+        v ? "Pausar animação" : "Reproduzir animação",
       );
       if (v) loop();
     }

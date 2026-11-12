@@ -120,10 +120,16 @@ document.querySelectorAll("[data-password-toggle]").forEach((button) => {
   });
 });
 
+const home = courier ? "entregadores.html" : "index.html";
+
 formPanels.forEach((form) => {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    notice.hidden = false;
+    if (form.dataset.authForm === "recover") {
+      notice.hidden = false;
+      return;
+    }
+    location.href = home;
   });
 });
 

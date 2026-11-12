@@ -26,7 +26,6 @@ export function createAddressController({
       ? `Entregar em <b class="text-fg">${esc(placeLabel(addr))}</b>`
       : "Consultar endereço";
     $("#heroCepForm").classList.toggle("has-cep", !!addr);
-    $("#helpEta").textContent = "Sob consulta";
     const info = $("#heroCepInfo");
     if (addr) {
       info.textContent = deliveryMsg(addr);
