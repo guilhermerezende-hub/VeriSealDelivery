@@ -37,14 +37,10 @@ const courier =
 
 if (courier) {
   document.title = "Entrar | Entregadores VeriSeal Delivery";
-  document.querySelector("#visualBadge").lastChild.textContent =
-    " Portal do entregador ";
   document.querySelector("#visualTitle").innerHTML =
     'Suas entregas<br class="max-sm:hidden" /> começam aqui.';
   document.querySelector("#visualText").textContent =
     "Acompanhe seu cadastro, seus horários e as entregas da sua região.";
-  document.querySelector("#visualFoot").textContent =
-    "VeriSeal Delivery · Entregadores";
   const backLink = document.querySelector("#backLink");
   backLink.href = "entregadores.html";
   backLink.querySelector("span").textContent = "Voltar à área de entregadores";

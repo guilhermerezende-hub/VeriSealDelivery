@@ -19,31 +19,22 @@
     <link rel="stylesheet" href="styles/login.css" />
   </head>
   <body class="login-page min-h-screen bg-surface px-5 py-6 text-fg antialiased max-sm:px-3 max-sm:py-3">
-    <main class="mx-auto flex min-h-[calc(100svh-48px)] w-full max-w-[1120px] items-center justify-center max-sm:min-h-[calc(100svh-24px)]">
+    <main class="mx-auto flex min-h-[calc(100svh-48px)] w-full max-w-[1200px] items-center justify-center max-sm:min-h-[calc(100svh-24px)]">
       <section class="login-layout grid w-full overflow-hidden rounded-[28px] bg-white shadow-[0_28px_90px_rgba(4,37,85,.16)] max-sm:grid-cols-1 max-sm:rounded-[22px]" aria-label="Acesso à VeriSeal Delivery">
         <aside class="login-visual relative flex min-h-[660px] flex-col overflow-hidden p-10 text-white max-lg:min-h-[620px] max-lg:p-8 max-sm:min-h-0 max-sm:px-6 max-sm:pt-6 max-sm:pb-7" aria-label="VeriSeal Delivery">
           <a class="relative z-10 inline-flex w-fit items-center gap-2.5 rounded-lg text-white no-underline" href="index.html" aria-label="VeriSeal Delivery, voltar à loja">
-            <img class="aspect-mark h-[22px] w-auto" src="assets/brand/logo-short-dark-bg.svg" alt="" />
-            <span class="text-[20px] font-extrabold tracking-[-.04em]">VeriSeal <span class="font-medium tracking-[-.02em] text-white/75">Delivery</span></span>
+            <img class="aspect-wordmark h-[22px] w-auto max-sm:h-[18px]" src="assets/brand/logo-dark-bg.svg" alt="" />
+            <span class="rounded-md bg-white px-2 py-[3px] text-[12px] leading-[1.2] font-bold tracking-[.04em] text-navy uppercase max-sm:text-[11px]">Delivery</span>
           </a>
 
-          <div class="relative z-10 mt-auto max-w-[400px] pb-5 pt-16 max-sm:pt-8 max-sm:pb-0">
-            <span class="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[12px] font-semibold tracking-[.02em] text-[#d9f4ff] backdrop-blur-sm max-sm:mb-3" id="visualBadge">
-              <span class="size-1.5 rounded-full bg-cyan"></span>
-              Uma experiência VeriSeal
-            </span>
+          <div class="relative z-10 my-auto max-w-[400px] py-6 max-sm:max-w-[64%] max-sm:pt-8 max-sm:pb-0">
             <p class="text-[clamp(30px,3.4vw,44px)] leading-[1.08] font-extrabold tracking-[-.045em] max-sm:text-[28px]" id="visualTitle">Sua próxima<br class="max-sm:hidden" /> experiência começa aqui.</p>
             <p class="mt-4 max-w-[330px] text-[15px] leading-7 text-white/72 max-sm:hidden" id="visualText">Acompanhe seus pedidos e tenha suas escolhas favoritas sempre à mão.</p>
           </div>
 
-          <div class="login-orbit absolute right-[-84px] bottom-[118px] size-[300px] rounded-full border border-white/12 max-sm:hidden" aria-hidden="true">
-            <div class="absolute inset-[34px] rounded-full border border-white/10"></div>
-            <div class="absolute inset-[70px] rounded-full border border-white/10"></div>
-            <div class="absolute top-[49px] left-[38px] size-3 rounded-full bg-cyan shadow-[0_0_26px_8px_rgba(3,173,249,.28)]"></div>
-            <div class="absolute right-[51px] bottom-[45px] size-2 rounded-full bg-white/75"></div>
+          <div class="login-photo" aria-hidden="true">
+            <img src="assets/photos/absolut-party.webp" alt="" width="1400" height="1400" fetchpriority="high" decoding="async" draggable="false" />
           </div>
-
-          <p class="relative z-10 mt-auto pt-8 text-[12px] text-white/55 max-sm:hidden" id="visualFoot">VeriSeal Delivery <span aria-hidden="true">·</span> Sua conta</p>
         </aside>
 
         <div class="flex min-w-0 flex-col justify-center px-[clamp(32px,6vw,76px)] py-12 max-sm:px-6 max-sm:py-8">
