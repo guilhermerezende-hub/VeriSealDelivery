@@ -1,7 +1,10 @@
+#Arquivos de configuração do projeto
 Landing VeriSeal
 .env
 node_modules/
 test-results/
 playwright-report/
 
-database/
+#Esquemas do banco de dados
+database/schema.sql
+database/dados.sql
