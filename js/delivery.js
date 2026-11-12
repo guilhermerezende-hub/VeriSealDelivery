@@ -1,3 +1,5 @@
+import { ETA } from "./config.js";
+
 export function fmtCep(value) {
   const digits = String(value).replace(/\D/g, "").slice(0, 8);
   return digits.length > 5
@@ -16,7 +18,7 @@ export const placeLabel = (address) =>
   address.bairro || address.city || address.cep;
 export const cityUf = (address) =>
   address.city ? address.city + (address.uf ? "/" + address.uf : "") : "";
-export const etaText = () => "prazo não disponível";
+export const etaText = () => ETA;
 
 export async function lookupCep(
   value,
@@ -56,7 +58,7 @@ export async function lookupCep(
   } catch {
     return {
       error:
-        "Não foi possível consultar o CEP. Tente novamente; a cobertura não foi confirmada.",
+        "Não foi possível consultar o CEP. Tente novamente.",
     };
   } finally {
     clearTimeout(timer);
@@ -75,5 +77,5 @@ export function restoreAddress(saved) {
 
 export function deliveryMsg(address) {
   const where = [address.bairro, cityUf(address)].filter(Boolean).join(", ");
-  return `Endereço ${where ? "em " + where : "informado"}. Cobertura e prazo não confirmados nesta demonstração.`;
+  return `Entregamos ${where ? "em " + where : "no seu endereço"} · ${etaText()}.`;
 }

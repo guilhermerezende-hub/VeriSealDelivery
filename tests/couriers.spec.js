@@ -26,16 +26,14 @@ test.afterEach(async ({ page }) => {
   expect(errors.get(page), "Não deve haver erros de execução").toEqual([]);
 });
 
-test("cadastro de entregador valida cada etapa e descarta os dados no fim", async ({
+test("cadastro de entregador valida cada etapa e não guarda os dados no navegador", async ({
   page,
 }) => {
   await page.goto("/entregadores.html");
   await expect(page.locator("h1")).toHaveText(
     "Entregue com a VeriSeal Delivery",
   );
-  await expect(page.locator("body")).toContainText(
-    "o cadastro de entregadores é simulado",
-  );
+  await expect(page.locator("body")).not.toContainText(/demonstra|simulad|fictíci/i);
   const next = page.locator("#courierNext");
 
   await next.click();

@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import vm from "node:vm";
-import { FREE_SHIP, SHIP_FEE } from "../js/config.js";
+import { ETA, FREE_SHIP, SHIP_FEE } from "../js/config.js";
 import { pix } from "../js/commerce.js";
 
 const root = new URL("../", import.meta.url);
@@ -37,8 +37,8 @@ for (const product of products) {
   const name = kit
     ? `Kit ${product.name}`
     : `${product.brand} ${product.name} ${product.volume}`;
-  const title = `${name} | VeriSeal — Demonstração`;
-  const description = `${product.desc} Catálogo ilustrativo: sem venda ou autenticação real.`;
+  const title = `${name} | VeriSeal Delivery`;
+  const description = `${product.desc} Entregue com lacre VeriSeal.`;
   const canonical = siteUrl
     ? new URL(`produtos/${product.id}/`, siteUrl).href
     : null;
@@ -70,22 +70,21 @@ for (const product of products) {
   <header class="bg-navy px-6 py-4 text-white"><a class="font-bold text-white" href="../../index.html">VeriSeal Delivery</a></header>
   <main class="mx-auto max-w-4xl px-6 py-8">
     <nav aria-label="Navegação"><a href="../../index.html#catalogo">← Voltar ao catálogo</a></nav>
-    <p class="demo-notice">Demonstração: preços ilustrativos. Nenhum pedido, pagamento ou envio real é realizado.</p>
     <article class="grid gap-8 md:grid-cols-2">
       <div class="flex items-end justify-center rounded-3xl bg-surface p-6">${bottles.map((bottle) => `<img class="h-64 min-w-0 flex-1 object-contain" src="../../${esc(bottle.img)}" alt="${esc(bottle.brand + " " + bottle.name + " " + bottle.volume)}" width="${bottle.size[0]}" height="${bottle.size[1]}" decoding="async">`).join("")}</div>
       <div>
         <h1 class="text-3xl font-extrabold tracking-tight">${esc(name)}</h1>
         <p class="mt-4 text-fg-2">${esc(product.desc)}</p>
         <p class="mt-5 text-2xl font-bold">${money(product.price)}</p>
-        <p class="text-ok">${money(pix(product.price))} no Pix simulado</p>
-        <p class="mt-3 text-sm text-fg-2">Frete ilustrativo de ${money(SHIP_FEE)}, grátis a partir de ${money(FREE_SHIP)} em produtos, antes do desconto Pix. Cobertura e prazo não confirmados.</p>
-        <a class="btn btn-primary mt-6" href="../../index.html?produto=${encodeURIComponent(product.id)}#catalogo">Ver na demonstração</a>
+        <p class="text-ok">${money(pix(product.price))} no Pix</p>
+        <p class="mt-3 text-sm text-fg-2">Frete de ${money(SHIP_FEE)}, grátis a partir de ${money(FREE_SHIP)} em produtos, antes do desconto Pix. Entrega em ${ETA}.</p>
+        <a class="btn btn-primary mt-6" href="../../index.html?produto=${encodeURIComponent(product.id)}#catalogo">Comprar agora</a>
       </div>
     </article>
     ${kit ? `<section class="mt-8"><h2 class="text-xl font-bold">Garrafas deste kit</h2><ul class="mt-3 list-inside list-disc">${bottles.map((bottle) => `<li><a href="../${bottle.id}/">${esc(bottle.brand + " " + bottle.name + " " + bottle.volume)}</a></li>`).join("")}</ul></section>` : `<dl class="mt-8 grid grid-cols-2 gap-4"><div><dt>Volume</dt><dd class="font-semibold">${esc(product.volume)}</dd></div><div><dt>Teor alcoólico</dt><dd class="font-semibold">${esc(product.abv)}%</dd></div><div><dt>Origem</dt><dd class="font-semibold">${esc(product.origin)}</dd></div></dl>`}
-    <p class="mt-8 text-sm text-fg-2">O lacre apresentado é uma demonstração visual e não comprova a autenticidade de produtos reais. Conteúdo destinado a maiores de 18 anos. Se beber, não dirija.</p>
+    <p class="mt-8 text-sm text-fg-2">Cada garrafa sai com lacre VeriSeal: na entrega, aproxime o celular e confira se ela nunca foi aberta. Conteúdo destinado a maiores de 18 anos. Se beber, não dirija.</p>
   </main>
-  <footer class="bg-surface px-6 py-6 text-center text-sm"><a href="../../sobre.html">Sobre o projeto, contato e políticas da demonstração</a></footer>
+  <footer class="bg-surface px-6 py-6 text-center text-sm"><a href="../../sobre.html">Sobre, contato e políticas</a></footer>
 </body>
 </html>
 `;

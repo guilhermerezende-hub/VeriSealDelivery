@@ -1,7 +1,6 @@
 import { $, $$, esc, icon, reduce, safe } from "./ui.js";
 import { fmtCep, lookupCep, validCep } from "./delivery.js";
 import {
-  DEMO_CPFS,
   SHIFTS,
   STEP_FIELDS,
   VEHICLES,
@@ -70,21 +69,6 @@ const hasError = (field) => !errorOf(field).hidden;
 function checkField(field) {
   setError(field, validateStep(step, readData())[field] || "");
 }
-
-$("#cpfSamples").innerHTML = Object.entries(DEMO_CPFS)
-  .map(
-    ([cpf, { birth, label }]) =>
-      `<button class="rounded-full border border-line bg-white px-3 py-1.5 text-left font-mono text-[13px] text-fg transition-colors duration-200 hover:border-fg-3" type="button" data-cpf="${cpf}">${fmtCpf(cpf)}<em class="ml-1.5 font-sans text-[12px] text-fg-2 not-italic">nasc. ${birth} · ${esc(label)}</em></button>`,
-  )
-  .join("");
-$("#cpfSamples").addEventListener("click", (event) => {
-  const sample = event.target.closest("[data-cpf]");
-  if (!sample) return;
-  $("#cCpf").value = fmtCpf(sample.dataset.cpf);
-  checkField("cpf");
-  if ($("#cBirth").value.trim()) checkField("birth");
-  $("#cBirth").focus();
-});
 
 function go(to, focus = true) {
   step = to;
@@ -234,8 +218,6 @@ form.addEventListener("input", (event) => {
   } else if (input.name && hasError(input.name)) {
     checkField(input.name);
   }
-
-  if (input.name === "cpf" && hasError("birth")) checkField("birth");
 });
 
 form.addEventListener("change", (event) => {

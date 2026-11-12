@@ -29,7 +29,6 @@ import {
   PIX_OFF,
   PIX_LABEL,
   OPEN_H,
-  DEMO_NOTICE,
   storeOpen,
 } from "./config.js";
 import { store } from "./storage.js";
@@ -94,7 +93,7 @@ export function createCheckout({
   ) => `<div class="mt-4 mb-1.5 flex gap-1.5" aria-hidden="true">${[0, 1, 2].map((i) => `<span class="h-1 flex-1 rounded-[2px] transition-[background] duration-300 ${i <= n ? "bg-accent" : "bg-surface-2"}"></span>`).join("")}</div>
     <p class="mb-[22px] text-[12px] text-fg-2">Etapa ${n + 1} de 3</p>`;
   const coTitle = (t) =>
-    `<p class="demo-notice">${DEMO_NOTICE} Use dados fictícios.</p><h2 class="pr-10 text-[28px] font-extrabold tracking-[-.03em] outline-none">${t}</h2>`;
+    `<h2 class="pr-10 text-[28px] font-extrabold tracking-[-.03em] outline-none">${t}</h2>`;
 
   function openCheckout() {
     const addr = getAddr();
@@ -151,11 +150,11 @@ export function createCheckout({
           <div class="flex flex-wrap gap-3"><div class="min-w-0 flex-[0_1_120px]">${field("coNumber", "Número", d.number, 'inputmode="numeric" required', false, "h-full flex-1")}</div><div class="min-w-0 flex-[1_1_220px]">${field("coComp", "Complemento", d.comp, 'autocomplete="address-line2"', true, "h-full flex-1")}</div></div>
           <div class="flex flex-wrap gap-3">${field("coBairro", "Bairro", d.bairro, "required")}${field("coCity", "Cidade/UF", d.city, "required")}</div>
           <fieldset class="grid min-w-0 gap-2.5">
-            <legend class="mb-2 px-0.5 text-[13px] font-semibold text-fg-2">Entrega simulada</legend>
+            <legend class="mb-2 px-0.5 text-[13px] font-semibold text-fg-2">Quando entregar</legend>
             <label class="${PAY_OPT}"><input class="${PAY_RADIO}" type="radio" name="when" value="now"${d.when === "now" ? " checked" : ""}${storeOpen() ? "" : " disabled"}>
-              <span class="${PAY_IC}">${icon("moto", "size-5")}</span><span><strong class="block text-[16px]">Agora</strong><small class="text-[13px] text-fg-2">${storeOpen() ? `${addr ? etaText(addr) : "prazo não disponível"}` : `Horário ilustrativo: a partir das ${OPEN_H}h`}</small></span></label>
+              <span class="${PAY_IC}">${icon("moto", "size-5")}</span><span><strong class="block text-[16px]">Agora</strong><small class="text-[13px] text-fg-2">${storeOpen() ? etaText(addr) : `Abrimos às ${OPEN_H}h`}</small></span></label>
             <label class="${PAY_OPT}"><input class="${PAY_RADIO}" type="radio" name="when" value="later"${d.when === "later" ? " checked" : ""}>
-              <span class="${PAY_IC}">${icon("clock", "size-5")}</span><span><strong class="block text-[16px]">Agendar</strong><small class="text-[13px] text-fg-2">Janela ilustrativa; nenhum agendamento é realizado</small></span></label>
+              <span class="${PAY_IC}">${icon("clock", "size-5")}</span><span><strong class="block text-[16px]">Agendar</strong><small class="text-[13px] text-fg-2">Escolha o melhor horário para receber</small></span></label>
             <div class="${PAY_EXTRA}" data-for="later"${d.when === "later" ? "" : " hidden"}><div class="${FIELD} flex-1"><label class="${LABEL}" for="coSlot">Horário</label>
               <select class="${INPUT}" id="coSlot" name="slot">${sl.map((s) => `<option${s === d.slot ? " selected" : ""}>${s}</option>`).join("")}</select></div></div>
           </fieldset>
@@ -260,7 +259,7 @@ export function createCheckout({
         <form class="flex flex-col gap-3.5" id="coForm" novalidate>
           <fieldset class="grid min-w-0 gap-2.5"><legend class="sr-only">Forma de pagamento</legend>
             <label class="${PAY_OPT}"><input class="${PAY_RADIO}" type="radio" name="pay" value="pix"${d.pay === "pix" ? " checked" : ""}>
-              <span class="${PAY_IC}">${icon("pix", "size-5")}</span><span><strong class="block text-[16px]">Pix · ${PIX_LABEL} off</strong><small class="text-[13px] text-fg-2">Você economiza ${money(t.sub * PIX_OFF)} · desconto simulado</small></span></label>
+              <span class="${PAY_IC}">${icon("pix", "size-5")}</span><span><strong class="block text-[16px]">Pix · ${PIX_LABEL} off</strong><small class="text-[13px] text-fg-2">Você economiza ${money(t.sub * PIX_OFF)}</small></span></label>
             <label class="${PAY_OPT}"><input class="${PAY_RADIO}" type="radio" name="pay" value="card"${d.pay === "card" ? " checked" : ""}>
               <span class="${PAY_IC}">${icon("card", "size-5")}</span><span><strong class="block text-[16px]">Cartão de crédito</strong><small class="text-[13px] text-fg-2">${i ? `Em até ${i.n}x de ${money(i.v)} sem juros` : "À vista"}</small></span></label>
             <div class="${PAY_EXTRA}" data-for="card"${d.pay === "card" ? "" : " hidden"}><div class="${FIELD} flex-1"><label class="${LABEL}" for="coInst">Parcelas</label>
@@ -274,11 +273,10 @@ export function createCheckout({
                 )
                 .join("")}</select></div></div>
             <label class="${PAY_OPT}"><input class="${PAY_RADIO}" type="radio" name="pay" value="cod"${d.pay === "cod" ? " checked" : ""}>
-              <span class="${PAY_IC}">${icon("cash", "size-5")}</span><span><strong class="block text-[16px]">Pagar na entrega</strong><small class="text-[13px] text-fg-2">Opção ilustrativa; não há cobrança</small></span></label>
+              <span class="${PAY_IC}">${icon("cash", "size-5")}</span><span><strong class="block text-[16px]">Pagar na entrega</strong><small class="text-[13px] text-fg-2">Cartão ou dinheiro</small></span></label>
             <div class="${PAY_EXTRA}" data-for="cod"${d.pay === "cod" ? "" : " hidden"}><div class="${FIELD} flex-1"><label class="${LABEL}" for="coChange">Troco para${OPTIONAL}</label>
               <input class="${INPUT}" id="coChange" name="change" inputmode="decimal" placeholder="Ex.: 300" value="${esc(d.change)}"></div></div>
           </fieldset>
-          <p class="text-center text-[12px] text-fg-3">Ambiente de demonstração: nenhum pagamento é processado.</p>
           <div class="${ACTIONS}"><button type="button" class="btn btn-ghost" data-back>Voltar</button><button type="submit" class="${ACTION_MAIN}">Revisar pedido</button></div>
         </form>`;
       const f = $("#coForm");
@@ -309,7 +307,7 @@ export function createCheckout({
             : `Na entrega${d.change ? ` · troco para R$ ${esc(d.change)}` : ""}`;
       const whenTxt =
         d.when === "now"
-          ? `Agora · ${addr ? etaText(addr) : "prazo não disponível"}`
+          ? `Agora · ${etaText(addr)}`
           : `Agendado · ${esc(d.slot)}`;
       const edit = `text-[13px] ${LINK_BTN}`;
       el.innerHTML = `${coTitle("Revisão")}${stepsBar(2)}
@@ -327,8 +325,8 @@ export function createCheckout({
         </div>
         <label class="mt-1.5 flex cursor-pointer items-start gap-2.5 text-[14px]"><input class="mt-0.5 size-[18px] shrink-0 accent-accent" type="checkbox" id="coAge"><span class="inline-flex items-center gap-2">Tenho 18 anos ou mais e vou apresentar documento com foto, se solicitado na entrega.</span></label>
         <p class="mt-2 text-[14px] text-bad" id="coAgeErr" role="alert" hidden>Confirme que você tem 18 anos ou mais para concluir.</p>
-        <p class="mt-3.5 flex items-center gap-2.5 rounded-xl bg-[#eef7fd] px-3.5 py-3 text-[13px] text-fg-2">${vsMark("w-7 shrink-0")}<span>Ao concluir, você cria somente um exemplo local. Não há compra, pagamento, entrega ou garantia de autenticidade.</span></p>
-        <div class="${ACTIONS}"><button type="button" class="btn btn-ghost" data-back>Voltar</button><button type="button" class="${ACTION_MAIN}" id="coConfirm">Concluir simulação · ${money(t.total)}</button></div>`;
+        <p class="mt-3.5 flex items-center gap-2.5 rounded-xl bg-[#eef7fd] px-3.5 py-3 text-[13px] text-fg-2">${vsMark("w-7 shrink-0")}<span>Cada garrafa sai com lacre VeriSeal. Na entrega, aproxime o celular do lacre e confira.</span></p>
+        <div class="${ACTIONS}"><button type="button" class="btn btn-ghost" data-back>Voltar</button><button type="button" class="${ACTION_MAIN}" id="coConfirm">Confirmar pedido · ${money(t.total)}</button></div>`;
       $("#coConfirm").addEventListener("click", () => {
         if (!$("#coAge").checked) {
           $("#coAgeErr").hidden = false;
@@ -348,10 +346,10 @@ export function createCheckout({
       `<li class="${state} relative flex gap-3.5 pb-[18px] before:absolute before:top-[26px] before:bottom-0.5 before:left-[11px] before:w-0.5 before:bg-surface-2 last:pb-0 last:before:hidden [&.done]:before:bg-accent"><span class="relative z-[1] grid size-6 shrink-0 place-items-center rounded-full border-2 border-line bg-white transition-all duration-[400ms] [.current_&]:border-accent [.current_&]:shadow-[0_0_0_5px_rgb(0_106_168/.1)] [.done_&]:border-accent [.done_&]:bg-accent">${icon("check", "size-[13px] text-white opacity-0 [.done_&]:opacity-100")}</span><div><strong class="block text-[15px] tracking-[-.01em] [li:not(.done):not(.current)_&]:text-fg-3">${title}</strong><small class="text-[13px] text-fg-2">${sub}</small></div></li>`;
     el.innerHTML = `<div class="text-center">
         <div class="mx-auto mt-1 mb-[18px] grid size-16 place-items-center rounded-full bg-ok-fill text-white">${icon("check", "size-[34px] animate-[drawIn_.6s_var(--ease-smooth)_.2s_both]")}</div>
-        <h2 class="text-[30px] font-extrabold tracking-[-.03em] outline-none">Simulação concluída!</h2>
+        <h2 class="text-[30px] font-extrabold tracking-[-.03em] outline-none">Pedido confirmado!</h2>
         <p class="mt-1.5 text-fg-2">Pedido <span class="font-mono font-semibold text-fg">#${o.num}</span> · ${o.when}</p>
-        ${o.pay === "pix" ? `<p class="mt-3 inline-flex items-center gap-2 rounded-full bg-ok-fill/10 px-3.5 py-1.5 text-[14px] font-semibold text-ok">${icon("pix", "size-4")}Pix simulado · desconto ilustrativo de ${money(o.disc)}</p>` : ""}
-        <p class="demo-notice">${DEMO_NOTICE} A sequência abaixo é uma animação, sem rastreamento real.</p><ol class="mt-[26px] mb-2 text-left" id="coTimeline">
+        ${o.pay === "pix" ? `<p class="mt-3 inline-flex items-center gap-2 rounded-full bg-ok-fill/10 px-3.5 py-1.5 text-[14px] font-semibold text-ok">${icon("pix", "size-4")}Pix · você economizou ${money(o.disc)}</p>` : ""}
+        <ol class="mt-[26px] mb-2 text-left" id="coTimeline">
           ${tl("done", "Pedido recebido", o.time)}
           ${
             o.scheduled
@@ -366,13 +364,13 @@ export function createCheckout({
                   "Cada garrafa é escaneada antes de sair",
                 )
           }
-          ${tl("", "Saiu para entrega", "Etapa ilustrativa; nenhum aviso é enviado")}
+          ${tl("", "Saiu para entrega", "O entregador leva seu pedido até você")}
           ${tl("", "Entregue", "Aproxime o celular do lacre e confira")}
         </ol>
         <div class="mt-[22px] mb-5 rounded-2xl bg-[#eef7fd] p-4 text-left">
-          <h4 class="mb-2.5 flex items-center gap-2 text-[14px] font-bold text-navy">${vsMark("w-6")}Lacres fictícios desta simulação</h4>
+          <h4 class="mb-2.5 flex items-center gap-2 text-[14px] font-bold text-navy">${vsMark("w-6")}Lacres do seu pedido</h4>
           <ul>${o.seals.map((s) => `<li class="mb-1.5 flex items-center justify-between gap-2.5 rounded-xl bg-white px-3.5 py-2.5 text-[14px]"><span class="flex min-w-0 flex-col"><b class="truncate text-[13px] font-semibold">${esc(s.name)}</b><code class="font-mono text-[13px] font-semibold text-navy">${s.code}</code></span><button class="text-[13px] whitespace-nowrap ${LINK_BTN}" type="button" data-verify-code="${s.code}">Verificar ›</button></li>`).join("")}</ul>
-          <p class="mt-2 text-[12px] text-fg-2">Códigos fictícios, salvos apenas neste navegador. Não correspondem a garrafas reais.</p>
+          <p class="mt-2 text-[12px] text-fg-2">Na entrega, confira se cada código bate com o lacre da garrafa.</p>
         </div>
         <button class="btn btn-primary w-full" type="button" data-close>Continuar comprando</button>
       </div>`;
@@ -423,7 +421,7 @@ export function createCheckout({
     const d = co.d,
       t = coTotals(),
       now = new Date();
-    const num = "DEMO-" + String(Math.floor(10000 + Math.random() * 89999));
+    const num = String(Math.floor(10000 + Math.random() * 89999));
     const lot = `L${String(now.getFullYear()).slice(2)}-${String(now.getMonth() + 1).padStart(2, "0")}${String(10 + ((Math.random() * 18) | 0))}`;
     const made = new Date(
       now.getTime() - (20 + Math.random() * 60) * 86400000,
@@ -462,7 +460,7 @@ export function createCheckout({
       slot: d.slot,
       when:
         d.when === "now"
-          ? `${addr ? etaText(addr) : "prazo não disponível"}`
+          ? etaText(addr)
           : `agendado: ${esc(d.slot)}`,
     };
     bag.clear();

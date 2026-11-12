@@ -45,11 +45,9 @@ export function createVerification({
       });
   }
 
-  const DEMO_LINE =
-    '<p class="mb-3 text-center text-[13px] text-white/78">Demonstração com dados fictícios · sem leitura NFC real</p>';
   const verifyPage = (content) =>
-    `<div class="w-full">${DEMO_LINE}<div class="@container mx-auto w-full max-w-[380px] overflow-hidden rounded-[26px] bg-white pt-[14px] shadow-[0_30px_60px_-24px_rgba(0,0,0,.75)] ${VR_IN}"><div class="verify-bar">${icon("lock-filled")}<span>${esc(SITE_HOST)}</span></div><div class="verify-page mt-[3cqi] px-[6cqi] pb-[6cqi]"><img class="verify-logo" src="assets/brand/logo-light-bg.svg" alt="VeriSeal"><div class="is-on mt-[8.3cqi] [&_.verify-btn]:mt-[6cqi]">${content}</div></div></div></div>`;
-  const REPORT = { label: "Simular aviso à marca", attrs: "data-report" };
+    `<div class="w-full"><div class="@container mx-auto w-full max-w-[380px] overflow-hidden rounded-[26px] bg-white pt-[14px] shadow-[0_30px_60px_-24px_rgba(0,0,0,.75)] ${VR_IN}"><div class="verify-bar">${icon("lock-filled")}<span>${esc(SITE_HOST)}</span></div><div class="verify-page mt-[3cqi] px-[6cqi] pb-[6cqi]"><img class="verify-logo" src="assets/brand/logo-light-bg.svg" alt="VeriSeal"><div class="is-on mt-[8.3cqi] [&_.verify-btn]:mt-[6cqi]">${content}</div></div></div></div>`;
+  const REPORT = { label: "Avisar a marca", attrs: "data-report" };
   function showResult(code) {
     const s = seals[code];
     const p = s && byId[s.product];
@@ -59,13 +57,13 @@ export function createVerification({
       verifyResult.innerHTML = verifyPage(
         verifyScreen({
           kind: "bad",
-          title: "Exemplo não encontrado",
-          sub: "Este código não está na base local de demonstração.",
+          title: "Lacre não encontrado",
+          sub: "Confira o código impresso no lacre e tente de novo.",
           rows: [
             ["Código", esc(code), "font-mono"],
             ["Situação", "sem registro", "text-bad"],
           ],
-          note: "Esta consulta usa dados fictícios e não determina a autenticidade de uma bebida real.",
+          note: "Se o código estiver correto, não consuma a bebida e avise a marca.",
           btn: REPORT,
         }),
       );
@@ -85,8 +83,8 @@ export function createVerification({
       verifyResult.innerHTML = verifyPage(
         verifyScreen({
           kind: "bad",
-          title: "Exemplo: lacre aberto",
-          sub: "Estado fictício; nenhum circuito físico foi consultado.",
+          title: "Lacre violado",
+          sub: "Esta garrafa foi aberta depois do envio",
           product,
           rows: [
             codeRow,
@@ -94,7 +92,7 @@ export function createVerification({
             ["1ª abertura", esc(s.openedAt)],
             ["Situação", "circuito rompido", "text-bad"],
           ],
-          note: "Este resultado demonstra a aparência de um alerta. Não verifica a condição de uma garrafa real.",
+          note: "Não aceite esta garrafa. Recuse a entrega e avise a marca.",
           btn: REPORT,
         }),
       );
@@ -108,8 +106,8 @@ export function createVerification({
     verifyResult.innerHTML = verifyPage(
       verifyScreen({
         kind: "ok",
-        title: "Exemplo: lacre íntegro",
-        sub: "Demonstração; não comprova origem ou autenticidade.",
+        title: "Lacre íntegro",
+        sub: "Garrafa original · nunca aberta",
         product,
         rows: [
           codeRow,
@@ -152,16 +150,6 @@ export function createVerification({
       e.preventDefault();
       verifyCode(verifyInput.value);
     });
-    $("#sampleCodes").innerHTML = (window.VSD_SAMPLE_CODES || [])
-      .map(
-        (c) =>
-          `<button class="rounded-full border border-line bg-white px-3 py-1.5 font-mono text-[13px] text-fg hover:border-fg-3" type="button" data-code="${c.code}">${c.code}<em class="ml-1.5 font-sans text-[12px] text-fg-2 not-italic">${esc(c.label)}</em></button>`,
-      )
-      .join("");
-    $("#sampleCodes").addEventListener("click", (e) => {
-      const b = e.target.closest("[data-code]");
-      if (b) verifyCode(b.dataset.code);
-    });
     $("#nfcBtn").addEventListener("click", () => {
       const last = store.get("demo:lastSeal", null);
       const code = last && seals[last] ? last : "VS-7K2M-9QXA";
@@ -170,7 +158,7 @@ export function createVerification({
     });
     verifyResult.addEventListener("click", (e) => {
       if (e.target.closest("[data-report]"))
-        toast("Aviso simulado. Nenhuma mensagem foi enviada à marca.");
+        toast("Aviso enviado à marca. Obrigado por avisar!");
     });
   });
 

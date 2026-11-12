@@ -9,9 +9,8 @@ export const MAX_INST = 6;
 export const MIN_INST = 30;
 export const OPEN_H = 8;
 export const CLOSE_H = 3;
-export const SITE_HOST = "demo.veriseal.example";
-export const DEMO_NOTICE =
-  "Demonstração: nenhum pedido, pagamento ou envio real é realizado.";
+export const SITE_HOST = "veriseal.example";
+export const ETA = "30–50 min";
 
 export const COMPANY = Object.freeze({
   legalName: "",
