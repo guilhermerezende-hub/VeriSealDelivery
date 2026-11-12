@@ -1,6 +1,6 @@
 # VeriSeal Delivery
 
-Protótipo de delivery de bebidas com uma demonstração de lacres inteligentes. O front-end usa JavaScript puro e módulos ES, sem framework de interface. Compras, pagamentos, rastreamento, avisos à marca e leitura NFC são simulados. O SQL em `database/schema.sql` é uma proposta de estrutura e não está conectado à página.
+Protótipo de delivery de bebidas com uma demonstração de lacres inteligentes. O front-end usa JavaScript puro e módulos ES, sem framework de interface. Compras, pagamentos, rastreamento, avisos à marca e leitura NFC são simulados. O banco MySQL fica em `database/`: rode `schema.sql` (tabelas) e depois `dados.sql` (fotos, catálogo, banners, configurações e lacres). Ele ainda não está conectado à página.
 
 ## Executar localmente
 
