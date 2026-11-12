@@ -8,3 +8,8 @@ playwright-report/
 #Esquemas do banco de dados
 database/schema.sql
 database/dados.sql
+
+#Arquivos backend C#
+backend/bin/
+backend/obj/
+.vscode/

@@ -595,9 +595,6 @@ export function initShowcase({ byId, fullName, sealGeo, shot, pct, abv }) {
   });
 
   safe("sealTile", () => {
-    window.Seal.mount($("#tileSeal"), {
-      serial: "VS-7K2M-9QXA",
-      pointerHost: $("#sealTile"),
-    });
+    window.Seal.mount($("#tileSeal"), { pointerHost: $("#sealTile") });
   });
 }
