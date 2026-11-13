@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "VNjWox7u68A=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Luiz Malard\\Documents\\VerySeal_Delivery\\backend\\VeriSealApi.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Luiz Malard\\.nuget\\packages\\mysqlconnector\\3.0.0\\mysqlconnector.3.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
