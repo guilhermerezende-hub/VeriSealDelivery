@@ -1,12 +1,47 @@
 # VeriSeal Delivery
 
-Protótipo de delivery de bebidas com uma demonstração de lacres inteligentes. O front-end usa JavaScript puro e módulos ES, sem framework de interface. Compras, pagamentos, rastreamento, avisos à marca e leitura NFC são simulados. O banco MySQL fica em `database/`: rode `schema.sql` (tabelas) e depois `dados.sql` (fotos, catálogo, banners, configurações e lacres). Ele ainda não está conectado à página.
+Protótipo de delivery de bebidas com uma demonstração de lacres inteligentes. O front-end usa JavaScript puro e módulos ES, sem framework de interface. Compras, pagamentos, rastreamento, avisos à marca e leitura NFC são simulados. O banco MySQL fica em `database/` e a API em C# (ASP.NET Core) fica em `backend/`.
+
+## Estrutura do repositório
+
+```text
+VeriSealDelivery/
+├── frontend/                  # Site estático (HTML + JS puro + Tailwind)
+│   ├── assets/                # Arquivos públicos: CSS gerado, ícones, logos, fotos
+│   ├── js/                    # Módulos ES da aplicação
+│   ├── styles/                # Fonte do CSS (entrada: main.css)
+│   ├── produtos/              # Páginas de produto geradas pelo build
+│   ├── scripts/               # Build das páginas e servidor de desenvolvimento
+│   ├── tests/
+│   │   ├── unit/              # Testes unitários (node --test)
+│   │   └── e2e/               # Testes de navegador (Playwright)
+│   ├── index.html, login.html, sobre.html, entregadores.html
+│   └── package.json
+├── backend/                   # API REST em C# / .NET 10
+│   ├── VeriSealDelivery.slnx  # Solução
+│   └── src/
+│       └── VeriSealApi/
+│           ├── Dados/         # Conexão com o banco e classes CRUD
+│           ├── Modelos/       # Classes que representam as tabelas
+│           ├── Properties/
+│           ├── Program.cs     # Configuração e rotas da API
+│           └── appsettings.json
+├── database/
+│   ├── schema.sql             # Estrutura do banco (rodar primeiro)
+│   └── dados.sql              # Carga inicial — local, fora do Git
+├── docs/
+│   └── brand/                 # Kit original da marca (PNG, SVG, ícones)
+└── README.md
+```
 
 ## Executar localmente
 
-Use Node.js 22 ou superior e npm:
+### Front-end
+
+Use Node.js 22 ou superior e npm, dentro de `frontend/`:
 
 ```sh
+cd frontend
 npm ci
 npm run build
 npm run dev
@@ -14,7 +49,25 @@ npm run dev
 
 Abra `http://127.0.0.1:4173`. Os módulos precisam de um servidor HTTP; abrir o HTML por `file://` não é suportado. O CSS compilado e as páginas dos produtos ficam versionados, permitindo hospedagem estática sem Node no servidor de produção. Execute novamente o build depois de editar classes CSS, estilos, catálogo ou regras de preço.
 
-## Organização
+### Banco de dados
+
+No MySQL (ex.: DBeaver em `localhost:3306`), rode `database/schema.sql` (tabelas) e depois `database/dados.sql` (fotos, catálogo, banners, configurações e lacres).
+
+### Back-end
+
+Use o .NET SDK 10. A senha do banco não fica no `appsettings.json`: ela é lida da chave `SenhaBanco` dos *user secrets*.
+
+```sh
+cd backend/src/VeriSealApi
+dotnet user-secrets set "SenhaBanco" "<sua senha>"
+dotnet run
+```
+
+A API sobe em `http://localhost:5021` (ex.: `GET /api/teste-banco`, `GET /api/clientes`). Para compilar a solução inteira: `dotnet build backend/VeriSealDelivery.slnx`.
+
+## Organização do front-end
+
+Caminhos relativos a `frontend/`.
 
 | Arquivo | Responsabilidade |
 | --- | --- |
@@ -64,6 +117,8 @@ Sem `SITE_URL`, nenhum domínio de produção é inventado. Não há marcação 
 
 ## Testes e formatação
 
+Comandos rodados dentro de `frontend/`:
+
 ```sh
 npm test
 npm run test:e2e
@@ -71,11 +126,9 @@ npm run format
 npm run check
 ```
 
-Os testes unitários usam o runner nativo do Node. Os testes de navegador usam Playwright em desktop (1440 px) e celular (390 px), com ViaCEP e Google Fonts controlados para tornar os resultados repetíveis. O navegador padrão é o Edge já instalado. Para outro ambiente, instale o Chromium com `npx playwright install chromium` e defina `PLAYWRIGHT_CHANNEL=chromium`; também é possível usar `chrome` se ele estiver instalado.
+Os testes unitários (`tests/unit/`) usam o runner nativo do Node. Os testes de navegador (`tests/e2e/`) usam Playwright em desktop (1440 px) e celular (390 px), com ViaCEP e Google Fonts controlados para tornar os resultados repetíveis. O navegador padrão é o Edge já instalado. Para outro ambiente, instale o Chromium com `npx playwright install chromium` e defina `PLAYWRIGHT_CHANNEL=chromium`; também é possível usar `chrome` se ele estiver instalado.
 
-No Windows, é possível iniciar `npm run dev` em um terminal separado antes de `npm run test:e2e`; a configuração reutiliza esse servidor. Capturas e rastros de falhas ficam em `test-results/`, ignorados pelo Git.
-
-O roteiro adicional de revisão está em `docs/TESTES.md`, e o relatório das alterações em `docs/ALTERACOES.md`.
+No Windows, é possível iniciar `npm run dev` em um terminal separado antes de `npm run test:e2e`; a configuração reutiliza esse servidor. Capturas e rastros de falhas ficam em `frontend/test-results/`, ignorados pelo Git.
 
 ## Integrações ainda necessárias
 

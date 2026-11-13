@@ -7,8 +7,8 @@ import {
   restoreBag,
   shipping,
   totals,
-} from "../js/commerce.js";
-import { createStore } from "../js/storage.js";
+} from "../../js/commerce.js";
+import { createStore } from "../../js/storage.js";
 
 test("frete usa o subtotal antes do Pix, inclusive no limite de R$ 199", () => {
   assert.equal(shipping(0), 0);

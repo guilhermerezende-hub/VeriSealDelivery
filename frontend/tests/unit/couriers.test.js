@@ -11,7 +11,7 @@ import {
   validPhone,
   validPlate,
   validateStep,
-} from "../js/courier-rules.js";
+} from "../../js/courier-rules.js";
 
 const today = new Date(2026, 10, 10);
 
