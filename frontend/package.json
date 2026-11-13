@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node scripts/serve.js",
     "build": "tailwindcss -i styles/main.css -o assets/css/site.css --minify && node scripts/build-products.js",
-    "test": "node --test tests/*.test.js",
+    "test": "node --test tests/unit/*.test.js",
     "test:e2e": "playwright test",
     "format": "prettier --write js styles scripts tests index.html login.html sobre.html playwright.config.js",
     "check": "npm run build && npm test && npm run test:e2e"

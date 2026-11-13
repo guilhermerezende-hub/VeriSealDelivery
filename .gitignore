@@ -1,15 +1,18 @@
-#Arquivos de configuração do projeto
-Landing VeriSeal
+# Configurações locais
 .env
+.vscode/
+.vs/
+*.user
+Landing VeriSeal
+
+# Front-end (Node)
 node_modules/
 test-results/
 playwright-report/
 
-#Esquemas do banco de dados
-database/schema.sql
-database/dados.sql
+# Back-end (.NET)
+[Bb]in/
+[Oo]bj/
 
-#Arquivos backend C#
-backend/bin/
-backend/obj/
-.vscode/
+# Banco de dados: carga inicial local (arquivo grande, com as fotos em base64)
+database/dados.sql

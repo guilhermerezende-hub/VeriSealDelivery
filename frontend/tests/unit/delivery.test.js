@@ -6,7 +6,7 @@ import {
   lookupCep,
   restoreAddress,
   validCep,
-} from "../js/delivery.js";
+} from "../../js/delivery.js";
 
 test("CEP aceita somente formatos válidos e não consulta entradas incompletas", async () => {
   assert.equal(fmtCep("01310930"), "01310-930");
