@@ -12,6 +12,18 @@ export const CLOSE_H = 3;
 export const SITE_HOST = "veriseal.example";
 export const ETA = "30–50 min";
 
+// API em C# que conversa com o banco MySQL. No computador ela roda em localhost:5021;
+// na hospedagem, "npm run dist -- --api <endereço>" grava o endereço público abaixo
+// na cópia que vai para o servidor (pasta dist/).
+export const API_PUBLIC_URL = "";
+export const API_LOCAL_URL = "http://localhost:5021/api";
+
+export function apiUrl(hostname = globalThis.location?.hostname ?? "") {
+  const local =
+    !hostname || hostname === "localhost" || hostname === "127.0.0.1";
+  return local ? API_LOCAL_URL : API_PUBLIC_URL;
+}
+
 export const COMPANY = Object.freeze({
   legalName: "",
   cnpj: "",
