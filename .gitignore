@@ -4,15 +4,24 @@
 .vs/
 *.user
 Landing VeriSeal
+Forma de hospedar
 
 # Front-end (Node)
 node_modules/
 test-results/
 playwright-report/
+# cópia do site para a hospedagem (npm run dist)
+frontend/dist/
 
 # Back-end (.NET)
 [Bb]in/
 [Oo]bj/
+# API compilada para a hospedagem (dotnet publish)
+backend/publish/
+# configuração com a senha do banco da hospedagem: só existe no servidor
+appsettings.Production.json
 
 # Banco de dados: carga inicial local (arquivo grande, com as fotos em base64)
 database/dados.sql
+# arquivo gerado para importar na hospedagem (node database/gerar-sql-hospedagem.mjs)
+database/hospedagem/

@@ -25,15 +25,12 @@ import {
   ACTIONS,
   ACTION_MAIN,
 } from "./ui.js";
-import {
-  PIX_OFF,
-  PIX_LABEL,
-  OPEN_H,
-  storeOpen,
-} from "./config.js";
+import { PIX_OFF, PIX_LABEL, OPEN_H, storeOpen } from "./config.js";
 import { store } from "./storage.js";
 import { fmtCep, validCep, etaText, cityUf, lookupCep } from "./delivery.js";
 import { totals, inst } from "./commerce.js";
+import { api } from "./api.js";
+import { isoDate, isoDateTime, randomSealCode } from "./records.js";
 
 export function createCheckout({
   bag,
@@ -145,7 +142,7 @@ export function createCheckout({
       const sl = slots();
       el.innerHTML = `${coTitle("Entrega")}${stepsBar(0)}
         <form class="flex flex-col gap-3.5" id="coForm" novalidate>
-          <div class="flex flex-wrap gap-3">${field("coName", "Nome completo", d.name, 'autocomplete="name" required')}${field("coPhone", "Celular (WhatsApp)", d.phone, 'type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 98765-4321" required')}</div>
+          <div class="flex flex-wrap gap-3">${field("coName", "Nome completo", d.name, 'autocomplete="name" maxlength="100" required')}${field("coPhone", "Celular (WhatsApp)", d.phone, 'type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 98765-4321" required')}</div>
           <div class="flex flex-wrap gap-3"><div class="min-w-0 flex-[0_1_150px]">${field("coCep", "CEP", d.cep, 'inputmode="numeric" maxlength="9" autocomplete="postal-code" required', false, "h-full flex-1")}</div><div class="min-w-0 flex-[1_1_220px]">${field("coStreet", "Rua", d.street, 'autocomplete="address-line1" required', false, "h-full flex-1")}</div></div>
           <div class="flex flex-wrap gap-3"><div class="min-w-0 flex-[0_1_120px]">${field("coNumber", "Número", d.number, 'inputmode="numeric" required', false, "h-full flex-1")}</div><div class="min-w-0 flex-[1_1_220px]">${field("coComp", "Complemento", d.comp, 'autocomplete="address-line2"', true, "h-full flex-1")}</div></div>
           <div class="flex flex-wrap gap-3">${field("coBairro", "Bairro", d.bairro, "required")}${field("coCity", "Cidade/UF", d.city, "required")}</div>
@@ -232,6 +229,7 @@ export function createCheckout({
           return;
         }
         store.set("profile", {
+          ...store.get("profile", {}),
           name: d.name,
           phone: d.phone,
           number: d.number,
@@ -327,13 +325,13 @@ export function createCheckout({
         <p class="mt-2 text-[14px] text-bad" id="coAgeErr" role="alert" hidden>Confirme que você tem 18 anos ou mais para concluir.</p>
         <p class="mt-3.5 flex items-center gap-2.5 rounded-xl bg-[#eef7fd] px-3.5 py-3 text-[13px] text-fg-2">${vsMark("w-7 shrink-0")}<span>Cada garrafa sai com lacre VeriSeal. Na entrega, aproxime o celular do lacre e confira.</span></p>
         <div class="${ACTIONS}"><button type="button" class="btn btn-ghost" data-back>Voltar</button><button type="button" class="${ACTION_MAIN}" id="coConfirm">Confirmar pedido · ${money(t.total)}</button></div>`;
-      $("#coConfirm").addEventListener("click", () => {
+      $("#coConfirm").addEventListener("click", (e) => {
         if (!$("#coAge").checked) {
           $("#coAgeErr").hidden = false;
           $("#coAge").focus();
           return;
         }
-        placeOrder();
+        placeOrder(e.currentTarget);
       });
       $("#coAge").addEventListener("change", () => {
         $("#coAgeErr").hidden = true;
@@ -403,54 +401,112 @@ export function createCheckout({
       $("#checkoutPanel").scrollTop = 0;
     });
 
-  const SEAL_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  const rand4 = () =>
-    Array.from(
-      { length: 4 },
-      () => SEAL_CHARS[(Math.random() * SEAL_CHARS.length) | 0],
-    ).join("");
+  const usedCodes = new Set();
   function newSealCode() {
     let c;
     do {
-      c = `VS-${rand4()}-${rand4()}`;
-    } while (seals[c]);
+      c = randomSealCode();
+    } while (seals[c] || usedCodes.has(c));
+    usedCodes.add(c);
     return c;
   }
-  function placeOrder() {
+
+  // Grava o pedido no banco pela API: o cliente (tabela clientes) e um lacre por
+  // garrafa (tabela lacres). Se a API não responder, o pedido segue neste navegador.
+  async function saveOrder(d, units, info) {
+    const opts = { timeout: 8000 };
+    try {
+      const client = { nome: d.name, telefone: d.phone };
+      const { clientId } = store.get("profile", {});
+      let saved = null;
+      if (Number.isSafeInteger(clientId)) {
+        try {
+          saved = await api.updateClient(clientId, client, opts);
+        } catch (err) {
+          if (err.status !== 404) throw err;
+        }
+      }
+      if (!saved) saved = await api.createClient(client, opts);
+      store.set("profile", { ...store.get("profile", {}), clientId: saved.id });
+      await Promise.all(units.map((u) => saveSeal(u, info, opts)));
+    } catch (err) {
+      console.warn(
+        "[VeriSeal Delivery] pedido guardado só neste navegador:",
+        err.message,
+      );
+    }
+  }
+  async function saveSeal(unit, info, opts) {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        await api.createSeal(
+          {
+            codigo: unit.code,
+            produtoId: unit.product.id,
+            lote: info.lot,
+            fabricadoEm: info.made,
+            status: "ok",
+            enviadoEm: info.sent,
+          },
+          opts,
+        );
+        return;
+      } catch (err) {
+        if (err.status !== 409) throw err;
+        unit.code = newSealCode();
+      }
+    }
+  }
+  async function placeOrder(confirmBtn) {
+    const order = co;
+    if (order.saving) return;
+    order.saving = true;
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = "Confirmando pedido…";
     const addr = getAddr();
-    const d = co.d,
+    const d = order.d,
       t = coTotals(),
       now = new Date();
     const num = String(Math.floor(10000 + Math.random() * 89999));
     const lot = `L${String(now.getFullYear()).slice(2)}-${String(now.getMonth() + 1).padStart(2, "0")}${String(10 + ((Math.random() * 18) | 0))}`;
-    const made = new Date(
+    const madeAt = new Date(
       now.getTime() - (20 + Math.random() * 60) * 86400000,
-    ).toLocaleDateString("pt-BR");
-    const out = [];
-    const mine = store.get("demo:seals", {});
+    );
+    const sentAt = new Date(now.getTime() + 6 * 60000);
+    const units = [];
     [...bag].forEach(([id, q]) => {
       const p = byId[id];
-      const units = isKit(p) ? p.bottles : [p];
+      const bottles = isKit(p) ? p.bottles : [p];
       for (let k = 0; k < q; k++)
-        units.forEach((b) => {
-          const code = newSealCode();
-          const rec = {
-            product: b.id,
-            status: "ok",
-            lot,
-            made,
-            checks: 0,
-            sentAt: "hoje · " + hhmm(new Date(now.getTime() + 6 * 60000)),
-            order: num,
-          };
-          seals[code] = rec;
-          mine[code] = rec;
-          out.push({ code, name: fullName(b) });
-        });
+        bottles.forEach((b) => units.push({ code: newSealCode(), product: b }));
+    });
+
+    await saveOrder(d, units, {
+      lot,
+      made: isoDate(madeAt),
+      sent: isoDateTime(sentAt),
+    });
+
+    const made = madeAt.toLocaleDateString("pt-BR");
+    const mine = store.get("demo:seals", {});
+    const out = units.map((u) => {
+      const rec = {
+        product: u.product.id,
+        status: "ok",
+        lot,
+        made,
+        checks: 0,
+        sentAt: "hoje · " + hhmm(sentAt),
+        order: num,
+      };
+      seals[u.code] = rec;
+      mine[u.code] = rec;
+      return { code: u.code, name: fullName(u.product) };
     });
     store.set("demo:seals", mine);
     store.set("demo:lastSeal", out[0] && out[0].code);
-    co.order = {
+    order.saving = false;
+    order.order = {
       num,
       pay: d.pay,
       disc: t.disc,
@@ -458,15 +514,13 @@ export function createCheckout({
       seals: out,
       scheduled: d.when !== "now",
       slot: d.slot,
-      when:
-        d.when === "now"
-          ? etaText(addr)
-          : `agendado: ${esc(d.slot)}`,
+      when: d.when === "now" ? etaText(addr) : `agendado: ${esc(d.slot)}`,
     };
     bag.clear();
     saveBag();
     PRODUCTS.forEach((p) => refreshCTAs(p.id));
     updateBagUI();
+    if (co !== order) return;
     co.step = 3;
     renderCheckout();
     focusTitle();
@@ -478,6 +532,7 @@ export function createCheckout({
   }
   safe("checkout", () => {
     $("#checkoutContent").addEventListener("click", (e) => {
+      if (co?.saving) return;
       if (e.target.closest("[data-back]")) {
         co.step = Math.max(0, co.step - 1);
         renderCheckout();

@@ -5,6 +5,11 @@ namespace VeriSealApi.Dados;
 
 public class LacreCrud
 {
+    private const string SelecionarLacres =
+        "SELECT codigo, produto_id, pedido_id, lote, fabricado_em, status, enviado_em, aberto_em, " +
+        "(SELECT COUNT(*) FROM verificacoes WHERE verificacoes.lacre_codigo = lacres.codigo) AS verificacoes " +
+        "FROM lacres";
+
     private readonly BancoDeDados banco;
 
     public LacreCrud(BancoDeDados banco)
@@ -18,7 +23,7 @@ public class LacreCrud
 
         using var conexao = banco.AbrirConexao();
         using var comando = conexao.CreateCommand();
-        comando.CommandText = "SELECT codigo, produto_id, pedido_id, lote, fabricado_em, status, enviado_em, aberto_em FROM lacres ORDER BY fabricado_em DESC";
+        comando.CommandText = SelecionarLacres + " ORDER BY fabricado_em DESC, codigo";
 
         using var leitor = comando.ExecuteReader();
         while (leitor.Read())
@@ -33,7 +38,7 @@ public class LacreCrud
     {
         using var conexao = banco.AbrirConexao();
         using var comando = conexao.CreateCommand();
-        comando.CommandText = "SELECT codigo, produto_id, pedido_id, lote, fabricado_em, status, enviado_em, aberto_em FROM lacres WHERE codigo = @codigo";
+        comando.CommandText = SelecionarLacres + " WHERE codigo = @codigo";
         comando.Parameters.AddWithValue("@codigo", codigo);
 
         using var leitor = comando.ExecuteReader();
@@ -61,7 +66,7 @@ public class LacreCrud
         comando.ExecuteNonQuery();
     }
 
-        public bool Atualizar(string codigo, Lacre lacre)
+    public bool Atualizar(string codigo, Lacre lacre)
     {
         using var conexao = banco.AbrirConexao();
         using var comando = conexao.CreateCommand();
@@ -90,6 +95,18 @@ public class LacreCrud
         return linhasAfetadas > 0;
     }
 
+    public bool RegistrarVerificacao(string codigo, string origem)
+    {
+        using var conexao = banco.AbrirConexao();
+        using var comando = conexao.CreateCommand();
+        comando.CommandText = "INSERT INTO verificacoes (lacre_codigo, origem, resultado) SELECT codigo, @origem, status FROM lacres WHERE codigo = @codigo";
+        comando.Parameters.AddWithValue("@origem", origem);
+        comando.Parameters.AddWithValue("@codigo", codigo);
+
+        var linhasAfetadas = comando.ExecuteNonQuery();
+        return linhasAfetadas > 0;
+    }
+
     private static Lacre LerLacre(MySqlDataReader leitor)
     {
         return new Lacre
@@ -101,7 +118,8 @@ public class LacreCrud
             FabricadoEm = leitor.GetDateOnly("fabricado_em"),
             Status = leitor.GetString("status"),
             EnviadoEm = leitor.IsDBNull(leitor.GetOrdinal("enviado_em")) ? null : leitor.GetDateTime("enviado_em"),
-            AbertoEm = leitor.IsDBNull(leitor.GetOrdinal("aberto_em")) ? null : leitor.GetDateTime("aberto_em")
+            AbertoEm = leitor.IsDBNull(leitor.GetOrdinal("aberto_em")) ? null : leitor.GetDateTime("aberto_em"),
+            Verificacoes = (int)leitor.GetInt64("verificacoes")
         };
     }
 }

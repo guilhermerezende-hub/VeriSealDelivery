@@ -1597,6 +1597,10 @@
             >
               Confira o lacre da sua garrafa.
             </h2>
+            <p class="reveal max-w-[500px] text-[16px] leading-[1.6] text-fg-2">
+              Digite o código impresso no lacre ou aproxime o celular da tampa.
+              Na hora, você vê se a garrafa é original e se ela já foi aberta.
+            </p>
             <form
               class="reveal mt-7 flex flex-wrap gap-2.5"
               id="verifyForm"
@@ -1630,6 +1634,45 @@
               <i class="icon icon-contactless" aria-hidden="true"></i>
               Aproximar o celular (NFC)
             </button>
+            <ul class="reveal mt-8 grid gap-4 border-t border-line pt-7">
+              <li class="flex items-start gap-3.5">
+                <span
+                  class="grid size-9 shrink-0 place-items-center rounded-full bg-ok-fill/12 text-ok"
+                >
+                  <i class="icon icon-check size-[18px]" aria-hidden="true"></i>
+                </span>
+                <span class="text-[14px] leading-snug text-fg-2">
+                  <b class="block text-[15px] text-fg">Lacre íntegro</b>
+                  Garrafa original e nunca aberta. Pode receber.
+                </span>
+              </li>
+              <li class="flex items-start gap-3.5">
+                <span
+                  class="grid size-9 shrink-0 place-items-center rounded-full bg-bad/10 text-bad"
+                >
+                  <i class="icon icon-alert size-[18px]" aria-hidden="true"></i>
+                </span>
+                <span class="text-[14px] leading-snug text-fg-2">
+                  <b class="block text-[15px] text-fg">Lacre violado</b>
+                  A garrafa foi aberta depois do envio: recuse a entrega.
+                </span>
+              </li>
+              <li class="flex items-start gap-3.5">
+                <span
+                  class="grid size-9 shrink-0 place-items-center rounded-full bg-surface text-fg-2"
+                >
+                  <i
+                    class="icon icon-search size-[18px]"
+                    aria-hidden="true"
+                  ></i>
+                </span>
+                <span class="text-[14px] leading-snug text-fg-2">
+                  <b class="block text-[15px] text-fg">Lacre não encontrado</b>
+                  Confira o código e, se continuar, avise a marca pelo próprio
+                  resultado.
+                </span>
+              </li>
+            </ul>
           </div>
           <div
             class="relative flex min-h-[500px] items-center justify-center overflow-hidden rounded-3xl bg-[radial-gradient(ellipse_at_85%_0%,#0b4a9a_0%,var(--color-navy)_40%,var(--color-navy-ink)_100%)] p-[34px] text-[#f5f7fb] shadow-[0_30px_60px_-30px_rgba(4,37,85,.55)] data-[state=bad]:bg-[radial-gradient(ellipse_70%_42%_at_50%_0%,rgba(255,91,79,.22),transparent_72%),radial-gradient(ellipse_at_85%_0%,#0b4a9a_0%,var(--color-navy)_40%,var(--color-navy-ink)_100%)] data-[state=ok]:bg-[radial-gradient(ellipse_70%_42%_at_50%_0%,rgba(48,209,88,.24),transparent_72%),radial-gradient(ellipse_at_85%_0%,#0b4a9a_0%,var(--color-navy)_40%,var(--color-navy-ink)_100%)] max-sm:min-h-[420px] max-sm:p-5"
@@ -1913,121 +1956,138 @@
     </main>
 
     <footer
-      class="mt-6 bg-surface pt-5 pb-[calc(28px_+_env(safe-area-inset-bottom,0px))] text-[13px] leading-[1.4] text-fg-2 max-md:[.has-bagbar_&]:pb-[calc(96px_+_env(safe-area-inset-bottom,0px))]"
+      class="mt-6 bg-navy-ink pb-[calc(24px_+_env(safe-area-inset-bottom,0px))] text-[14px] leading-[1.55] text-white/62 max-md:[.has-bagbar_&]:pb-[calc(96px_+_env(safe-area-inset-bottom,0px))]"
     >
-      <div class="mx-auto w-full max-w-[1248px] px-6 max-sm:px-4">
-        <p class="border-b border-line py-4 font-semibold text-fg">
+      <div class="border-b border-white/8 bg-navy-deep">
+        <p
+          class="mx-auto flex max-w-[1248px] items-center gap-3 px-6 py-3.5 text-[13px] font-semibold text-white/85 max-sm:px-4"
+        >
+          <span
+            class="grid h-7 shrink-0 place-items-center rounded-md border border-white/30 px-1.5 text-[12px] leading-none font-extrabold text-white"
+            aria-hidden="true"
+            >18+</span
+          >
           Venda proibida para menores de 18 anos. Se beber, não dirija. Aprecie
           com moderação.
         </p>
-        <div
-          class="grid grid-cols-[repeat(3,1fr)_1.4fr] gap-6 py-6 max-md:grid-cols-3 max-sm:grid-cols-2"
-        >
-          <div>
-            <h4 class="mb-2.5 text-[13px] font-bold text-fg">Loja</h4>
-            <ul>
-              <li class="mb-2">
-                <a class="text-[#424245]" href="#catalogo" data-cat="whisky"
-                  >Whisky</a
-                >
-              </li>
-              <li class="mb-2">
-                <a class="text-[#424245]" href="#catalogo" data-cat="vodka"
-                  >Vodka</a
-                >
-              </li>
-              <li class="mb-2">
-                <a class="text-[#424245]" href="#catalogo" data-cat="gin"
-                  >Gin</a
-                >
-              </li>
-              <li class="mb-2">
-                <a class="text-[#424245]" href="#catalogo" data-cat="cachaca"
-                  >Cachaça</a
-                >
-              </li>
-              <li class="mb-2">
-                <a class="text-[#424245]" href="#kits">Kits e presentes</a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 class="mb-2.5 text-[13px] font-bold text-fg">Seu pedido</h4>
-            <ul>
-              <li class="mb-2">
-                <a class="text-[#424245]" href="#ofertas">Ofertas da semana</a>
-              </li>
-              <li class="mb-2">
-                <button
-                  class="text-left text-[13px] text-[#424245] hover:underline"
-                  type="button"
-                  data-open-address
-                >
-                  Área de entrega
-                </button>
-              </li>
-              <li class="mb-2">
-                <button
-                  class="text-left text-[13px] text-[#424245] hover:underline"
-                  type="button"
-                  data-open-bag
-                >
-                  Minha sacola
-                </button>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 class="mb-2.5 text-[13px] font-bold text-fg">Lacre VeriSeal</h4>
-            <ul>
-              <li class="mb-2">
-                <a class="text-[#424245]" href="#como-funciona"
-                  >Como funciona</a
-                >
-              </li>
-              <li class="mb-2">
-                <a class="text-[#424245]" href="#verificar"
-                  >Verificar garrafa</a
-                >
-              </li>
-              <li class="mb-2">
-                <a class="text-[#424245]" href="#ajuda"
-                  >Lacre violado e recusa</a
-                >
-              </li>
-              <li class="mb-2">
-                <a class="text-[#424245]" href="#ajuda">Perguntas frequentes</a>
-              </li>
-            </ul>
-          </div>
-          <div class="max-md:col-span-full">
-            <img
-              class="mb-2.5 block aspect-wordmark h-[19px] w-auto"
-              src="assets/brand/logo-light-bg.svg"
-              alt="VeriSeal"
-            />
-            <p>Delivery de bebidas com lacre inteligente em cada garrafa.</p>
-          </div>
-        </div>
-        <div
-          class="flex flex-wrap justify-between gap-3 border-t border-line pt-4 text-[12px]"
-        >
-          <p>© 2026 VeriSeal Delivery.</p>
-          <nav
-            aria-label="Informações institucionais"
-            class="flex flex-wrap gap-4"
+      </div>
+      <div
+        class="mx-auto grid max-w-[1248px] grid-cols-[1.5fr_repeat(3,1fr)] gap-10 px-6 pt-12 pb-10 max-md:grid-cols-3 max-md:gap-8 max-sm:grid-cols-2 max-sm:gap-x-6 max-sm:px-4 max-sm:pt-10"
+      >
+        <div class="max-md:col-span-full">
+          <a
+            class="inline-flex items-center gap-2 rounded-lg no-underline hover:no-underline"
+            href="#inicio"
+            aria-label="VeriSeal Delivery — início"
           >
-            <a href="sobre.html#empresa">Sobre nós</a>
-            <a href="entregadores.html">Seja entregador</a>
-            <a href="sobre.html#contato">Contato</a>
-            <a href="sobre.html#privacidade">Privacidade</a>
-            <a href="sobre.html#termos">Termos de uso</a>
-          </nav>
-          <p>
-            As marcas e imagens de produtos pertencem aos seus respectivos
-            proprietários. Preços e estoque sujeitos a alteração.
+            <img
+              class="aspect-wordmark h-[19px] w-auto"
+              src="assets/brand/logo-dark-bg.svg"
+              alt=""
+            />
+            <span
+              class="rounded-md bg-white px-[7px] py-[3px] text-[11px] leading-[1.2] font-bold tracking-[.04em] text-navy uppercase"
+            >
+              Delivery
+            </span>
+          </a>
+          <p class="mt-4 max-w-[340px]">
+            Delivery de bebidas com lacre inteligente em cada garrafa. Na
+            entrega, você confere pelo celular se ela é original e nunca foi
+            aberta.
           </p>
+          <p
+            class="mt-6 text-[11px] font-bold tracking-[.1em] text-white/45 uppercase"
+          >
+            Formas de pagamento
+          </p>
+          <ul class="mt-2.5 flex flex-wrap gap-2">
+            <li class="pay-chip">
+              <i class="icon icon-pix" aria-hidden="true"></i>Pix
+            </li>
+            <li class="pay-chip">
+              <i class="icon icon-card" aria-hidden="true"></i>Cartão de crédito
+            </li>
+            <li class="pay-chip">
+              <i class="icon icon-cash" aria-hidden="true"></i>Pagamento na
+              entrega
+            </li>
+          </ul>
         </div>
+        <nav aria-labelledby="footShop">
+          <h2 class="foot-title" id="footShop">Loja</h2>
+          <ul class="foot-list">
+            <li>
+              <a class="foot-link" href="#catalogo" data-cat="whisky">Whisky</a>
+            </li>
+            <li>
+              <a class="foot-link" href="#catalogo" data-cat="vodka">Vodka</a>
+            </li>
+            <li>
+              <a class="foot-link" href="#catalogo" data-cat="gin">Gin</a>
+            </li>
+            <li>
+              <a class="foot-link" href="#catalogo" data-cat="cachaca"
+                >Cachaça</a
+              >
+            </li>
+            <li><a class="foot-link" href="#kits">Kits e presentes</a></li>
+          </ul>
+        </nav>
+        <nav aria-labelledby="footOrder">
+          <h2 class="foot-title" id="footOrder">Seu pedido</h2>
+          <ul class="foot-list">
+            <li><a class="foot-link" href="#ofertas">Ofertas da semana</a></li>
+            <li>
+              <button class="foot-link" type="button" data-open-address>
+                Área de entrega
+              </button>
+            </li>
+            <li>
+              <button class="foot-link" type="button" data-open-bag>
+                Minha sacola
+              </button>
+            </li>
+            <li><a class="foot-link" href="login.html">Entrar na conta</a></li>
+          </ul>
+        </nav>
+        <nav aria-labelledby="footSeal">
+          <h2 class="foot-title" id="footSeal">Lacre VeriSeal</h2>
+          <ul class="foot-list">
+            <li>
+              <a class="foot-link" href="#como-funciona">Como funciona</a>
+            </li>
+            <li>
+              <a class="foot-link" href="#verificar">Verificar garrafa</a>
+            </li>
+            <li>
+              <a class="foot-link" href="#ajuda">Lacre violado e recusa</a>
+            </li>
+            <li><a class="foot-link" href="#ajuda">Perguntas frequentes</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="mx-auto max-w-[1248px] px-6 max-sm:px-4">
+        <div
+          class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-white/10 pt-6 text-[13px]"
+        >
+          <p>© 2026 VeriSeal Delivery. Todos os direitos reservados.</p>
+          <nav
+            class="flex flex-wrap gap-x-5 gap-y-2"
+            aria-label="Informações institucionais"
+          >
+            <a class="foot-link" href="sobre.html#empresa">Sobre nós</a>
+            <a class="foot-link" href="entregadores.html">Seja entregador</a>
+            <a class="foot-link" href="sobre.html#contato">Contato</a>
+            <a class="foot-link" href="sobre.html#privacidade">Privacidade</a>
+            <a class="foot-link" href="sobre.html#termos">Termos de uso</a>
+            <a class="foot-link" href="painel.html">Painel da loja</a>
+          </nav>
+        </div>
+        <p class="mt-3 text-[12px] text-white/40">
+          As marcas e imagens de produtos pertencem aos seus respectivos
+          proprietários. Preços e estoque sujeitos a alteração.
+        </p>
       </div>
     </footer>
 

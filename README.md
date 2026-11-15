@@ -1,6 +1,13 @@
 # VeriSeal Delivery
 
-Protótipo de delivery de bebidas com uma demonstração de lacres inteligentes. O front-end usa JavaScript puro e módulos ES, sem framework de interface. Compras, pagamentos, rastreamento, avisos à marca e leitura NFC são simulados. O banco MySQL fica em `database/` e a API em C# (ASP.NET Core) fica em `backend/`.
+Protótipo de delivery de bebidas com lacres inteligentes. O front-end usa JavaScript puro e módulos ES, sem framework de interface. A API em C# (ASP.NET Core, em `backend/`) liga o site ao banco MySQL (em `database/`) trocando JSON:
+
+- **CRUD de lacres e de clientes** na página `painel.html`;
+- **pedidos** gravam o cliente e um lacre por garrafa;
+- a **verificação de lacres** consulta o banco e registra cada leitura;
+- o botão **"Avisar a marca"** grava o aviso.
+
+Pagamentos, rastreamento e leitura NFC física continuam simulados.
 
 ## Estrutura do repositório
 
@@ -16,20 +23,24 @@ VeriSealDelivery/
 │   │   ├── unit/              # Testes unitários (node --test)
 │   │   └── e2e/               # Testes de navegador (Playwright)
 │   ├── index.html, login.html, sobre.html, entregadores.html
+│   ├── painel.html            # Painel da loja: CRUD de lacres e clientes
 │   └── package.json
 ├── backend/                   # API REST em C# / .NET 10
 │   ├── VeriSealDelivery.slnx  # Solução
+│   ├── deploy/                # Modelo do appsettings de produção (sem senha)
 │   └── src/
 │       └── VeriSealApi/
 │           ├── Dados/         # Conexão com o banco e classes CRUD
-│           ├── Modelos/       # Classes que representam as tabelas
+│           ├── Modelos/       # Classes que representam as tabelas (com validação)
 │           ├── Properties/
-│           ├── Program.cs     # Configuração e rotas da API
+│           ├── Program.cs     # Configuração (CORS) e rotas da API
 │           └── appsettings.json
 ├── database/
 │   ├── schema.sql             # Estrutura do banco (rodar primeiro)
-│   └── dados.sql              # Carga inicial — local, fora do Git
+│   ├── dados.sql              # Carga inicial — local, fora do Git
+│   └── gerar-sql-hospedagem.mjs  # Gera o .sql para importar na hospedagem
 ├── docs/
+│   ├── hospedagem.md          # Como publicar (HostGator + MonsterASP via FileZilla)
 │   └── brand/                 # Kit original da marca (PNG, SVG, ícones)
 └── README.md
 ```
@@ -65,6 +76,39 @@ dotnet run
 
 A API sobe em `http://localhost:5021` (ex.: `GET /api/teste-banco`, `GET /api/clientes`). Para compilar a solução inteira: `dotnet build backend/VeriSealDelivery.slnx`.
 
+### Site e API juntos
+
+Use dois terminais: um com a API (`backend/src/VeriSealApi` → `dotnet run`) e outro com o site (`frontend` → `npm run dev`). Depois abra:
+
+- `http://127.0.0.1:4173`: a loja. A verificação e os pedidos usam o banco.
+- `http://127.0.0.1:4173/painel.html`: o painel. O selo no topo mostra se o banco está conectado.
+
+A API só aceita chamadas dos endereços listados em `OrigensDoSite` (CORS). No computador eles ficam em `appsettings.Development.json`; na hospedagem, em `appsettings.Production.json`. Se a API estiver desligada, a loja continua funcionando com os lacres guardados no próprio site. O painel avisa que está sem conexão.
+
+### Rotas da API
+
+| Método e rota | O que faz |
+| --- | --- |
+| `GET /api/clientes` · `GET /api/clientes/{id}` | Lista os clientes · busca um |
+| `POST /api/clientes` · `PUT /api/clientes/{id}` · `DELETE /api/clientes/{id}` | Cria · atualiza nome e telefone · exclui (409 se houver endereço ou pedido) |
+| `GET /api/lacres` · `GET /api/lacres/{codigo}` | Lista os lacres, com o total de verificações · busca um |
+| `POST /api/lacres` · `PUT /api/lacres/{codigo}` · `DELETE /api/lacres/{codigo}` | Cria (409 se o código existir) · atualiza · exclui (409 se já foi verificado) |
+| `POST /api/lacres/{codigo}/verificacoes` | Registra uma verificação (`{"origem":"codigo"}` ou `"nfc"`) e devolve o lacre |
+| `GET /api/avisos` · `POST /api/avisos` | Lista · grava um aviso à marca (`nao_encontrado` ou `violado`) |
+| `GET /api/teste-banco` | Confere a conexão com o MySQL |
+
+As regras de cada tabela ficam nos modelos (`Cliente.Validar()`, `Lacre.Validar()`): o código no formato `VS-XXXX-XXXX`, o lote com até 12 caracteres e o telefone com DDD. Os erros do MySQL viram respostas claras: 1062 → 409, 1452 → 400, 1451 → 409.
+
+## Hospedagem
+
+O passo a passo completo está em [docs/hospedagem.md](docs/hospedagem.md). O site estático vai para a HostGator e a API com o banco vai para o MonsterASP.NET, os dois pelo FileZilla. Os pacotes saem destes comandos:
+
+```powershell
+node database/gerar-sql-hospedagem.mjs                                  # banco para importar
+dotnet publish backend/src/VeriSealApi -c Release -o backend/publish    # API
+cd frontend; npm run dist -- --api https://SEU-APP.runasp.net/api      # site (pasta dist)
+```
+
 ## Organização do front-end
 
 Caminhos relativos a `frontend/`.
@@ -79,8 +123,12 @@ Caminhos relativos a `frontend/`.
 | `js/delivery.js` | Validação de formato, consulta ViaCEP e ausência de cobertura confirmada |
 | `js/address.js` | Formulários de CEP e apresentação do endereço |
 | `js/catalog.js` | Busca, categorias, marcas e ordenação |
-| `js/checkout.js` | Formulários e geração de pedidos e lacres fictícios |
-| `js/verification.js` | Consulta aos códigos locais de demonstração |
+| `js/checkout.js` | Formulários do pedido; grava o cliente e os lacres das garrafas pela API |
+| `js/verification.js` | Verificação de lacres pela API (com os lacres do site como reserva) e aviso à marca |
+| `js/api.js` | Chamadas à API em C# (JSON, mensagens de erro, tempo limite) |
+| `js/records.js` | Conversões entre a API e a tela: datas, código do lacre, telefone |
+| `painel.html`, `js/panel.js` | Painel da loja: CRUD de lacres e clientes e lista de avisos |
+| `scripts/dist.js` | Monta `dist/` para a hospedagem com o endereço público da API |
 | `js/showcase.js` | Carrossel e animações demonstrativas |
 | `js/ui.js` | Utilitários de interface, classes compartilhadas e medalhas |
 | `js/products.js`, `js/seal.js` | Catálogo estático e desenho/animação dos lacres |
@@ -98,7 +146,7 @@ O Tailwind e as ferramentas de teste são dependências de desenvolvimento. A p�
 - Máximo de 12 unidades por item. Valores inválidos no armazenamento são ignorados, e quantidades antigas acima do limite são reduzidas.
 - ViaCEP consulta somente o endereço. Uma resposta positiva não confirma área de entrega nem prazo. Falhas não criam um endereço ou tempo de entrega fictício.
 - Etapas e horários do checkout são ilustrativos. Nenhuma cobrança, mensagem de WhatsApp ou entrega acontece.
-- Lacres novos usam o namespace `vsd:demo:seals`; não são registros de autenticidade. O botão NFC apenas seleciona um exemplo.
+- Os lacres dos pedidos são gravados no banco pela API. Uma cópia também fica no navegador (`vsd:demo:seals`), que é usada se a API estiver fora do ar. O botão NFC consulta o último lacre do pedido.
 
 As regras numéricas ficam em `js/config.js`. Alterações nelas precisam de novo build para atualizar as páginas estáticas. Os textos explicativos de campanha e políticas devem acompanhar eventuais mudanças de desconto ou parcelamento.
 
@@ -126,10 +174,17 @@ npm run format
 npm run check
 ```
 
-Os testes unitários (`tests/unit/`) usam o runner nativo do Node. Os testes de navegador (`tests/e2e/`) usam Playwright em desktop (1440 px) e celular (390 px), com ViaCEP e Google Fonts controlados para tornar os resultados repetíveis. O navegador padrão é o Edge já instalado. Para outro ambiente, instale o Chromium com `npx playwright install chromium` e defina `PLAYWRIGHT_CHANNEL=chromium`; também é possível usar `chrome` se ele estiver instalado.
+Os testes unitários (`tests/unit/`) usam o runner nativo do Node. Os testes de navegador (`tests/e2e/`) usam Playwright em desktop (1440 px) e celular (390 px), com ViaCEP e Google Fonts controlados para tornar os resultados repetíveis. A API também é controlada: por padrão fica "fora do ar", e nos testes do painel, da verificação e do pedido uma API falsa em memória responde como a de verdade. Os testes nunca gravam no seu banco. O navegador padrão é o Edge já instalado. Para outro ambiente, instale o Chromium com `npx playwright install chromium` e defina `PLAYWRIGHT_CHANNEL=chromium`; também é possível usar `chrome` se ele estiver instalado.
 
 No Windows, é possível iniciar `npm run dev` em um terminal separado antes de `npm run test:e2e`; a configuração reutiliza esse servidor. Capturas e rastros de falhas ficam em `frontend/test-results/`, ignorados pelo Git.
 
 ## Integrações ainda necessárias
 
-Para operar comercialmente, será necessário implementar e validar no servidor: pedidos e estoque, provedor de pagamentos com confirmação verificável, cobertura e cálculo logístico, rastreamento, autenticação de lacres físicos, canais de atendimento e políticas comerciais com dados da empresa. O front-end atual não implementa essas integrações e informa essa limitação ao usuário.
+Já ligados ao banco: clientes, lacres, verificações e avisos à marca. Para operar comercialmente, ainda é preciso:
+
+- login para o painel e para as rotas de gravação da API;
+- pedidos e estoque no banco;
+- provedor de pagamentos com confirmação verificável;
+- cobertura e cálculo logístico, e rastreamento;
+- leitura dos chips NFC físicos;
+- canais de atendimento e políticas comerciais com os dados da empresa.

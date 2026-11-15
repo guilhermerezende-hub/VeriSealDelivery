@@ -36,7 +36,10 @@ window.Seal = (() => {
   const OUTLINE = `M${R} 0${notch(NB)[0]}${notch(NF)[0]}H${SW - R}A${R} ${R} 0 0 1 ${SW} ${R}V${SH - R}A${R} ${R} 0 0 1 ${SW - R} ${SH}${notch(NF)[1]}${notch(NB)[1]}H${R}A${R} ${R} 0 0 1 0 ${SH - R}V${R}A${R} ${R} 0 0 1 ${R} 0Z`;
   const SANS = `Inter, -apple-system, 'Segoe UI', Roboto, sans-serif`;
   const MONO = `'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace`;
-  const BRAND = "assets/brand/";
+  // artes da marca a partir do próprio seal.js: funciona na raiz e em produtos/<id>/
+  const BRAND = document.currentScript?.src
+    ? new URL("../assets/brand/", document.currentScript.src).href
+    : "assets/brand/";
   // símbolo de aproximação (assets/brand/seal-nfc.svg, 403.8 x 217.1); as ondas saem do oval, em NFC_OVAL
   const NFC_AR = 403.8 / 217.1;
   const NFC_OVAL = [0.292, 0.476];

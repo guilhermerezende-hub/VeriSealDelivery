@@ -16,7 +16,6 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/css/site.css" />
-    <link rel="stylesheet" href="styles/login.css" />
   </head>
   <body class="login-page min-h-screen bg-surface px-5 py-6 text-fg antialiased max-sm:px-3 max-sm:py-3">
     <main class="mx-auto flex min-h-[calc(100svh-48px)] w-full max-w-[1200px] items-center justify-center max-sm:min-h-[calc(100svh-24px)]">
@@ -49,8 +48,10 @@
 
           <div class="mt-7" id="authForms">
             <form data-auth-form="login" method="dialog">
-              <label class="block text-[13px] font-semibold text-fg" for="loginEmail">E-mail</label>
-              <input class="login-input mt-2 w-full rounded-xl border border-line bg-white px-4 py-3 text-[15px] text-fg placeholder:text-fg-3" id="loginEmail" name="email" type="email" placeholder="seu@email.com" autocomplete="email" required />
+              <div>
+                <label class="block text-[13px] font-semibold text-fg" for="loginEmail">E-mail</label>
+                <input class="login-input mt-2 w-full rounded-xl border border-line bg-white px-4 py-3 text-[15px] text-fg placeholder:text-fg-3" id="loginEmail" name="email" type="email" placeholder="seu@email.com" autocomplete="email" required />
+              </div>
 
               <div>
                 <div class="flex items-center justify-between gap-3">

@@ -958,7 +958,18 @@ import { createVerification } from "./verification.js";
   $$("[data-max-installments]").forEach((el) => {
     el.textContent = MAX_INST;
   });
-  const linkedProduct = new URLSearchParams(location.search).get("produto");
+  // links das outras páginas (rodapé, busca das páginas de produto):
+  // index.html?categoria=gin#catalogo e index.html?busca=tanqueray#catalogo
+  const params = new URLSearchParams(location.search);
+  const linkedCategory = params.get("categoria");
+  const linkedSearch = (params.get("busca") || "").trim().slice(0, 60);
+  if (linkedCategory && CATS.some((c) => c.id === linkedCategory))
+    setFilter({ cat: linkedCategory, q: "" });
+  else if (linkedSearch) setFilter({ cat: "all", q: linkedSearch });
+  // a busca do cabeçalho das páginas de produto chega sem #catalogo: rola até lá
+  if ((linkedCategory || linkedSearch) && !location.hash)
+    $("#catalogo").scrollIntoView();
+  const linkedProduct = params.get("produto");
   if (linkedProduct && Object.hasOwn(byId, linkedProduct)) {
     if (store.get("age", false)) openProduct(linkedProduct);
     else

@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace VeriSealApi.Modelos;
 
 public class Lacre
@@ -10,13 +12,26 @@ public class Lacre
     public string Status { get; set; } = "ok";
     public DateTime? EnviadoEm { get; set; }
     public DateTime? AbertoEm { get; set; }
+    public int Verificacoes { get; set; }
 
+    public void Normalizar()
+    {
+        Codigo = (Codigo ?? "").Trim().ToUpperInvariant();
+        ProdutoId = (ProdutoId ?? "").Trim();
+        Lote = (Lote ?? "").Trim();
+        Status = (Status ?? "").Trim();
+
+        if (Status == "ok")
+        {
+            AbertoEm = null;
+        }
+    }
 
     public string? Validar()
     {
-        if (string.IsNullOrWhiteSpace(Codigo) || Codigo.Length != 12)
+        if (!Regex.IsMatch(Codigo, "^VS-[A-Z0-9]{4}-[A-Z0-9]{4}$"))
         {
-            return "O código do lacre precisa ter 12 caracteres (ex.: VS-7K2M-9QXA).";
+            return "O código do lacre precisa seguir o formato VS-XXXX-XXXX (ex.: VS-7K2M-9QXA).";
         }
 
         if (string.IsNullOrWhiteSpace(ProdutoId))
@@ -39,7 +54,11 @@ public class Lacre
             return "O status precisa ser \"ok\" ou \"opened\".";
         }
 
+        if (Status == "opened" && AbertoEm == null)
+        {
+            return "Informe a data e a hora em que o lacre foi aberto.";
+        }
+
         return null;
     }
-
 }
