@@ -30,7 +30,7 @@ import { store } from "./storage.js";
 import { fmtCep, validCep, etaText, cityUf, lookupCep } from "./delivery.js";
 import { totals, inst } from "./commerce.js";
 import { api } from "./api.js";
-import { randomSealCode, sealFromApi } from "./records.js";
+import { isoDate, isoDateTime, randomSealCode } from "./records.js";
 
 export function createCheckout({
   bag,
@@ -411,73 +411,52 @@ export function createCheckout({
     return c;
   }
 
-  // Grava o pedido no banco pela API (POST /api/pedidos): cliente, endereço, pedido,
-  // itens e um lacre por garrafa, tudo de uma vez. A API confere os preços, gera o
-  // número do pedido e os códigos dos lacres. Sem resposta, o pedido segue neste navegador.
-  async function saveOrder(d) {
-    const [cidade, uf = ""] = d.city.split("/").map((s) => s.trim());
-    const troco = Number(
-      d.change
-        .replace(/[^\d,.]/g, "")
-        .replace(/\.(?=\d{3})/g, "")
-        .replace(",", "."),
-    );
+  // Grava o pedido no banco pela API: o cliente (tabela clientes) e um lacre por
+  // garrafa (tabela lacres). Se a API não responder, o pedido segue neste navegador.
+  async function saveOrder(d, units, info) {
+    const opts = { timeout: 8000 };
     try {
-      return await api.createOrder(
-        {
-          cliente: { nome: d.name, telefone: d.phone },
-          endereco: {
-            cep: fmtCep(d.cep),
-            rua: d.street,
-            numero: d.number,
-            complemento: d.comp,
-            bairro: d.bairro,
-            cidade,
-            uf: /^[A-Za-z]{2}$/.test(uf) ? uf : "",
-          },
-          pagamento: d.pay,
-          parcelas: d.pay === "card" ? +d.inst || 1 : 1,
-          trocoPara: d.pay === "cod" && troco > 0 ? troco : null,
-          agendadoPara: d.when === "now" ? null : d.slot,
-          presente: d.gift,
-          mensagemPresente: d.gift ? d.giftMsg : null,
-          maioridadeConfirmada: true,
-          itens: [...bag].map(([id, q]) => ({ produtoId: id, quantidade: q })),
-        },
-        { timeout: 10000 },
-      );
+      const client = { nome: d.name, telefone: d.phone };
+      const { clientId } = store.get("profile", {});
+      let saved = null;
+      if (Number.isSafeInteger(clientId)) {
+        try {
+          saved = await api.updateClient(clientId, client, opts);
+        } catch (err) {
+          if (err.status !== 404) throw err;
+        }
+      }
+      if (!saved) saved = await api.createClient(client, opts);
+      store.set("profile", { ...store.get("profile", {}), clientId: saved.id });
+      await Promise.all(units.map((u) => saveSeal(u, info, opts)));
     } catch (err) {
       console.warn(
         "[VeriSeal Delivery] pedido guardado só neste navegador:",
         err.message,
       );
-      return null;
     }
   }
-
-  // Sem a API: número, lote e lacres gerados aqui mesmo.
-  function localOrder(now) {
-    const lot = `L${String(now.getFullYear()).slice(2)}-${String(now.getMonth() + 1).padStart(2, "0")}${String(10 + ((Math.random() * 18) | 0))}`;
-    const made = new Date(
-      now.getTime() - (20 + Math.random() * 60) * 86400000,
-    ).toLocaleDateString("pt-BR");
-    const sentAt = "hoje · " + hhmm(new Date(now.getTime() + 6 * 60000));
-    const units = [];
-    [...bag].forEach(([id, q]) => {
-      const p = byId[id];
-      const bottles = isKit(p) ? p.bottles : [p];
-      for (let k = 0; k < q; k++)
-        bottles.forEach((b) =>
-          units.push({
-            code: newSealCode(),
-            product: b,
-            rec: { product: b.id, status: "ok", lot, made, checks: 0, sentAt },
-          }),
+  async function saveSeal(unit, info, opts) {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        await api.createSeal(
+          {
+            codigo: unit.code,
+            produtoId: unit.product.id,
+            lote: info.lot,
+            fabricadoEm: info.made,
+            status: "ok",
+            enviadoEm: info.sent,
+          },
+          opts,
         );
-    });
-    return { num: String(Math.floor(10000 + Math.random() * 89999)), units };
+        return;
+      } catch (err) {
+        if (err.status !== 409) throw err;
+        unit.code = newSealCode();
+      }
+    }
   }
-
   async function placeOrder(confirmBtn) {
     const order = co;
     if (order.saving) return;
@@ -488,28 +467,41 @@ export function createCheckout({
     const d = order.d,
       t = coTotals(),
       now = new Date();
+    const num = String(Math.floor(10000 + Math.random() * 89999));
+    const lot = `L${String(now.getFullYear()).slice(2)}-${String(now.getMonth() + 1).padStart(2, "0")}${String(10 + ((Math.random() * 18) | 0))}`;
+    const madeAt = new Date(
+      now.getTime() - (20 + Math.random() * 60) * 86400000,
+    );
+    const sentAt = new Date(now.getTime() + 6 * 60000);
+    const units = [];
+    [...bag].forEach(([id, q]) => {
+      const p = byId[id];
+      const bottles = isKit(p) ? p.bottles : [p];
+      for (let k = 0; k < q; k++)
+        bottles.forEach((b) => units.push({ code: newSealCode(), product: b }));
+    });
 
-    const saved = await saveOrder(d);
-    const { num, units } = saved
-      ? {
-          num: saved.numero,
-          units: saved.lacres.map((l) => ({
-            code: l.codigo,
-            product: byId[l.produtoId] || { id: l.produtoId },
-            rec: sealFromApi(l),
-          })),
-        }
-      : localOrder(now);
+    await saveOrder(d, units, {
+      lot,
+      made: isoDate(madeAt),
+      sent: isoDateTime(sentAt),
+    });
 
+    const made = madeAt.toLocaleDateString("pt-BR");
     const mine = store.get("demo:seals", {});
     const out = units.map((u) => {
-      const rec = { ...u.rec, order: num };
+      const rec = {
+        product: u.product.id,
+        status: "ok",
+        lot,
+        made,
+        checks: 0,
+        sentAt: "hoje · " + hhmm(sentAt),
+        order: num,
+      };
       seals[u.code] = rec;
       mine[u.code] = rec;
-      return {
-        code: u.code,
-        name: u.product.brand ? fullName(u.product) : u.product.id,
-      };
+      return { code: u.code, name: fullName(u.product) };
     });
     store.set("demo:seals", mine);
     store.set("demo:lastSeal", out[0] && out[0].code);

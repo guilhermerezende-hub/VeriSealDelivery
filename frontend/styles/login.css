@@ -432,7 +432,7 @@
     transform: translateY(0) scale(0.99);
   }
 
-  .login-layout form > p:not(.form-error) {
+  .login-layout form > p {
     margin: 4px 0 0;
     color: var(--color-fg-2);
     font-size: 13px;

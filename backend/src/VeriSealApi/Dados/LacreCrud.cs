@@ -5,8 +5,7 @@ namespace VeriSealApi.Dados;
 
 public class LacreCrud
 {
-    // também usados pelo PedidoCrud, para mostrar os lacres de cada pedido
-    internal const string SelecionarLacres =
+    private const string SelecionarLacres =
         "SELECT codigo, produto_id, pedido_id, lote, fabricado_em, status, enviado_em, aberto_em, " +
         "(SELECT COUNT(*) FROM verificacoes WHERE verificacoes.lacre_codigo = lacres.codigo) AS verificacoes " +
         "FROM lacres";
@@ -108,7 +107,7 @@ public class LacreCrud
         return linhasAfetadas > 0;
     }
 
-    internal static Lacre LerLacre(MySqlDataReader leitor)
+    private static Lacre LerLacre(MySqlDataReader leitor)
     {
         return new Lacre
         {
