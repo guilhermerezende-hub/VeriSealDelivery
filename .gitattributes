@@ -1,2 +1,0 @@
-# Scripts do Codespaces (Linux) sempre com final de linha LF, mesmo vindo do Windows
-*.sh text eol=lf

@@ -217,24 +217,10 @@ test("verificação consulta o banco pela API e grava o aviso à marca", async (
   });
 });
 
-test("pedido confirmado vai inteiro para o banco e usa os lacres gerados pela API", async ({
+test("pedido confirmado grava o cliente e um lacre por garrafa no banco", async ({
   page,
 }) => {
   const calls = [];
-  // lacres que a API em C# cria para o kit (uma garrafa de cada)
-  const lacres = [
-    { codigo: "VS-KT11-AA22", produtoId: "jw-black" },
-    { codigo: "VS-KT33-BB44", produtoId: "jack-7" },
-  ].map((l) => ({
-    ...l,
-    pedidoId: 9,
-    lote: "L26-1115",
-    fabricadoEm: "2026-10-02",
-    status: "ok",
-    enviadoEm: null,
-    abertoEm: null,
-    verificacoes: 0,
-  }));
   await page.route(API, async (route) => {
     const req = route.request();
     if (req.method() === "OPTIONS")
@@ -242,11 +228,17 @@ test("pedido confirmado vai inteiro para o banco e usa os lacres gerados pela AP
     const path = new URL(req.url()).pathname;
     const body = req.postDataJSON();
     calls.push({ call: `${req.method()} ${path}`, body });
-    if (path === "/api/pedidos")
+    if (path === "/api/clientes")
       return route.fulfill({
         status: 201,
         headers: CORS,
-        json: { id: 9, numero: "52741", status: "recebido", lacres },
+        json: { id: 42, usuarioId: null, ...body },
+      });
+    if (path === "/api/lacres")
+      return route.fulfill({
+        status: 201,
+        headers: CORS,
+        json: { ...body, verificacoes: 0 },
       });
     return route.fulfill({ status: 404, headers: CORS, json: "" });
   });
@@ -266,41 +258,27 @@ test("pedido confirmado vai inteiro para o banco e usa os lacres gerados pela AP
   await expect(page.locator("#checkoutContent h2")).toHaveText(
     "Pedido confirmado!",
   );
-  await expect(page.locator("#checkoutContent")).toContainText("#52741");
   const shown = await page
     .locator("#checkoutContent [data-verify-code]")
     .evaluateAll((els) => els.map((el) => el.dataset.verifyCode));
-  expect(shown).toEqual(["VS-KT11-AA22", "VS-KT33-BB44"]);
-  expect(calls.map((c) => c.call)).toEqual(["POST /api/pedidos"]);
-  expect(calls[0].body).toEqual({
-    cliente: { nome: "Pessoa de Teste", telefone: "(11) 99999-9999" },
-    endereco: {
-      cep: "01310-930",
-      rua: "Avenida de Teste",
-      numero: "123",
-      complemento: "",
-      bairro: "Centro",
-      cidade: "São Paulo",
-      uf: "SP",
-    },
-    pagamento: "pix",
-    parcelas: 1,
-    trocoPara: null,
-    agendadoPara: calls[0].body.agendadoPara,
-    presente: false,
-    mensagemPresente: null,
-    maioridadeConfirmada: true,
-    itens: [{ produtoId: "kit-whisky-classicos", quantidade: 1 }],
+  expect(shown).toHaveLength(2);
+  expect(calls[0]).toEqual({
+    call: "POST /api/clientes",
+    body: { nome: "Pessoa de Teste", telefone: "(11) 99999-9999" },
   });
-  // o lacre recém-criado já aparece na verificação, ainda "antes do envio"
-  const saved = await page.evaluate(() =>
-    JSON.parse(localStorage.getItem("vsd:demo:seals")),
-  );
-  expect(saved["VS-KT11-AA22"]).toMatchObject({
-    product: "jw-black",
-    lot: "L26-1115",
-    order: "52741",
-  });
+  const seals = calls.filter((c) => c.call === "POST /api/lacres");
+  expect(seals.map((c) => c.body.codigo).sort()).toEqual([...shown].sort());
+  for (const { body } of seals) {
+    expect(body.status).toBe("ok");
+    expect(body.lote).toMatch(/^L\d{2}-\d{4}$/);
+    expect(body.fabricadoEm).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(body.enviadoEm).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/);
+  }
+  expect(
+    await page.evaluate(
+      () => JSON.parse(localStorage.getItem("vsd:profile")).clientId,
+    ),
+  ).toBe(42);
 });
 
 test("página de produto abre direto e retorna ao detalhe na loja", async ({

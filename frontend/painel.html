@@ -9,7 +9,7 @@
     <title>Painel da loja | VeriSeal Delivery</title>
     <meta
       name="description"
-      content="Pedidos, lacres e clientes da VeriSeal Delivery."
+      content="Cadastro de lacres e clientes da VeriSeal Delivery."
     />
     <meta name="robots" content="noindex" />
     <meta name="theme-color" content="#031a3d" />
@@ -30,13 +30,6 @@
     <link rel="stylesheet" href="assets/css/site.css" />
     <script>
       document.documentElement.classList.add("js");
-      // Painel só com login de administrador (admin.html)
-      try {
-        const sessao = JSON.parse(localStorage.getItem("vsd:admin"));
-        if (!sessao || !sessao.token) location.replace("admin.html");
-      } catch {
-        location.replace("admin.html");
-      }
     </script>
   </head>
 
@@ -110,15 +103,6 @@
             <i class="icon icon-bag size-4" aria-hidden="true"></i>
             <span class="max-sm:sr-only">Ir para a loja</span>
           </a>
-          <button
-            class="inline-flex h-9 items-center gap-2 rounded-full bg-white/10 px-3.5 text-[13px] font-semibold text-white transition-colors duration-200 hover:bg-white/18 max-sm:size-9 max-sm:justify-center max-sm:px-0"
-            id="logout"
-            type="button"
-            title="Sair do painel"
-          >
-            <i class="icon icon-logout size-4" aria-hidden="true"></i>
-            <span class="max-sm:sr-only">Sair</span>
-          </button>
         </div>
       </div>
 
@@ -130,33 +114,12 @@
         >
           <button
             class="relative inline-flex h-12 shrink-0 items-center gap-2 rounded-t-lg px-3 text-[14px] max-sm:flex-1 max-sm:justify-center max-sm:gap-1.5 max-sm:px-2 font-semibold text-white/60 transition-colors duration-200 after:absolute after:inset-x-3 after:bottom-0 after:h-[3px] after:rounded-t-full after:bg-cyan after:opacity-0 after:transition-opacity hover:text-white aria-selected:text-white aria-selected:after:opacity-100"
-            id="tab-pedidos"
-            role="tab"
-            type="button"
-            aria-selected="true"
-            aria-controls="painel-pedidos"
-            data-tab="pedidos"
-          >
-            <i
-              class="icon icon-truck size-[17px] max-sm:hidden"
-              aria-hidden="true"
-            ></i>
-            Pedidos
-            <span
-              class="min-w-6 rounded-full bg-white/12 px-1.5 py-px text-center text-[12px] font-bold text-white/80 tabular-nums [[aria-selected=true]_&]:bg-cyan [[aria-selected=true]_&]:text-navy-ink"
-              data-count="pedidos"
-              >0</span
-            >
-          </button>
-          <button
-            class="relative inline-flex h-12 shrink-0 items-center gap-2 rounded-t-lg px-3 text-[14px] max-sm:flex-1 max-sm:justify-center max-sm:gap-1.5 max-sm:px-2 font-semibold text-white/60 transition-colors duration-200 after:absolute after:inset-x-3 after:bottom-0 after:h-[3px] after:rounded-t-full after:bg-cyan after:opacity-0 after:transition-opacity hover:text-white aria-selected:text-white aria-selected:after:opacity-100"
             id="tab-lacres"
             role="tab"
             type="button"
-            aria-selected="false"
+            aria-selected="true"
             aria-controls="painel-lacres"
             data-tab="lacres"
-            tabindex="-1"
           >
             <i
               class="icon icon-lock size-[17px] max-sm:hidden"
@@ -219,132 +182,8 @@
       id="conteudo"
       class="mx-auto w-full max-w-[1248px] px-6 pt-8 pb-20 max-sm:px-4 max-sm:pt-6"
     >
-      <!-- Pedidos ----------------------------------------------------------- -->
-      <section
-        id="painel-pedidos"
-        role="tabpanel"
-        aria-labelledby="tab-pedidos"
-      >
-        <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
-          <div class="min-w-0">
-            <h2
-              class="text-[28px] leading-[1.15] font-extrabold tracking-[-.03em] max-sm:text-[24px]"
-            >
-              Pedidos
-            </h2>
-            <p class="mt-1 max-w-[600px] text-[15px] text-fg-2">
-              Os pedidos feitos na loja chegam aqui sozinhos. Abra um pedido
-              para ver os itens e os lacres e atualizar a entrega.
-            </p>
-          </div>
-        </div>
-
-        <dl class="mt-6 grid grid-cols-4 gap-4 max-md:grid-cols-2 max-sm:gap-3">
-          <div class="stat">
-            <dt class="stat-label">
-              <span class="stat-icon bg-navy/8 text-navy">
-                <i class="icon icon-calendar" aria-hidden="true"></i>
-              </span>
-              Pedidos hoje
-            </dt>
-            <dd class="stat-value" data-stat="pedidos-hoje">–</dd>
-            <dd class="stat-hint" data-stat-hint="pedidos-hoje"></dd>
-          </div>
-          <div class="stat">
-            <dt class="stat-label">
-              <span class="stat-icon bg-badge/10 text-badge">
-                <i class="icon icon-clock" aria-hidden="true"></i>
-              </span>
-              Em andamento
-            </dt>
-            <dd class="stat-value" data-stat="pedidos-andamento">–</dd>
-            <dd class="stat-hint" data-stat-hint="pedidos-andamento"></dd>
-          </div>
-          <div class="stat">
-            <dt class="stat-label">
-              <span class="stat-icon bg-ok-fill/12 text-ok">
-                <i class="icon icon-check" aria-hidden="true"></i>
-              </span>
-              Entregues
-            </dt>
-            <dd class="stat-value" data-stat="pedidos-entregues">–</dd>
-            <dd class="stat-hint" data-stat-hint="pedidos-entregues"></dd>
-          </div>
-          <div class="stat">
-            <dt class="stat-label">
-              <span class="stat-icon bg-accent/10 text-accent">
-                <i class="icon icon-wallet" aria-hidden="true"></i>
-              </span>
-              Faturamento
-            </dt>
-            <dd
-              class="stat-value text-[24px] leading-tight max-sm:text-[20px]"
-              data-stat="pedidos-faturamento"
-            >
-              –
-            </dd>
-            <dd class="stat-hint" data-stat-hint="pedidos-faturamento"></dd>
-          </div>
-        </dl>
-
-        <div class="data-card mt-6">
-          <div class="data-toolbar">
-            <label class="data-search">
-              <span class="sr-only">Buscar pedido</span>
-              <i class="icon icon-search" aria-hidden="true"></i>
-              <input
-                id="orderSearch"
-                type="search"
-                placeholder="Buscar por número, cliente ou celular"
-                autocomplete="off"
-              />
-            </label>
-            <div
-              class="segmented"
-              role="group"
-              aria-label="Filtrar pela situação do pedido"
-            >
-              <button type="button" data-order-filter="all" aria-pressed="true">
-                Todos
-              </button>
-              <button
-                type="button"
-                data-order-filter="open"
-                aria-pressed="false"
-              >
-                Em andamento
-              </button>
-              <button
-                type="button"
-                data-order-filter="entregue"
-                aria-pressed="false"
-              >
-                Entregues
-              </button>
-              <button
-                type="button"
-                data-order-filter="cancelado"
-                aria-pressed="false"
-              >
-                Cancelados
-              </button>
-            </div>
-          </div>
-          <div id="orderList"></div>
-          <div class="data-foot">
-            <p id="orderSummary" aria-live="polite"></p>
-            <p data-updated="pedidos"></p>
-          </div>
-        </div>
-      </section>
-
       <!-- Lacres ------------------------------------------------------------ -->
-      <section
-        id="painel-lacres"
-        role="tabpanel"
-        aria-labelledby="tab-lacres"
-        hidden
-      >
+      <section id="painel-lacres" role="tabpanel" aria-labelledby="tab-lacres">
         <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
           <div class="min-w-0">
             <h2
@@ -619,69 +458,6 @@
         </div>
       </section>
     </main>
-
-    <!-- Detalhes do pedido e mudança de situação -->
-    <dialog
-      class="sheet max-w-[720px]"
-      id="orderDialog"
-      aria-labelledby="orderTitle"
-    >
-      <form class="sheet-form" id="orderForm" novalidate>
-        <div class="sheet-head">
-          <span class="sheet-icon bg-accent/10 text-accent">
-            <i class="icon icon-truck" aria-hidden="true"></i>
-          </span>
-          <div class="min-w-0 flex-1">
-            <h2 class="sheet-title" id="orderTitle" tabindex="-1">Pedido</h2>
-            <p class="sheet-text" id="orderText"></p>
-          </div>
-          <button
-            class="sheet-close"
-            type="button"
-            data-dismiss
-            aria-label="Fechar"
-          >
-            <i class="icon icon-close" aria-hidden="true"></i>
-          </button>
-        </div>
-
-        <div class="sheet-body grid gap-5">
-          <div class="field rounded-2xl bg-surface p-4">
-            <label class="field-label" for="orderStatus"
-              >Situação do pedido</label
-            >
-            <select
-              class="field-input field-select bg-white"
-              id="orderStatus"
-              name="status"
-            >
-              <option value="recebido">Recebido</option>
-              <option value="separando">
-                Separando e conferindo os lacres
-              </option>
-              <option value="em_rota">Saiu para entrega</option>
-              <option value="entregue">Entregue</option>
-              <option value="cancelado">Cancelado</option>
-            </select>
-            <p class="field-hint">
-              “Saiu para entrega” grava a hora do envio em todos os lacres do
-              pedido.
-            </p>
-          </div>
-          <p class="form-error" data-form-error role="alert" hidden></p>
-          <div class="grid gap-5" id="orderBody"></div>
-        </div>
-
-        <div class="sheet-foot">
-          <button class="btn btn-ghost" type="button" data-cancel>
-            Fechar
-          </button>
-          <button class="btn btn-primary min-w-[170px]" type="submit">
-            Atualizar situação
-          </button>
-        </div>
-      </form>
-    </dialog>
 
     <!-- Janela de cadastro e edição de lacre -->
     <dialog
