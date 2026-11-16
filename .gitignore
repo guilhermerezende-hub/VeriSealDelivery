@@ -21,7 +21,5 @@ backend/publish/
 # configuração com a senha do banco da hospedagem: só existe no servidor
 appsettings.Production.json
 
-# Banco de dados: carga inicial local (arquivo grande, com as fotos em base64)
-database/dados.sql
 # arquivo gerado para importar na hospedagem (node database/gerar-sql-hospedagem.mjs)
 database/hospedagem/
