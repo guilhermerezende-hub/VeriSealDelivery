@@ -13,6 +13,8 @@ function fakeFetch(t, handler) {
       method: init.method,
       body: init.body ? JSON.parse(init.body) : undefined,
     });
+    if (init.headers?.Authorization)
+      calls.at(-1).authorization = init.headers.Authorization;
     return handler(url, init);
   };
   t.after(() => {
@@ -116,4 +118,31 @@ test("rotas do CRUD e da verificação", async (t) => {
     lacreCodigo: "VS-9XRT-0NDW",
     motivo: "nao_encontrado",
   });
+});
+
+test("rotas do painel levam o token do administrador", async (t) => {
+  const calls = fakeFetch(t, () => json(200, {}));
+  const opts = { baseUrl: BASE, token: "abc123" };
+  await api.adminLogin("admin@veriseal.com.br", "segredo", { baseUrl: BASE });
+  await api.listOrders(opts);
+  await api.updateOrderStatus(7, "em_rota", opts);
+  await api.adminLogout(opts);
+  await api.createOrder({ itens: [] }, { baseUrl: BASE });
+  assert.deepEqual(
+    calls.map(
+      (c) => `${c.method} ${c.url.replace(BASE, "")} ${c.authorization || "-"}`,
+    ),
+    [
+      "POST /admin/login -",
+      "GET /pedidos Bearer abc123",
+      "PUT /pedidos/7/status Bearer abc123",
+      "POST /admin/sair Bearer abc123",
+      "POST /pedidos -",
+    ],
+  );
+  assert.deepEqual(calls[0].body, {
+    email: "admin@veriseal.com.br",
+    senha: "segredo",
+  });
+  assert.deepEqual(calls[2].body, { status: "em_rota" });
 });

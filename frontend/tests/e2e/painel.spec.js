@@ -4,8 +4,10 @@ import { test, expect } from "@playwright/test";
 const CORS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-  "Access-Control-Allow-Headers": "content-type",
+  "Access-Control-Allow-Headers": "content-type, authorization",
 };
+const TOKEN = "token-de-teste";
+const ADMIN = { nome: "Administrador", email: "admin@veriseal.com.br" };
 const seed = () => ({
   lacres: [
     {
@@ -49,9 +51,118 @@ const seed = () => ({
       criadoEm: "2026-11-13T10:00:00",
     },
   ],
+  pedidos: [
+    {
+      id: 7,
+      numero: "48213",
+      status: "recebido",
+      criadoEm: "2026-11-15T20:41:00",
+      cliente: {
+        id: 1,
+        usuarioId: null,
+        nome: "Maria Souza Lima",
+        telefone: "11977776666",
+        criadoEm: "2026-11-12T16:03:26",
+      },
+      endereco: {
+        cep: "01310-100",
+        rua: "Avenida Paulista",
+        numero: "1000",
+        complemento: "Apto 52",
+        bairro: "Bela Vista",
+        cidade: "São Paulo",
+        uf: "SP",
+      },
+      pagamento: "pix",
+      parcelas: 1,
+      trocoPara: null,
+      agendadoPara: null,
+      presente: true,
+      mensagemPresente: "Feliz aniversário!",
+      subtotal: 224.8,
+      desconto: 11.24,
+      frete: 0,
+      total: 213.56,
+      itens: [
+        { produtoId: "jack-7", quantidade: 1, precoUnitario: 129.9 },
+        { produtoId: "tanqueray", quantidade: 1, precoUnitario: 94.9 },
+      ],
+      lacres: [
+        {
+          codigo: "VS-AB12-CD34",
+          produtoId: "jack-7",
+          pedidoId: 7,
+          lote: "L26-1115",
+          fabricadoEm: "2026-10-01",
+          status: "ok",
+          enviadoEm: null,
+          abertoEm: null,
+          verificacoes: 0,
+        },
+        {
+          codigo: "VS-EF56-GH78",
+          produtoId: "tanqueray",
+          pedidoId: 7,
+          lote: "L26-1115",
+          fabricadoEm: "2026-09-20",
+          status: "ok",
+          enviadoEm: null,
+          abertoEm: null,
+          verificacoes: 0,
+        },
+      ],
+      historico: [{ status: "recebido", criadoEm: "2026-11-15T20:41:00" }],
+    },
+    {
+      id: 6,
+      numero: "30577",
+      status: "entregue",
+      criadoEm: "2026-11-14T19:02:00",
+      cliente: {
+        id: 1,
+        usuarioId: null,
+        nome: "Maria Souza Lima",
+        telefone: "11977776666",
+        criadoEm: "2026-11-12T16:03:26",
+      },
+      endereco: {
+        cep: "01310-100",
+        rua: "Avenida Paulista",
+        numero: "1000",
+        complemento: null,
+        bairro: "Bela Vista",
+        cidade: "São Paulo",
+        uf: "SP",
+      },
+      pagamento: "card",
+      parcelas: 2,
+      trocoPara: null,
+      agendadoPara: null,
+      presente: false,
+      mensagemPresente: null,
+      subtotal: 37.9,
+      desconto: 0,
+      frete: 9.9,
+      total: 47.8,
+      itens: [{ produtoId: "smirnoff", quantidade: 1, precoUnitario: 37.9 }],
+      lacres: [],
+      historico: [
+        { status: "recebido", criadoEm: "2026-11-14T19:02:00" },
+        { status: "entregue", criadoEm: "2026-11-14T19:40:00" },
+      ],
+    },
+  ],
 });
 
-async function fakeApi(page) {
+// Login guardado no navegador, como o admin.html deixa depois de entrar.
+const signIn = (page) =>
+  page.addInitScript(
+    ([token, admin]) =>
+      localStorage.setItem("vsd:admin", JSON.stringify({ token, ...admin })),
+    [TOKEN, ADMIN],
+  );
+
+async function fakeApi(page, { sessionValid = true } = {}) {
   const db = seed();
   const calls = [];
   let nextId = 2;
@@ -60,13 +171,45 @@ async function fakeApi(page) {
     const method = req.method();
     if (method === "OPTIONS")
       return route.fulfill({ status: 204, headers: CORS });
-    const [, , resource, key] = new URL(req.url()).pathname.split("/");
+    const [, , resource, key, action] = new URL(req.url()).pathname.split("/");
     const body = req.postDataJSON();
-    calls.push({ call: `${method} /${resource}${key ? "/" + key : ""}`, body });
+    calls.push({
+      call: `${method} /${resource}${key ? "/" + key : ""}${action ? "/" + action : ""}`,
+      body,
+      auth: req.headers().authorization,
+    });
     const reply = (status, json) =>
       json === undefined
         ? route.fulfill({ status, headers: CORS })
         : route.fulfill({ status, headers: CORS, json });
+
+    // Login: só esta rota funciona sem token
+    if (resource === "admin" && key === "login") {
+      if (body.email === ADMIN.email && body.senha === "VeriSeal@2026")
+        return reply(200, { token: TOKEN, ...ADMIN });
+      return reply(401, "E-mail ou senha incorretos.");
+    }
+    if (!sessionValid || req.headers().authorization !== `Bearer ${TOKEN}`)
+      return reply(401, "Entre com a conta de administrador para continuar.");
+    if (resource === "admin" && key === "eu") return reply(200, ADMIN);
+    if (resource === "admin" && key === "sair") return reply(204);
+
+    if (resource === "pedidos") {
+      const i = db.pedidos.findIndex((p) => p.id === Number(key));
+      if (!key) return reply(200, db.pedidos);
+      if (i < 0) return reply(404, "Pedido não encontrado.");
+      if (method === "PUT" && action === "status") {
+        const p = db.pedidos[i];
+        p.status = body.status;
+        p.historico.push({
+          status: body.status,
+          criadoEm: "2026-11-15T21:00:00",
+        });
+        if (body.status === "em_rota")
+          p.lacres.forEach((l) => (l.enviadoEm = "2026-11-15T21:00:00"));
+        return reply(200, p);
+      }
+    }
 
     if (resource === "lacres") {
       const i = db.lacres.findIndex((s) => s.codigo === key);
@@ -137,12 +280,14 @@ test.afterEach(async ({ page }) => {
 test("painel lista, cadastra, edita e exclui lacres no banco", async ({
   page,
 }, testInfo) => {
+  await signIn(page);
   const { db, calls } = await fakeApi(page);
-  await page.goto("/painel.html");
+  await page.goto("/painel.html#lacres");
   await expect(page.locator("#apiStatus")).toContainText(
     "Banco de dados conectado",
   );
   await expect(page.locator('[data-count="lacres"]')).toHaveText("2");
+  expect(calls.every((c) => c.auth === `Bearer ${TOKEN}`)).toBe(true);
   await expect(page.locator("#sealList")).toContainText("VS-7K2M-9QXA");
   await expect(page.locator("#sealList")).toContainText("Jack Daniel's");
   expect(
@@ -243,6 +388,7 @@ test("painel lista, cadastra, edita e exclui lacres no banco", async ({
 test("painel cadastra, edita e exclui clientes e mostra os avisos", async ({
   page,
 }) => {
+  await signIn(page);
   const { db, calls } = await fakeApi(page);
   await page.goto("/painel.html#clientes");
   await expect(page.locator("#painel-clientes")).toBeVisible();
@@ -293,10 +439,11 @@ test("painel cadastra, edita e exclui clientes e mostra os avisos", async ({
 });
 
 test("painel avisa quando a API está fora do ar", async ({ page }) => {
+  await signIn(page);
   await page.route("http://localhost:5021/api/**", (route) =>
     route.abort("connectionrefused"),
   );
-  await page.goto("/painel.html");
+  await page.goto("/painel.html#lacres");
   await expect(page.locator("#apiStatus")).toContainText(
     "Sem conexão com a API",
   );
@@ -304,4 +451,120 @@ test("painel avisa quando a API está fora do ar", async ({ page }) => {
     "Não foi possível conectar ao servidor",
   );
   await expect(page.locator("#sealList [data-retry]")).toBeVisible();
+});
+
+test("painel sem login abre a tela do administrador e entra com a senha certa", async ({
+  page,
+}, testInfo) => {
+  const { calls } = await fakeApi(page);
+  await page.goto("/painel.html");
+  await expect(page).toHaveURL(/admin\.html$/);
+  await expect(page.locator("h1")).toHaveText("Painel da loja");
+  await expect(page.locator("body")).not.toContainText(
+    /demonstra|simulad|fictíci/i,
+  );
+  await page.screenshot({ path: testInfo.outputPath("admin-login.png") });
+
+  await page.locator('#adminLogin button[type="submit"]').click();
+  await expect(page.locator("#adminError")).toHaveText(
+    "Informe o e-mail e a senha.",
+  );
+  await page.locator("#adminEmail").fill("admin@veriseal.com.br");
+  await page.locator("#adminPassword").fill("senha-errada");
+  await page.locator('#adminLogin button[type="submit"]').click();
+  await expect(page.locator("#adminError")).toHaveText(
+    "E-mail ou senha incorretos.",
+  );
+  await page.locator('[data-password-toggle="adminPassword"]').click();
+  await expect(page.locator("#adminPassword")).toHaveAttribute("type", "text");
+  await page.locator("#adminPassword").fill("VeriSeal@2026");
+  await page.locator('#adminLogin button[type="submit"]').click();
+
+  await expect(page).toHaveURL(/painel\.html/);
+  await expect(page.locator("#painel-pedidos")).toBeVisible();
+  await expect(page.locator('[data-count="pedidos"]')).toHaveText("2");
+  expect(calls[0]).toMatchObject({
+    call: "POST /admin/login",
+    body: { email: "admin@veriseal.com.br", senha: "senha-errada" },
+  });
+
+  // Sair apaga o login deste navegador
+  await page.locator("#logout").click();
+  await expect(page).toHaveURL(/admin\.html\?saiu=1$/);
+  await expect(page.locator("#adminNotice")).toContainText("Você saiu");
+  expect(calls.some((c) => c.call === "POST /admin/sair")).toBe(true);
+  expect(await page.evaluate(() => localStorage.getItem("vsd:admin"))).toBe(
+    "null",
+  );
+});
+
+test("painel mostra os pedidos e muda a situação da entrega", async ({
+  page,
+}, testInfo) => {
+  await signIn(page);
+  const { db, calls } = await fakeApi(page);
+  await page.goto("/painel.html");
+  await expect(page.locator("#painel-pedidos")).toBeVisible();
+  await expect(page.locator("#orderList")).toContainText("#48213");
+  await expect(page.locator("#orderList")).toContainText("Maria Souza Lima");
+  await expect(page.locator('[data-stat="pedidos-andamento"]')).toHaveText("1");
+  await expect(page.locator('[data-stat="pedidos-entregues"]')).toHaveText("1");
+  await expect(page.locator('[data-stat="pedidos-faturamento"]')).toContainText(
+    "261,36",
+  );
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath("painel-pedidos.png") });
+
+  // Filtro e busca
+  await page.locator('[data-order-filter="entregue"]').click();
+  await expect(page.locator("#orderList tbody tr")).toHaveCount(1);
+  await expect(page.locator("#orderList")).toContainText("#30577");
+  await page.locator('[data-order-filter="all"]').click();
+  await page.locator("#orderSearch").fill("48213");
+  await expect(page.locator("#orderList tbody tr")).toHaveCount(1);
+  await page.locator("#orderSearch").fill("");
+
+  // Detalhes do pedido
+  await page.locator('[data-open-order="7"]').click();
+  const dialog = page.locator("#orderDialog");
+  await expect(dialog).toBeVisible();
+  await expect(page.locator("#orderTitle")).toHaveText("Pedido #48213");
+  await expect(dialog).toContainText("Avenida Paulista, 1000 — Apto 52");
+  await expect(dialog).toContainText("Feliz aniversário!");
+  await expect(dialog).toContainText("VS-AB12-CD34");
+  await expect(dialog).toContainText("Desconto Pix");
+  await expect(page.locator("#orderStatus")).toHaveValue("recebido");
+  await page.screenshot({ path: testInfo.outputPath("painel-pedido.png") });
+
+  // Saiu para entrega
+  await page.locator("#orderStatus").selectOption("em_rota");
+  await page.locator('#orderForm button[type="submit"]').click();
+  await expect(page.locator("#panelToast")).toContainText(
+    "Pedido #48213 atualizado: Saiu para entrega",
+  );
+  await expect(dialog).toBeHidden();
+  expect(calls.find((c) => c.call === "PUT /pedidos/7/status").body).toEqual({
+    status: "em_rota",
+  });
+  await expect(page.locator('[data-row="7"]')).toContainText(
+    "Saiu para entrega",
+  );
+  expect(db.pedidos[0].historico.map((h) => h.status)).toEqual([
+    "recebido",
+    "em_rota",
+  ]);
+});
+
+test("login vencido volta para a tela do administrador", async ({ page }) => {
+  await signIn(page);
+  await fakeApi(page, { sessionValid: false });
+  await page.goto("/painel.html");
+  await expect(page).toHaveURL(/admin\.html\?expirou=1$/);
+  await expect(page.locator("#adminError")).toContainText(
+    "Sua sessão terminou",
+  );
 });

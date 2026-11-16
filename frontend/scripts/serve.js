@@ -27,6 +27,7 @@ http
         "sobre.html",
         "entregadores.html",
         "painel.html",
+        "admin.html",
         "assets",
         "js",
         "produtos",
