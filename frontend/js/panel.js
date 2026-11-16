@@ -1,9 +1,8 @@
-// Painel da loja (painel.html): pedidos, lacres, clientes e avisos direto no banco,
-// pela API em C#. Tudo que aparece aqui vem do MySQL em JSON. Só abre com o login
-// de administrador (admin.html): o token vai em todas as chamadas.
-import { $, $$, esc, icon, money, norm } from "./ui.js";
-import { api, adminSession } from "./api.js";
-import { apiUrl, ETA } from "./config.js";
+// Painel da loja (painel.html): CRUD de lacres e clientes direto no banco,
+// pela API em C#. Tudo que aparece aqui vem do MySQL em JSON.
+import { $, $$, esc, icon, norm } from "./ui.js";
+import { api } from "./api.js";
+import { apiUrl } from "./config.js";
 import {
   SEAL_CODE_RE,
   formatSealCode,
@@ -14,50 +13,22 @@ import {
   parseLocal,
   brDate,
   brDateTime,
-  brWhen,
 } from "./records.js";
 
-const session = adminSession.get();
-if (!session) location.replace("admin.html");
-const auth = () => ({ token: session?.token });
-
-// Login vencido ou inválido (401): volta para a tela de login.
-function sessionEnded(err) {
-  if (err?.status !== 401) return false;
-  adminSession.clear();
-  location.replace("admin.html?expirou=1");
-  return true;
-}
-
-const ALL_PRODUCTS = window.VSD_PRODUCTS || [];
-const anyProductById = Object.fromEntries(ALL_PRODUCTS.map((p) => [p.id, p]));
-const PRODUCTS = ALL_PRODUCTS.filter((p) => !p.items);
+const PRODUCTS = (window.VSD_PRODUCTS || []).filter((p) => !p.items);
 const productById = Object.fromEntries(PRODUCTS.map((p) => [p.id, p]));
 const productName = (id) => {
   const p = productById[id];
   return p ? `${p.brand} ${p.name} · ${p.volume}` : id;
 };
-// item do pedido: garrafa ou kit
-const itemName = (id) => {
-  const p = anyProductById[id];
-  if (!p) return id;
-  return p.items ? `${p.brand} ${p.name}` : productName(id);
-};
 
 const state = {
-  pedidos: { items: [], error: "", loading: true, updatedAt: null },
   lacres: { items: [], error: "", loading: true, updatedAt: null },
   clientes: { items: [], error: "", loading: true, updatedAt: null },
   avisos: { items: [], error: "", loading: true, updatedAt: null },
 };
-const TAB_NAMES = {
-  pedidos: "Pedidos",
-  lacres: "Lacres",
-  clientes: "Clientes",
-  avisos: "Avisos",
-};
+const TAB_NAMES = { lacres: "Lacres", clientes: "Clientes", avisos: "Avisos" };
 let sealFilter = "all";
-let orderFilter = "all";
 
 const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 const pad = (n) => String(n).padStart(2, "0");
@@ -97,8 +68,6 @@ const code = (text) =>
   `<span class="font-mono text-[13.5px] font-semibold tracking-[.02em] whitespace-nowrap text-navy">${esc(text)}</span>`;
 
 function thumb(p) {
-  // kit: mostra a primeira garrafa dele
-  if (p?.items) p = anyProductById[p.items[0]];
   if (!p)
     return `<span class="grid h-11 w-9 shrink-0 place-items-center rounded-lg bg-surface text-fg-3">${icon("tag", "size-4")}</span>`;
   return `<span class="flex h-11 w-9 shrink-0 items-end justify-center overflow-hidden rounded-lg bg-[linear-gradient(#f4f8fd,#e3eaf4)] pt-1"><img class="h-[38px] w-auto max-w-none" src="${esc(p.img)}" alt="" decoding="async"></span>`;
@@ -184,243 +153,6 @@ function setStat(name, value, hint = "") {
 const ready = (key) => !state[key].loading && !state[key].error;
 const percent = (part, total) =>
   total ? `${Math.round((part / total) * 100)}% do total` : "";
-
-// Pedidos --------------------------------------------------------------------
-
-const ORDER_STATUS = {
-  recebido: ["Recebido", INFO_PILL],
-  separando: ["Separando", WARN_PILL],
-  em_rota: ["Saiu para entrega", "bg-cyan/16 text-[#04679a]"],
-  entregue: ["Entregue", OK_PILL],
-  cancelado: ["Cancelado", NEUTRAL_PILL],
-};
-const ORDER_STEP = {
-  recebido: "Pedido recebido",
-  separando: "Separando e conferindo os lacres",
-  em_rota: "Saiu para entrega",
-  entregue: "Entregue",
-  cancelado: "Pedido cancelado",
-};
-const OPEN_ORDER = ["recebido", "separando", "em_rota"];
-const isToday = (value) => {
-  const d = parseLocal(value);
-  return !!d && d.toDateString() === new Date().toDateString();
-};
-const orderPill = (status) =>
-  ORDER_STATUS[status] ? pill(...ORDER_STATUS[status]) : esc(status);
-const bottles = (o) => o.lacres?.length || 0;
-
-function payment(o) {
-  if (o.pagamento === "pix") return "Pix";
-  if (o.pagamento === "card")
-    return o.parcelas > 1 ? `Cartão · ${o.parcelas}x` : "Cartão · à vista";
-  return o.trocoPara
-    ? `Na entrega · troco para ${money(o.trocoPara)}`
-    : "Na entrega";
-}
-
-function renderOrderStats() {
-  const keys = ["hoje", "andamento", "entregues", "faturamento"];
-  if (!ready("pedidos")) {
-    keys.forEach((n) => setStat(`pedidos-${n}`, "–"));
-    return;
-  }
-  const items = state.pedidos.items;
-  const valid = items.filter((o) => o.status !== "cancelado");
-  const today = valid.filter((o) => isToday(o.criadoEm));
-  const open = items.filter((o) => OPEN_ORDER.includes(o.status));
-  const onRoute = open.filter((o) => o.status === "em_rota").length;
-  const delivered = items.filter((o) => o.status === "entregue").length;
-  const revenue = valid.reduce((sum, o) => sum + Number(o.total), 0);
-  setStat(
-    "pedidos-hoje",
-    today.length,
-    today.length
-      ? `${money(today.reduce((sum, o) => sum + Number(o.total), 0))} em vendas`
-      : "nenhum pedido hoje ainda",
-  );
-  setStat(
-    "pedidos-andamento",
-    open.length,
-    open.length
-      ? onRoute
-        ? `${plural(onRoute, "saiu", "saíram")} para entrega`
-        : "esperando a separação"
-      : "nada pendente",
-  );
-  setStat("pedidos-entregues", delivered, percent(delivered, items.length));
-  setStat(
-    "pedidos-faturamento",
-    money(revenue),
-    valid.length ? `ticket médio de ${money(revenue / valid.length)}` : "",
-  );
-}
-
-function renderOrders() {
-  renderOrderStats();
-  const box = $("#orderList");
-  const pending = listState("pedidos", {
-    noun: "os pedidos",
-    empty: {
-      icon: "truck",
-      title: "Nenhum pedido ainda",
-      text: "Quando alguém fechar uma compra na loja, o pedido aparece aqui na hora, com os lacres de cada garrafa.",
-      action: `<a class="btn btn-primary btn-sm" href="index.html">${icon("bag")}Abrir a loja</a>`,
-    },
-  });
-  if (pending) {
-    box.innerHTML = pending;
-    setSummary("pedidos", "#orderSummary", 0, ["pedido", "pedidos"]);
-    return;
-  }
-  const search = $("#orderSearch").value.trim();
-  const q = norm(search);
-  const qDigits = q.replace(/\D/g, "");
-  const items = state.pedidos.items.filter(
-    (o) =>
-      (orderFilter === "all" ||
-        (orderFilter === "open"
-          ? OPEN_ORDER.includes(o.status)
-          : o.status === orderFilter)) &&
-      (!q ||
-        norm(`${o.numero} ${o.cliente.nome}`).includes(q) ||
-        (qDigits.length >= 3 &&
-          o.cliente.telefone.replace(/\D/g, "").includes(qDigits))),
-  );
-  setSummary("pedidos", "#orderSummary", items.length, ["pedido", "pedidos"]);
-  if (!items.length) {
-    box.innerHTML = noMatch(
-      search
-        ? `Nenhum pedido encontrado para “${esc(search)}”.`
-        : "Nenhum pedido nessa situação.",
-    );
-    return;
-  }
-  box.innerHTML = `<table class="${TABLE}"><thead class="${THEAD}"><tr>
-      <th class="${TH}" scope="col">Pedido</th><th class="${TH}" scope="col">Cliente</th><th class="${TH}" scope="col">Itens</th>
-      <th class="${TH}" scope="col">Total</th><th class="${TH}" scope="col">Situação</th><th class="${TH}" scope="col"><span class="sr-only">Ações</span></th>
-    </tr></thead><tbody class="${TBODY}">${items
-      .map((o) => {
-        const n = esc(o.numero);
-        const first = o.itens[0];
-        const more = o.itens.length - 1;
-        return `<tr class="${TR}" data-row="${o.id}">
-        <td class="${TD} ${NOWRAP}" data-label="Pedido"><span class="font-mono text-[15px] font-bold text-navy">#${n}</span><span class="block ${MUTED}">${esc(brWhen(o.criadoEm))}</span></td>
-        <td class="${TD} ${WIDE} max-md:row-start-2" data-label="Cliente"><b class="block font-semibold text-fg md:max-w-[220px] md:truncate">${esc(o.cliente.nome)}</b><span class="block ${MUTED}">${esc(formatPhone(o.cliente.telefone))}</span></td>
-        <td class="${TD} ${WIDE}" data-label="Itens"><div class="flex min-w-0 items-center gap-3">${thumb(anyProductById[first?.produtoId])}<div class="min-w-0"><b class="block font-semibold text-fg md:max-w-[260px] md:truncate">${first ? `${first.quantidade}× ${esc(itemName(first.produtoId))}` : "–"}</b><span class="block ${MUTED}">${more > 0 ? `+ ${plural(more, "outro item", "outros itens")} · ` : ""}${plural(bottles(o), "lacre", "lacres")}</span></div></div></td>
-        <td class="${TD} ${NOWRAP}" data-label="Total"><b class="font-semibold text-fg tabular-nums">${money(o.total)}</b><span class="block ${MUTED}">${esc(payment(o))}</span></td>
-        <td class="${TD} max-md:col-start-2 max-md:row-start-1 max-md:justify-self-end max-md:before:hidden" data-label="Situação">${orderPill(o.status)}${o.agendadoPara && OPEN_ORDER.includes(o.status) ? `<span class="mt-1.5 block ${MUTED} max-md:text-right">${esc(o.agendadoPara)}</span>` : ""}</td>
-        <td class="${TD} ${ACTIONS_TD}" data-label=""><div class="${ACTIONS}">
-          <button class="btn btn-ghost btn-sm whitespace-nowrap" type="button" data-open-order="${o.id}" aria-label="Ver o pedido #${n}">${icon("eye")}Ver pedido</button>
-        </div></td></tr>`;
-      })
-      .join("")}</tbody></table>`;
-}
-
-const orderDialog = $("#orderDialog");
-const orderForm = $("#orderForm");
-let openOrderId = null;
-
-const section = (title, body) =>
-  `<section><h3 class="mb-2.5 text-[12px] font-bold tracking-[.08em] text-fg-3 uppercase">${title}</h3>${body}</section>`;
-const line = (label, value, cls = "") =>
-  `<div class="flex justify-between gap-4 py-1 text-[14px] ${cls}"><span class="text-fg-2">${label}</span><span class="text-right font-semibold tabular-nums">${value}</span></div>`;
-
-function renderOrderBody(o) {
-  const e = o.endereco;
-  const phone = o.cliente.telefone.replace(/\D/g, "");
-  const history = o.historico.length
-    ? o.historico
-    : [{ status: o.status, criadoEm: o.criadoEm }];
-  const timeline = `<ol class="grid gap-2.5">${history
-    .map(
-      (h, i) =>
-        `<li class="flex items-center gap-3 text-[14px]"><span class="grid size-6 shrink-0 place-items-center rounded-full ${i === history.length - 1 ? "bg-accent text-white" : "bg-accent/12 text-accent"}">${icon(h.status === "cancelado" ? "close" : "check", "size-3.5")}</span><span class="font-semibold">${esc(ORDER_STEP[h.status] || h.status)}</span><span class="ml-auto ${MUTED}">${esc(brWhen(h.criadoEm))}</span></li>`,
-    )
-    .join("")}</ol>`;
-  const customer = `<div class="grid gap-3 rounded-2xl border border-line p-4 text-[14px] leading-relaxed sm:grid-cols-2">
-      <div><b class="block text-[15px] text-fg">${esc(o.cliente.nome)}</b><a class="font-semibold text-accent" href="tel:+55${esc(phone)}">${esc(formatPhone(o.cliente.telefone))}</a><span class="block ${MUTED}">Cliente #${o.cliente.id}</span></div>
-      <div>${esc(e.rua)}, ${esc(e.numero)}${e.complemento ? ` — ${esc(e.complemento)}` : ""}<br>${esc(e.bairro || "")}${e.cidade ? ` · ${esc(e.cidade)}${e.uf ? "/" + esc(e.uf) : ""}` : ""}<br><span class="${MUTED}">CEP ${esc(e.cep)}</span></div>
-      <div class="sm:col-span-2 flex flex-wrap gap-2">${pill(o.agendadoPara ? `Agendado · ${esc(o.agendadoPara)}` : `Entrega imediata · ${esc(ETA)}`, INFO_PILL)}${o.presente ? pill("Para presente", WARN_PILL) : ""}</div>
-      ${o.mensagemPresente ? `<p class="sm:col-span-2 rounded-xl bg-surface px-3.5 py-2.5 italic">“${esc(o.mensagemPresente)}”</p>` : ""}
-    </div>`;
-  const items = `<ul class="divide-y divide-line rounded-2xl border border-line">${o.itens
-    .map(
-      (i) =>
-        `<li class="flex items-center gap-3 px-4 py-3">${thumb(anyProductById[i.produtoId])}<div class="min-w-0 flex-1"><b class="block font-semibold text-fg">${i.quantidade}× ${esc(itemName(i.produtoId))}</b><span class="block ${MUTED}">${money(i.precoUnitario)} cada</span></div><b class="font-semibold tabular-nums">${money(i.precoUnitario * i.quantidade)}</b></li>`,
-    )
-    .join("")}</ul>
-    <div class="mt-3 px-1">
-      ${line("Subtotal", money(o.subtotal))}
-      ${Number(o.desconto) ? line("Desconto Pix", `− ${money(o.desconto)}`, "[&>span:last-child]:text-ok") : ""}
-      ${line("Frete", Number(o.frete) ? money(o.frete) : "Grátis")}
-      ${line("Total", money(o.total), "mt-1 border-t border-line pt-2 text-[16px] [&>span]:font-extrabold [&>span]:text-fg")}
-      ${line("Pagamento", esc(payment(o)))}
-    </div>`;
-  const seals = o.lacres.length
-    ? `<ul class="grid gap-2 sm:grid-cols-2">${o.lacres
-        .map(
-          (s) =>
-            `<li class="flex items-center justify-between gap-3 rounded-xl bg-[#eef7fd] px-3.5 py-2.5"><span class="min-w-0">${code(s.codigo)}<span class="block truncate ${MUTED}">${esc(productName(s.produtoId))}</span></span>${s.status === "opened" ? pill("Violado", BAD_PILL) : pill(s.enviadoEm ? "Enviado" : "Íntegro", OK_PILL)}</li>`,
-        )
-        .join("")}</ul>`
-    : `<p class="${MUTED}">Este pedido não tem lacres.</p>`;
-  $("#orderBody").innerHTML = [
-    section("Andamento", timeline),
-    section("Cliente e entrega", customer),
-    section("Itens", items),
-    section(
-      `Lacres · ${plural(o.lacres.length, "garrafa", "garrafas")}`,
-      seals,
-    ),
-  ].join("");
-}
-
-function openOrder(id) {
-  const o = state.pedidos.items.find((x) => x.id === id);
-  if (!o) return;
-  closeSealForm();
-  closeClientForm();
-  openOrderId = id;
-  clearFormError(orderForm);
-  $("#orderTitle").textContent = `Pedido #${o.numero}`;
-  $("#orderText").textContent =
-    `Feito ${brWhen(o.criadoEm)} · ${plural(bottles(o), "garrafa", "garrafas")} · ${money(o.total)}`;
-  orderForm.elements.status.value = o.status;
-  renderOrderBody(o);
-  if (!orderDialog.open) orderDialog.showModal();
-  $("#orderTitle").focus();
-}
-
-function closeOrder() {
-  openOrderId = null;
-  clearFormError(orderForm);
-  if (orderDialog.open) orderDialog.close();
-}
-
-async function saveOrderStatus() {
-  const id = openOrderId;
-  const o = state.pedidos.items.find((x) => x.id === id);
-  if (!o) return;
-  const status = orderForm.elements.status.value;
-  if (status === o.status) {
-    closeOrder();
-    return;
-  }
-  await submit(orderForm, async () => {
-    const saved = await api.updateOrderStatus(id, status, auth());
-    state.pedidos.items = state.pedidos.items.map((x) =>
-      x.id === id ? saved : x,
-    );
-    closeOrder();
-    renderOrders();
-    toast(
-      `Pedido #${saved.numero} atualizado: ${ORDER_STATUS[saved.status][0]}.`,
-    );
-    // "saiu para entrega" muda a hora de envio dos lacres
-    if (status === "em_rota") load("lacres");
-  });
-}
 
 // Lacres ---------------------------------------------------------------------
 
@@ -615,8 +347,8 @@ async function saveSeal() {
   const editing = editingSeal;
   await submit(sealForm, async () => {
     const saved = editing
-      ? await api.updateSeal(editing, data, auth())
-      : await api.createSeal(data, auth());
+      ? await api.updateSeal(editing, data)
+      : await api.createSeal(data);
     closeSealForm();
     toast(
       editing
@@ -635,12 +367,11 @@ async function deleteSeal(c) {
   );
   if (!ok) return;
   try {
-    await api.deleteSeal(c, auth());
+    await api.deleteSeal(c);
     if (editingSeal === c) closeSealForm();
     toast(`Lacre ${c} excluído.`);
     await load("lacres");
   } catch (err) {
-    if (sessionEnded(err)) return;
     toast(err.message, "error");
   }
 }
@@ -771,8 +502,8 @@ async function saveClient() {
   const editing = editingClient;
   await submit(clientForm, async () => {
     const saved = editing
-      ? await api.updateClient(editing, data, auth())
-      : await api.createClient(data, auth());
+      ? await api.updateClient(editing, data)
+      : await api.createClient(data);
     closeClientForm();
     toast(
       editing
@@ -791,12 +522,11 @@ async function deleteClient(id) {
   );
   if (!ok) return;
   try {
-    await api.deleteClient(id, auth());
+    await api.deleteClient(id);
     if (editingClient === id) closeClientForm();
     toast(`Cliente #${id} excluído.`);
     await load("clientes");
   } catch (err) {
-    if (sessionEnded(err)) return;
     toast(err.message, "error");
   }
 }
@@ -874,27 +604,15 @@ function renderReports() {
 // Carregamento e conexão --------------------------------------------------------
 
 const loaders = {
-  pedidos: () => api.listOrders(auth()),
-  lacres: () => api.listSeals(auth()),
-  clientes: () => api.listClients(auth()),
-  avisos: () => api.listReports(auth()),
+  lacres: () => api.listSeals(),
+  clientes: () => api.listClients(),
+  avisos: () => api.listReports(),
 };
 const renderers = {
-  pedidos: renderOrders,
   lacres: renderSeals,
   clientes: renderClients,
   avisos: renderReports,
 };
-
-// pedidos já vistos: os que aparecerem depois ganham um aviso na tela
-let knownOrders = null;
-function announceNewOrders(items) {
-  const fresh = knownOrders ? items.filter((o) => !knownOrders.has(o.id)) : [];
-  knownOrders = new Set(items.map((o) => o.id));
-  if (fresh.length === 1)
-    toast(`Novo pedido #${fresh[0].numero} de ${fresh[0].cliente.nome}.`);
-  else if (fresh.length > 1) toast(`${fresh.length} pedidos novos chegaram.`);
-}
 
 async function load(key) {
   const s = state[key];
@@ -902,9 +620,7 @@ async function load(key) {
     s.items = (await loaders[key]()) || [];
     s.error = "";
     s.updatedAt = new Date();
-    if (key === "pedidos") announceNewOrders(s.items);
   } catch (err) {
-    if (sessionEnded(err)) return;
     s.error = err.message;
   }
   s.loading = false;
@@ -980,7 +696,6 @@ async function submit(form, work) {
   try {
     await work();
   } catch (err) {
-    if (sessionEnded(err)) return;
     showFormError(form, err.message);
   } finally {
     btn.disabled = false;
@@ -1058,7 +773,7 @@ tabs.forEach((tab, i) => {
   });
 });
 const fromHash = location.hash.slice(1);
-selectTab(state[fromHash] ? fromHash : "pedidos", false, false);
+selectTab(state[fromHash] ? fromHash : "lacres", false, false);
 
 $$("[data-seal-filter]").forEach((btn) =>
   btn.addEventListener("click", () => {
@@ -1070,39 +785,7 @@ $$("[data-seal-filter]").forEach((btn) =>
   }),
 );
 
-$$("[data-order-filter]").forEach((btn) =>
-  btn.addEventListener("click", () => {
-    orderFilter = btn.dataset.orderFilter;
-    $$("[data-order-filter]").forEach((b) =>
-      b.setAttribute("aria-pressed", String(b === btn)),
-    );
-    renderOrders();
-  }),
-);
-
 $("#reloadAll").addEventListener("click", loadAll);
-$("#orderSearch").addEventListener("input", renderOrders);
-orderForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  saveOrderStatus();
-});
-$$("[data-cancel], [data-dismiss]", orderForm).forEach((b) =>
-  b.addEventListener("click", closeOrder),
-);
-orderDialog.addEventListener("close", () => {
-  if (!orderDialog.open) openOrderId = null;
-});
-
-if (session) $("#logout").title = `Sair do painel (${session.email})`;
-$("#logout").addEventListener("click", async () => {
-  try {
-    await api.adminLogout(auth());
-  } catch {
-    // mesmo sem resposta da API, o login sai deste navegador
-  }
-  adminSession.clear();
-  location.replace("admin.html?saiu=1");
-});
 $("#sealSearch").addEventListener("input", renderSeals);
 $("#clientSearch").addEventListener("input", renderClients);
 $("#newSeal").addEventListener("click", () => openSealForm());
@@ -1149,8 +832,6 @@ $("main").addEventListener("click", (e) => {
   const t = e.target;
   let el;
   if ((el = t.closest("[data-retry]"))) loadAll();
-  else if ((el = t.closest("[data-open-order]")))
-    openOrder(+el.dataset.openOrder);
   else if ((el = t.closest("[data-new-seal]"))) openSealForm();
   else if ((el = t.closest("[data-new-client]"))) openClientForm();
   else if ((el = t.closest("[data-edit-seal]")))
@@ -1167,11 +848,4 @@ $("main").addEventListener("click", (e) => {
     deleteClient(+el.dataset.deleteClient);
 });
 
-if (session) {
-  loadAll();
-  // pedidos novos aparecem sozinhos: busca de novo a cada 30 segundos
-  setInterval(() => {
-    if (document.visibilityState === "visible" && !state.pedidos.loading)
-      load("pedidos");
-  }, 30000);
-}
+loadAll();

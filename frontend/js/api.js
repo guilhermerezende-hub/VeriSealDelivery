@@ -1,5 +1,4 @@
 import { apiUrl } from "./config.js";
-import { store } from "./storage.js";
 
 // Conversa com a API em C# (backend/src/VeriSealApi), sempre em JSON.
 // status 0 = não houve resposta (API fora do ar, sem internet ou tempo esgotado).
@@ -29,22 +28,21 @@ function messageFrom(data, status) {
     : `Não foi possível concluir (erro ${status}).`;
 }
 
-// token = login do administrador (rotas do painel); vai no cabeçalho Authorization.
 export async function request(
   path,
-  { method = "GET", body, timeout = 12000, baseUrl = apiUrl(), token } = {},
+  { method = "GET", body, timeout = 12000, baseUrl = apiUrl() } = {},
 ) {
   if (!baseUrl) throw new ApiError(OFFLINE_MESSAGE, 0);
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeout);
-  const headers = { Accept: "application/json" };
-  if (body !== undefined) headers["Content-Type"] = "application/json";
-  if (token) headers.Authorization = `Bearer ${token}`;
   let response;
   try {
     response = await fetch(baseUrl + path, {
       method,
-      headers,
+      headers:
+        body === undefined
+          ? { Accept: "application/json" }
+          : { Accept: "application/json", "Content-Type": "application/json" },
       body: body === undefined ? undefined : JSON.stringify(body),
       signal: controller.signal,
     });
@@ -67,43 +65,9 @@ export async function request(
   return data;
 }
 
-// Login do administrador guardado neste navegador: { token, nome, email }.
-// O token vale 12 horas; depois disso a API responde 401 e o painel pede a senha de novo.
-export const adminSession = {
-  get() {
-    const s = store.get("admin", null);
-    return s && typeof s.token === "string" && s.token ? s : null;
-  },
-  set(session) {
-    store.set("admin", session);
-  },
-  clear() {
-    store.set("admin", null);
-  },
-};
-
 const seal = (code) => `/lacres/${encodeURIComponent(code)}`;
 
 export const api = {
-  adminLogin: (email, senha, opts) =>
-    request("/admin/login", {
-      ...opts,
-      method: "POST",
-      body: { email, senha },
-    }),
-  adminMe: (opts) => request("/admin/eu", opts),
-  adminLogout: (opts) => request("/admin/sair", { ...opts, method: "POST" }),
-
-  createOrder: (order, opts) =>
-    request("/pedidos", { ...opts, method: "POST", body: order }),
-  listOrders: (opts) => request("/pedidos", opts),
-  updateOrderStatus: (id, status, opts) =>
-    request(`/pedidos/${id}/status`, {
-      ...opts,
-      method: "PUT",
-      body: { status },
-    }),
-
   listClients: (opts) => request("/clientes", opts),
   createClient: (client, opts) =>
     request("/clientes", { ...opts, method: "POST", body: client }),

@@ -85,9 +85,7 @@ Guia para publicar o projeto na internet e gerar as evidências de deploy por Fi
    - `Database` e `User ID`: o `dbXXXX`;
    - `Password`: a senha do banco;
    - `OrigensDoSite`: o domínio do site na HostGator, **com https**, nas duas formas
-     (`https://dominio.com.br` e `https://www.dominio.com.br`);
-   - `AdminInicial`: e-mail e **uma senha nova** para o administrador do painel. Não use a
-     senha padrão do `appsettings.json`, que está no GitHub.
+     (`https://dominio.com.br` e `https://www.dominio.com.br`).
 3. No painel do MonsterASP, abra o site → **Deploy** → cartão **FTP / SFTP access**
    (servidor, porta, login e senha). Prefira **SFTP** ou **FTPS**.
 4. No FileZilla (*Arquivo → Gerenciador de Sites*), conecte e entre em **`wwwroot`**.
@@ -98,8 +96,7 @@ Guia para publicar o projeto na internet e gerar as evidências de deploy por Fi
 6. Teste no navegador:
    - `https://SEU-APP.runasp.net/` → `{"api":"VeriSeal Delivery","status":"no ar"}`
    - `https://SEU-APP.runasp.net/api/teste-banco` → "Conexão com o banco de dados estabelecida com sucesso!"
-   - `https://SEU-APP.runasp.net/api/lacres` → `"Entre com a conta de administrador para continuar."`
-     (401: as rotas do painel só respondem com login, então esse erro é o esperado)
+   - `https://SEU-APP.runasp.net/api/lacres` → os 3 lacres em JSON
 
    Se o painel pedir a versão do .NET do site, escolha **.NET 10**.
 
@@ -132,13 +129,13 @@ Em uma janela anônima, com o DevTools aberto (F12):
 
 - [ ] `https://SEU-DOMINIO` abre com cadeado, sem falhas de CSS ou imagem.
 - [ ] **Console** sem erros (nenhum 404, 500 ou CORS). **Network**: documento principal `200`.
-- [ ] `https://SEU-DOMINIO/admin.html`: entre com o e-mail e a senha do `AdminInicial`.
-      O painel mostra **"Banco de dados conectado · SEU-APP.runasp.net"** e lista os 3 lacres.
+- [ ] `https://SEU-DOMINIO/painel.html` mostra **"Banco de dados conectado · SEU-APP.runasp.net"**
+      e lista os 3 lacres.
 - [ ] No painel: cadastre um lacre de teste, edite e exclua. Faça o mesmo com um cliente.
 - [ ] Na loja: verifique `VS-7K2M-9QXA` (íntegro) e `VS-4HZP-1LCE` (violado).
       O número de **Verificações** sobe a cada consulta.
-- [ ] Faça um pedido. Ele aparece na aba **Pedidos** do painel; o cliente, na aba **Clientes**;
-      e os lacres do pedido, na aba **Lacres**. Mude a situação para "Saiu para entrega".
+- [ ] Faça um pedido. O cliente aparece na aba **Clientes** do painel e os lacres do pedido
+      aparecem na aba **Lacres**.
 - [ ] Em um código inexistente, "Avisar a marca" → o aviso aparece na aba **Avisos**.
 
 ## Etapa 5: evidências (roteiro da matéria)
@@ -177,6 +174,6 @@ credenciais do histórico do FileZilla antes de prints públicos; limpar o cache
 - **API:** `dotnet publish ...` → `app_offline.htm` → reenviar `backend/publish` **sem** sobrescrever
   o `appsettings.Production.json` do servidor → apagar o `app_offline.htm`.
 
-> **Segurança:** o painel (`painel.html`) só abre com o login do administrador (`admin.html`),
-> e a API recusa (401) as rotas do painel sem o token desse login. Continuam abertas, porque a
-> loja precisa delas: fazer pedido, verificar lacre e avisar a marca.
+> **Segurança:** o painel (`painel.html`) não tem login e a API aceita gravações de qualquer
+> visitante do site. Para um trabalho acadêmico isso basta. Em uma loja de verdade, o próximo
+> passo seria proteger as rotas de gravação com login.
