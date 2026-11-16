@@ -1,0 +1,58 @@
+// GitHub Codespaces: abre o projeto com o MySQL e a API em C# já ligados.
+// O site e a API ficam juntos na porta 5021 (aba PORTAS). Guia: docs/github.md
+{
+  "name": "VeriSeal Delivery (site + API C# + MySQL)",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "lts" },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  "containerEnv": {
+    "ASPNETCORE_ENVIRONMENT": "Codespaces",
+    "ASPNETCORE_URLS": "http://0.0.0.0:5021",
+    "SenhaBanco": "veriseal",
+    "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+    "DOTNET_NOLOGO": "1"
+  },
+
+  "forwardPorts": [5021],
+  "portsAttributes": {
+    "5021": { "label": "VeriSeal (site + API)", "onAutoForward": "openBrowserOnce" },
+    "3306": { "label": "MySQL", "onAutoForward": "silent" }
+  },
+
+  // primeira vez: baixa os pacotes e compila; toda vez que liga: sobe a API
+  "postCreateCommand": "dotnet build backend/src/VeriSealApi",
+  "postStartCommand": "bash .devcontainer/iniciar.sh",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-mysql"
+      ],
+      "settings": {
+        // banco aparece no ícone de cilindro (SQLTools) da barra lateral
+        "sqltools.connections": [
+          {
+            "name": "VeriSeal (MySQL do Codespace)",
+            "driver": "MySQL",
+            "server": "127.0.0.1",
+            "port": 3306,
+            "database": "veriseal_delivery",
+            "username": "root",
+            "password": "veriseal"
+          }
+        ]
+      }
+    },
+    "codespaces": {
+      "openFiles": ["docs/github.md"]
+    }
+  }
+}
