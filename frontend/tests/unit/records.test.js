@@ -84,4 +84,12 @@ test("API local no computador e endereço público na hospedagem", () => {
   assert.equal(apiUrl("localhost"), API_LOCAL_URL);
   assert.equal(apiUrl(""), API_LOCAL_URL);
   assert.equal(apiUrl("www.veriseal.com.br"), "");
+  assert.equal(apiUrl("guilhermerezende-hub.github.io"), "");
+});
+
+test("no GitHub Codespaces a API fica no mesmo endereço do site", () => {
+  assert.equal(
+    apiUrl("ideia-boa-x5g7-5021.app.github.dev"),
+    "https://ideia-boa-x5g7-5021.app.github.dev/api",
+  );
 });

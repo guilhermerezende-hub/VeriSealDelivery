@@ -1,6 +1,9 @@
 -- Estrutura do banco da VeriSeal Delivery.
 -- Rode este arquivo primeiro e depois o database/dados.sql.
 
+-- Acentos certos em qualquer cliente MySQL (o DBeaver já usa UTF-8; o mysql do terminal nem sempre).
+SET NAMES utf8mb4;
+
 CREATE DATABASE IF NOT EXISTS veriseal_delivery
   CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 USE veriseal_delivery;
@@ -270,4 +273,28 @@ CREATE TABLE avisos_marca (
   status        ENUM('aberto', 'em_analise', 'resolvido') NOT NULL DEFAULT 'aberto',
   criado_em     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   INDEX (lacre_codigo)
+);
+
+-- Administração -------------------------------------------------------------
+
+-- Login do painel da loja (admin.html). Fica separado de usuarios: cliente e
+-- entregador nunca entram no painel. A API cria o primeiro administrador a
+-- partir do "AdminInicial" do appsettings.json.
+CREATE TABLE administradores (
+  id             INT AUTO_INCREMENT PRIMARY KEY,
+  nome           VARCHAR(100) NOT NULL,
+  email          VARCHAR(254) NOT NULL UNIQUE,
+  senha_hash     VARCHAR(255) NOT NULL,  -- PBKDF2-SHA256 com sal, nunca a senha em texto
+  criado_em      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  ultimo_acesso  DATETIME
+);
+
+-- Cada login no painel gera um token. O navegador guarda o token; o banco guarda
+-- só o hash dele, com o prazo de validade.
+CREATE TABLE sessoes_admin (
+  token_hash        CHAR(64) PRIMARY KEY,  -- SHA-256 em hexadecimal
+  administrador_id  INT NOT NULL,
+  criado_em         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  expira_em         DATETIME NOT NULL,
+  FOREIGN KEY (administrador_id) REFERENCES administradores(id) ON DELETE CASCADE
 );
