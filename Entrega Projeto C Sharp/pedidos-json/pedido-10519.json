@@ -1,0 +1,87 @@
+{
+  "id": 4,
+  "numero": "10519",
+  "status": "separando",
+  "criadoEm": "2026-11-15T18:30:00",
+  "cliente": {
+    "id": 4,
+    "nome": "Diego Martins Oliveira",
+    "telefone": "(41) 99654-7788"
+  },
+  "endereco": {
+    "cep": "80020-310",
+    "rua": "Rua XV de Novembro",
+    "numero": "700",
+    "complemento": "Sala 12",
+    "bairro": "Centro",
+    "cidade": "Curitiba",
+    "uf": "PR"
+  },
+  "itens": [
+    {
+      "produtoId": "kit-gin-tour",
+      "produto": "Seleção Gin Tour",
+      "quantidade": 1,
+      "precoUnitario": 314.9,
+      "total": 314.9
+    }
+  ],
+  "valores": {
+    "subtotal": 314.9,
+    "desconto": 15.75,
+    "frete": 0,
+    "total": 299.15
+  },
+  "pagamento": {
+    "forma": "pix",
+    "parcelas": 1,
+    "trocoPara": null,
+    "status": "aprovado"
+  },
+  "entrega": {
+    "agendadoPara": "Hoje, 21:00–21:30",
+    "presente": false,
+    "mensagemPresente": null,
+    "entregueEm": null
+  },
+  "maioridadeConfirmada": true,
+  "lacres": [
+    {
+      "codigo": "VS-Z8UB-8226",
+      "produtoId": "tanqueray",
+      "lote": "L26-1115",
+      "fabricadoEm": "2026-09-22",
+      "status": "ok",
+      "enviadoEm": null,
+      "verificacoes": 0
+    },
+    {
+      "codigo": "VS-3MBQ-C3RU",
+      "produtoId": "bombay",
+      "lote": "L26-1115",
+      "fabricadoEm": "2026-09-11",
+      "status": "ok",
+      "enviadoEm": null,
+      "verificacoes": 0
+    },
+    {
+      "codigo": "VS-AP5H-8LTM",
+      "produtoId": "beefeater-pink",
+      "lote": "L26-1115",
+      "fabricadoEm": "2026-09-14",
+      "status": "ok",
+      "enviadoEm": null,
+      "verificacoes": 0
+    }
+  ],
+  "historico": [
+    {
+      "status": "recebido",
+      "data": "2026-11-15T18:30:00"
+    },
+    {
+      "status": "separando",
+      "data": "2026-11-15T20:45:00"
+    }
+  ]
+}

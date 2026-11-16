@@ -1,0 +1,93 @@
+{
+  "id": 1,
+  "numero": "10231",
+  "status": "entregue",
+  "criadoEm": "2026-11-10T20:15:00",
+  "cliente": {
+    "id": 1,
+    "nome": "Ana Paula Ribeiro",
+    "telefone": "(11) 98765-4321"
+  },
+  "endereco": {
+    "cep": "01310-100",
+    "rua": "Avenida Paulista",
+    "numero": "1000",
+    "complemento": "Apto 52",
+    "bairro": "Bela Vista",
+    "cidade": "São Paulo",
+    "uf": "SP"
+  },
+  "itens": [
+    {
+      "produtoId": "jw-black",
+      "produto": "Johnnie Walker Black Label 12 anos · 750 ml",
+      "quantidade": 1,
+      "precoUnitario": 99.9,
+      "total": 99.9
+    },
+    {
+      "produtoId": "tanqueray",
+      "produto": "Tanqueray London Dry · 750 ml",
+      "quantidade": 1,
+      "precoUnitario": 94.9,
+      "total": 94.9
+    }
+  ],
+  "valores": {
+    "subtotal": 194.8,
+    "desconto": 9.74,
+    "frete": 9.9,
+    "total": 194.96
+  },
+  "pagamento": {
+    "forma": "pix",
+    "parcelas": 1,
+    "trocoPara": null,
+    "status": "aprovado"
+  },
+  "entrega": {
+    "agendadoPara": null,
+    "presente": false,
+    "mensagemPresente": null,
+    "entregueEm": "2026-11-10T21:02:00"
+  },
+  "maioridadeConfirmada": true,
+  "lacres": [
+    {
+      "codigo": "VS-J3CF-KF98",
+      "produtoId": "jw-black",
+      "lote": "L26-1110",
+      "fabricadoEm": "2026-09-05",
+      "status": "ok",
+      "enviadoEm": "2026-11-10T20:31:00",
+      "verificacoes": 1
+    },
+    {
+      "codigo": "VS-H93T-7F2J",
+      "produtoId": "tanqueray",
+      "lote": "L26-1110",
+      "fabricadoEm": "2026-09-19",
+      "status": "ok",
+      "enviadoEm": "2026-11-10T20:31:00",
+      "verificacoes": 1
+    }
+  ],
+  "historico": [
+    {
+      "status": "recebido",
+      "data": "2026-11-10T20:15:00"
+    },
+    {
+      "status": "separando",
+      "data": "2026-11-10T20:19:00"
+    },
+    {
+      "status": "em_rota",
+      "data": "2026-11-10T20:31:00"
+    },
+    {
+      "status": "entregue",
+      "data": "2026-11-10T21:02:00"
+    }
+  ]
+}

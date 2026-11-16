@@ -1,0 +1,81 @@
+{
+  "id": 5,
+  "numero": "10544",
+  "status": "recebido",
+  "criadoEm": "2026-11-15T21:10:00",
+  "cliente": {
+    "id": 1,
+    "nome": "Ana Paula Ribeiro",
+    "telefone": "(11) 98765-4321"
+  },
+  "endereco": {
+    "cep": "01310-100",
+    "rua": "Avenida Paulista",
+    "numero": "1000",
+    "complemento": "Apto 52",
+    "bairro": "Bela Vista",
+    "cidade": "São Paulo",
+    "uf": "SP"
+  },
+  "itens": [
+    {
+      "produtoId": "jack-apple",
+      "produto": "Jack Daniel's Tennessee Apple · 1 L",
+      "quantidade": 1,
+      "precoUnitario": 139.9,
+      "total": 139.9
+    },
+    {
+      "produtoId": "smirnoff",
+      "produto": "Smirnoff Nº 21 · 998 ml",
+      "quantidade": 1,
+      "precoUnitario": 37.9,
+      "total": 37.9
+    }
+  ],
+  "valores": {
+    "subtotal": 177.8,
+    "desconto": 0,
+    "frete": 9.9,
+    "total": 187.7
+  },
+  "pagamento": {
+    "forma": "card",
+    "parcelas": 1,
+    "trocoPara": null,
+    "status": "aprovado"
+  },
+  "entrega": {
+    "agendadoPara": null,
+    "presente": false,
+    "mensagemPresente": null,
+    "entregueEm": null
+  },
+  "maioridadeConfirmada": true,
+  "lacres": [
+    {
+      "codigo": "VS-VGUW-2Q5E",
+      "produtoId": "jack-apple",
+      "lote": "L26-1115",
+      "fabricadoEm": "2026-09-28",
+      "status": "ok",
+      "enviadoEm": null,
+      "verificacoes": 0
+    },
+    {
+      "codigo": "VS-Y6LC-9JUE",
+      "produtoId": "smirnoff",
+      "lote": "L26-1115",
+      "fabricadoEm": "2026-08-28",
+      "status": "ok",
+      "enviadoEm": null,
+      "verificacoes": 0
+    }
+  ],
+  "historico": [
+    {
+      "status": "recebido",
+      "data": "2026-11-15T21:10:00"
+    }
+  ]
+}
