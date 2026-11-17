@@ -1,0 +1,95 @@
+{
+  "id": 2,
+  "numero": "10387",
+  "status": "entregue",
+  "criadoEm": "2026-11-12T21:40:00",
+  "cliente": {
+    "id": 2,
+    "nome": "Bruno Carvalho Santos",
+    "telefone": "(21) 99812-3344"
+  },
+  "endereco": {
+    "cep": "22410-002",
+    "rua": "Rua Visconde de Pirajá",
+    "numero": "330",
+    "complemento": "Apto 801",
+    "bairro": "Ipanema",
+    "cidade": "Rio de Janeiro",
+    "uf": "RJ"
+  },
+  "itens": [
+    {
+      "produtoId": "kit-jack-trio",
+      "produto": "Jack Daniel's Família Jack Daniel's",
+      "quantidade": 1,
+      "precoUnitario": 379.9,
+      "total": 379.9
+    }
+  ],
+  "valores": {
+    "subtotal": 379.9,
+    "desconto": 0,
+    "frete": 0,
+    "total": 379.9
+  },
+  "pagamento": {
+    "forma": "card",
+    "parcelas": 3,
+    "trocoPara": null,
+    "status": "aprovado"
+  },
+  "entrega": {
+    "agendadoPara": null,
+    "presente": true,
+    "mensagemPresente": "Feliz aniversário, pai! Com carinho, Bruno.",
+    "entregueEm": "2026-11-12T22:38:00"
+  },
+  "maioridadeConfirmada": true,
+  "lacres": [
+    {
+      "codigo": "VS-WQ7B-A6CF",
+      "produtoId": "jack-7",
+      "lote": "L26-1112",
+      "fabricadoEm": "2026-10-20",
+      "status": "ok",
+      "enviadoEm": "2026-11-12T22:01:00",
+      "verificacoes": 1
+    },
+    {
+      "codigo": "VS-HSJ2-VVBM",
+      "produtoId": "jack-apple",
+      "lote": "L26-1112",
+      "fabricadoEm": "2026-08-29",
+      "status": "ok",
+      "enviadoEm": "2026-11-12T22:01:00",
+      "verificacoes": 0
+    },
+    {
+      "codigo": "VS-PM8K-H9QS",
+      "produtoId": "jack-fire",
+      "lote": "L26-1112",
+      "fabricadoEm": "2026-09-12",
+      "status": "ok",
+      "enviadoEm": "2026-11-12T22:01:00",
+      "verificacoes": 0
+    }
+  ],
+  "historico": [
+    {
+      "status": "recebido",
+      "data": "2026-11-12T21:40:00"
+    },
+    {
+      "status": "separando",
+      "data": "2026-11-12T21:46:00"
+    },
+    {
+      "status": "em_rota",
+      "data": "2026-11-12T22:01:00"
+    },
+    {
+      "status": "entregue",
+      "data": "2026-11-12T22:38:00"
+    }
+  ]
+}

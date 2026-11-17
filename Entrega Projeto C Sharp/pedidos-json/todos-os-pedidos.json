@@ -1,0 +1,445 @@
+{
+  "loja": "VeriSeal Delivery",
+  "quantidadeDePedidos": 5,
+  "faturamento": 1147.41,
+  "pedidos": [
+    {
+      "id": 1,
+      "numero": "10231",
+      "status": "entregue",
+      "criadoEm": "2026-11-10T20:15:00",
+      "cliente": {
+        "id": 1,
+        "nome": "Ana Paula Ribeiro",
+        "telefone": "(11) 98765-4321"
+      },
+      "endereco": {
+        "cep": "01310-100",
+        "rua": "Avenida Paulista",
+        "numero": "1000",
+        "complemento": "Apto 52",
+        "bairro": "Bela Vista",
+        "cidade": "São Paulo",
+        "uf": "SP"
+      },
+      "itens": [
+        {
+          "produtoId": "jw-black",
+          "produto": "Johnnie Walker Black Label 12 anos · 750 ml",
+          "quantidade": 1,
+          "precoUnitario": 99.9,
+          "total": 99.9
+        },
+        {
+          "produtoId": "tanqueray",
+          "produto": "Tanqueray London Dry · 750 ml",
+          "quantidade": 1,
+          "precoUnitario": 94.9,
+          "total": 94.9
+        }
+      ],
+      "valores": {
+        "subtotal": 194.8,
+        "desconto": 9.74,
+        "frete": 9.9,
+        "total": 194.96
+      },
+      "pagamento": {
+        "forma": "pix",
+        "parcelas": 1,
+        "trocoPara": null,
+        "status": "aprovado"
+      },
+      "entrega": {
+        "agendadoPara": null,
+        "presente": false,
+        "mensagemPresente": null,
+        "entregueEm": "2026-11-10T21:02:00"
+      },
+      "maioridadeConfirmada": true,
+      "lacres": [
+        {
+          "codigo": "VS-J3CF-KF98",
+          "produtoId": "jw-black",
+          "lote": "L26-1110",
+          "fabricadoEm": "2026-09-05",
+          "status": "ok",
+          "enviadoEm": "2026-11-10T20:31:00",
+          "verificacoes": 1
+        },
+        {
+          "codigo": "VS-H93T-7F2J",
+          "produtoId": "tanqueray",
+          "lote": "L26-1110",
+          "fabricadoEm": "2026-09-19",
+          "status": "ok",
+          "enviadoEm": "2026-11-10T20:31:00",
+          "verificacoes": 1
+        }
+      ],
+      "historico": [
+        {
+          "status": "recebido",
+          "data": "2026-11-10T20:15:00"
+        },
+        {
+          "status": "separando",
+          "data": "2026-11-10T20:19:00"
+        },
+        {
+          "status": "em_rota",
+          "data": "2026-11-10T20:31:00"
+        },
+        {
+          "status": "entregue",
+          "data": "2026-11-10T21:02:00"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "numero": "10387",
+      "status": "entregue",
+      "criadoEm": "2026-11-12T21:40:00",
+      "cliente": {
+        "id": 2,
+        "nome": "Bruno Carvalho Santos",
+        "telefone": "(21) 99812-3344"
+      },
+      "endereco": {
+        "cep": "22410-002",
+        "rua": "Rua Visconde de Pirajá",
+        "numero": "330",
+        "complemento": "Apto 801",
+        "bairro": "Ipanema",
+        "cidade": "Rio de Janeiro",
+        "uf": "RJ"
+      },
+      "itens": [
+        {
+          "produtoId": "kit-jack-trio",
+          "produto": "Jack Daniel's Família Jack Daniel's",
+          "quantidade": 1,
+          "precoUnitario": 379.9,
+          "total": 379.9
+        }
+      ],
+      "valores": {
+        "subtotal": 379.9,
+        "desconto": 0,
+        "frete": 0,
+        "total": 379.9
+      },
+      "pagamento": {
+        "forma": "card",
+        "parcelas": 3,
+        "trocoPara": null,
+        "status": "aprovado"
+      },
+      "entrega": {
+        "agendadoPara": null,
+        "presente": true,
+        "mensagemPresente": "Feliz aniversário, pai! Com carinho, Bruno.",
+        "entregueEm": "2026-11-12T22:38:00"
+      },
+      "maioridadeConfirmada": true,
+      "lacres": [
+        {
+          "codigo": "VS-WQ7B-A6CF",
+          "produtoId": "jack-7",
+          "lote": "L26-1112",
+          "fabricadoEm": "2026-10-20",
+          "status": "ok",
+          "enviadoEm": "2026-11-12T22:01:00",
+          "verificacoes": 1
+        },
+        {
+          "codigo": "VS-HSJ2-VVBM",
+          "produtoId": "jack-apple",
+          "lote": "L26-1112",
+          "fabricadoEm": "2026-08-29",
+          "status": "ok",
+          "enviadoEm": "2026-11-12T22:01:00",
+          "verificacoes": 0
+        },
+        {
+          "codigo": "VS-PM8K-H9QS",
+          "produtoId": "jack-fire",
+          "lote": "L26-1112",
+          "fabricadoEm": "2026-09-12",
+          "status": "ok",
+          "enviadoEm": "2026-11-12T22:01:00",
+          "verificacoes": 0
+        }
+      ],
+      "historico": [
+        {
+          "status": "recebido",
+          "data": "2026-11-12T21:40:00"
+        },
+        {
+          "status": "separando",
+          "data": "2026-11-12T21:46:00"
+        },
+        {
+          "status": "em_rota",
+          "data": "2026-11-12T22:01:00"
+        },
+        {
+          "status": "entregue",
+          "data": "2026-11-12T22:38:00"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "numero": "10452",
+      "status": "em_rota",
+      "criadoEm": "2026-11-14T22:05:00",
+      "cliente": {
+        "id": 3,
+        "nome": "Camila Ferreira Lopes",
+        "telefone": "(31) 98877-1122"
+      },
+      "endereco": {
+        "cep": "30160-011",
+        "rua": "Rua da Bahia",
+        "numero": "1148",
+        "complemento": null,
+        "bairro": "Centro",
+        "cidade": "Belo Horizonte",
+        "uf": "MG"
+      },
+      "itens": [
+        {
+          "produtoId": "smirnoff",
+          "produto": "Smirnoff Nº 21 · 998 ml",
+          "quantidade": 2,
+          "precoUnitario": 37.9,
+          "total": 75.8
+        }
+      ],
+      "valores": {
+        "subtotal": 75.8,
+        "desconto": 0,
+        "frete": 9.9,
+        "total": 85.7
+      },
+      "pagamento": {
+        "forma": "cod",
+        "parcelas": 1,
+        "trocoPara": 100,
+        "status": "pendente"
+      },
+      "entrega": {
+        "agendadoPara": null,
+        "presente": false,
+        "mensagemPresente": null,
+        "entregueEm": null
+      },
+      "maioridadeConfirmada": true,
+      "lacres": [
+        {
+          "codigo": "VS-73DN-RXVC",
+          "produtoId": "smirnoff",
+          "lote": "L26-1114",
+          "fabricadoEm": "2026-09-25",
+          "status": "ok",
+          "enviadoEm": "2026-11-14T22:20:00",
+          "verificacoes": 0
+        },
+        {
+          "codigo": "VS-ZL33-PW26",
+          "produtoId": "smirnoff",
+          "lote": "L26-1114",
+          "fabricadoEm": "2026-09-24",
+          "status": "ok",
+          "enviadoEm": "2026-11-14T22:20:00",
+          "verificacoes": 0
+        }
+      ],
+      "historico": [
+        {
+          "status": "recebido",
+          "data": "2026-11-14T22:05:00"
+        },
+        {
+          "status": "separando",
+          "data": "2026-11-14T22:09:00"
+        },
+        {
+          "status": "em_rota",
+          "data": "2026-11-14T22:20:00"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "numero": "10519",
+      "status": "separando",
+      "criadoEm": "2026-11-15T18:30:00",
+      "cliente": {
+        "id": 4,
+        "nome": "Diego Martins Oliveira",
+        "telefone": "(41) 99654-7788"
+      },
+      "endereco": {
+        "cep": "80020-310",
+        "rua": "Rua XV de Novembro",
+        "numero": "700",
+        "complemento": "Sala 12",
+        "bairro": "Centro",
+        "cidade": "Curitiba",
+        "uf": "PR"
+      },
+      "itens": [
+        {
+          "produtoId": "kit-gin-tour",
+          "produto": "Seleção Gin Tour",
+          "quantidade": 1,
+          "precoUnitario": 314.9,
+          "total": 314.9
+        }
+      ],
+      "valores": {
+        "subtotal": 314.9,
+        "desconto": 15.75,
+        "frete": 0,
+        "total": 299.15
+      },
+      "pagamento": {
+        "forma": "pix",
+        "parcelas": 1,
+        "trocoPara": null,
+        "status": "aprovado"
+      },
+      "entrega": {
+        "agendadoPara": "Hoje, 21:00–21:30",
+        "presente": false,
+        "mensagemPresente": null,
+        "entregueEm": null
+      },
+      "maioridadeConfirmada": true,
+      "lacres": [
+        {
+          "codigo": "VS-Z8UB-8226",
+          "produtoId": "tanqueray",
+          "lote": "L26-1115",
+          "fabricadoEm": "2026-09-22",
+          "status": "ok",
+          "enviadoEm": null,
+          "verificacoes": 0
+        },
+        {
+          "codigo": "VS-3MBQ-C3RU",
+          "produtoId": "bombay",
+          "lote": "L26-1115",
+          "fabricadoEm": "2026-09-11",
+          "status": "ok",
+          "enviadoEm": null,
+          "verificacoes": 0
+        },
+        {
+          "codigo": "VS-AP5H-8LTM",
+          "produtoId": "beefeater-pink",
+          "lote": "L26-1115",
+          "fabricadoEm": "2026-09-14",
+          "status": "ok",
+          "enviadoEm": null,
+          "verificacoes": 0
+        }
+      ],
+      "historico": [
+        {
+          "status": "recebido",
+          "data": "2026-11-15T18:30:00"
+        },
+        {
+          "status": "separando",
+          "data": "2026-11-15T20:45:00"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "numero": "10544",
+      "status": "recebido",
+      "criadoEm": "2026-11-15T21:10:00",
+      "cliente": {
+        "id": 1,
+        "nome": "Ana Paula Ribeiro",
+        "telefone": "(11) 98765-4321"
+      },
+      "endereco": {
+        "cep": "01310-100",
+        "rua": "Avenida Paulista",
+        "numero": "1000",
+        "complemento": "Apto 52",
+        "bairro": "Bela Vista",
+        "cidade": "São Paulo",
+        "uf": "SP"
+      },
+      "itens": [
+        {
+          "produtoId": "jack-apple",
+          "produto": "Jack Daniel's Tennessee Apple · 1 L",
+          "quantidade": 1,
+          "precoUnitario": 139.9,
+          "total": 139.9
+        },
+        {
+          "produtoId": "smirnoff",
+          "produto": "Smirnoff Nº 21 · 998 ml",
+          "quantidade": 1,
+          "precoUnitario": 37.9,
+          "total": 37.9
+        }
+      ],
+      "valores": {
+        "subtotal": 177.8,
+        "desconto": 0,
+        "frete": 9.9,
+        "total": 187.7
+      },
+      "pagamento": {
+        "forma": "card",
+        "parcelas": 1,
+        "trocoPara": null,
+        "status": "aprovado"
+      },
+      "entrega": {
+        "agendadoPara": null,
+        "presente": false,
+        "mensagemPresente": null,
+        "entregueEm": null
+      },
+      "maioridadeConfirmada": true,
+      "lacres": [
+        {
+          "codigo": "VS-VGUW-2Q5E",
+          "produtoId": "jack-apple",
+          "lote": "L26-1115",
+          "fabricadoEm": "2026-09-28",
+          "status": "ok",
+          "enviadoEm": null,
+          "verificacoes": 0
+        },
+        {
+          "codigo": "VS-Y6LC-9JUE",
+          "produtoId": "smirnoff",
+          "lote": "L26-1115",
+          "fabricadoEm": "2026-08-28",
+          "status": "ok",
+          "enviadoEm": null,
+          "verificacoes": 0
+        }
+      ],
+      "historico": [
+        {
+          "status": "recebido",
+          "data": "2026-11-15T21:10:00"
+        }
+      ]
+    }
+  ]
+}
