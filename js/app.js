@@ -37,11 +37,34 @@ import { createAddressController } from "./address.js";
 import { createCheckout } from "./checkout.js";
 import { createVerification } from "./verification.js";
 
-(() => {
+(async () => {
   "use strict";
 
   const CATS = window.VSD_CATEGORIES || [];
   const PRODUCTS = window.VSD_PRODUCTS || [];
+
+try {
+  const resposta = await fetch("api/produtos.php");
+
+  if (!resposta.ok) {
+    throw new Error("Falha ao consultar produtos");
+  }
+
+  const dados = await resposta.json();
+
+  for (const produto of PRODUCTS) {
+    const registro = dados.find(item => item.id === produto.id);
+
+    if (registro) {
+      produto.price = Number(registro.preco);
+      produto.oldPrice = registro.preco_antigo === null
+        ? null
+        : Number(registro.preco_antigo);
+    }
+  }
+} catch (erro) {
+  console.error("Erro ao consultar catálogo:", erro);
+}
   const byId = Object.fromEntries(PRODUCTS.map((p) => [p.id, p]));
   const catName = Object.fromEntries(CATS.map((c) => [c.id, c.name]));
   PRODUCTS.forEach((p) => {
